@@ -1,13 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ImageComponent from './ImageComponent.jsx';
+import ImageComponent from './ImageComponent/ImageComponent.jsx';
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <div className="App"></div>
   );
 }
 
