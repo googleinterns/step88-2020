@@ -7,7 +7,7 @@ function Map() {
             height="450" 
             frameBorder="0"
             title="trip-map"
-            src="https://www.google.com/maps/embed/v1/directions0?key=AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8&origin=Oslo+Norway&destination=Telemark+Norway&output=svembed" 
+            src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8&origin=Oslo+Norway&destination=Telemark+Norway" 
             allowFullScreen
     >
     </iframe>
