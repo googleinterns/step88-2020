@@ -9,7 +9,6 @@ import './App.css';
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <ImageComponent />
   </React.StrictMode>,
   document.getElementById('root')
 );
