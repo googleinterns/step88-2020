@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 
 function App() {
@@ -8,17 +7,14 @@ function App() {
   function handleClick() {
     fetch("/api/v1/data")
       .then((response) => response.text())
-      .then((text) => {
-        console.log("Here is the text from servlet: ", text);
-        setText(text);
-      });
+      .then(setText);
   }
 
   return (
     <div>
       <Button onClick={handleClick} variant="secondary">Click Me!</Button>
       <div>
-      {text}
+        {text}
       </div>
     </div>
   );
