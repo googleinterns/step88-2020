@@ -1,6 +1,6 @@
 .imageContainer {
-  width: 250px;
-  height: 250px;
   background-color: grey;
+  height: 250px;
   margin: 10px;
+  width: 250px;
 }

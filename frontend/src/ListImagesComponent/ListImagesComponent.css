@@ -1,7 +1,7 @@
 .listImagesContainer {
-  height: 750px;
-  width: auto;
-  max-width: 500px;
   display: flex;
   flex-flow: row wrap;
+  height: 750px;
+  max-width: 500px;
+  width: auto;
 }
