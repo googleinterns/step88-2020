@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import image from './testImg.jpg'
 import './LocationCard.css';
 
 function LocationCard({location, description, image}) {
@@ -11,9 +10,9 @@ function LocationCard({location, description, image}) {
         <Card.Img src={image} alt="Card image" />
         <Card.ImgOverlay className="overlay"></Card.ImgOverlay>
         <Card.ImgOverlay className="card-txt">
-          <Card.Title>Mission Peak</Card.Title>
+          <Card.Title>{location}</Card.Title>
           <Card.Text>
-            Description of location if we want to include it here.
+            {description}
           </Card.Text>
         </Card.ImgOverlay>
       </Card>
