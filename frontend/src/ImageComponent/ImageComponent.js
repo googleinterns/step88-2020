@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 function ImageComponent() {
     return (
-      <div className="image-container">
+      <div className="imageContainer">
         <img src="" alt=""/>
       </div>
     )
