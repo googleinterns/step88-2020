@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import LC from './route/Route.js'
 
 function App() {
   const [text, setText] = useState('');
@@ -16,6 +17,7 @@ function App() {
       <div>
         {text}
       </div>
+      <LC />
     </div>
   );
 }

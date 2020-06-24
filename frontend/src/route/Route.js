@@ -2,12 +2,14 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import LocationCard from './LocationCard.js';
-import { Data } from './data.js';
+import { MOCK_DATA } from './mockData.js';
 
-function LocationCardsList() {
-
+/**
+ * Return locations listed in order of the user's planned route.
+ */
+function Route({places}) {
   // map data into list of location cards each representing a place the use selected
-  const places = Data.map((place, index) => 
+  const mockPlaces = MOCK_DATA.map((place, index) => 
     <Row key={index}>
       <LocationCard 
         location={place.location}
@@ -19,9 +21,9 @@ function LocationCardsList() {
 
   return (
     <Container>
-      {places}
+      {mockPlaces}
     </Container>
   );
 }
 
-export default LocationCardsList;
+export default Route;

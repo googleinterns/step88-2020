@@ -4,7 +4,7 @@
 }
 
 .location-card,
-img {
+.location-img {
   height: 16rem;
   object-fit: cover;
 }
