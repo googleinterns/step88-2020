@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import LocationCard from './LocationCard.js';
-import { Data } from './Data.js';
+import { Data } from './data.js';
 
 function LocationCardsList() {
 
