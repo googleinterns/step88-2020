@@ -1,0 +1,18 @@
+.location-card-container {
+  margin: 16px;
+}
+
+.location-card,
+img {
+  height: 20rem;
+  object-fit: cover;
+}
+
+.overlay {
+  background-color: #303030;
+  opacity: 0.3;
+}
+
+.card-txt {
+  padding: 4rem 2rem;
+}

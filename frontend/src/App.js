@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
+import LC from './LocationCardComponent/LocationCard.js'
+
 function App() {
   const [text, setText] = useState('');
 
@@ -16,6 +18,7 @@ function App() {
       <div>
         {text}
       </div>
+      <LC />
     </div>
   );
 }
