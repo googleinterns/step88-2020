@@ -1,5 +1,6 @@
 .location-card-container {
   margin: 16px;
+  max-width: 600px;
 }
 
 .location-card,
@@ -15,4 +16,21 @@ img {
 
 .card-txt {
   padding: 4rem 2rem;
+}
+
+.arrows {
+  color: #616161;
+  font-size: 2rem;
+  margin: auto;
+}
+
+.up-arrow,
+.down-arrow {
+  opacity: 0.5;
+}
+
+.up-arrow:hover,
+.down-arrow:hover {
+  cursor: pointer;
+  opacity: 1;
 }

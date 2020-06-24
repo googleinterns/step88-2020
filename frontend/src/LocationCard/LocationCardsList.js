@@ -5,6 +5,8 @@ import LocationCard from './LocationCard.js';
 import { Data } from './Data.js';
 
 function LocationCardsList() {
+
+  // map data into list of location cards each representing a place the use selected
   const places = Data.map((place, index) => 
     <Row key={index}>
       <LocationCard 
