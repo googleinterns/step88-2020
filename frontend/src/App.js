@@ -5,7 +5,7 @@ function App() {
   const [text, setText] = useState('');
 
   function handleClick() {
-    fetch("/api/v1/data")
+    fetch('/api/v1/data')
       .then((response) => response.text())
       .then(setText);
   }
