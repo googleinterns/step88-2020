@@ -17,7 +17,6 @@ function App() {
       <div>
         {text}
       </div>
-      <Map />
     </div>
   );
 }
