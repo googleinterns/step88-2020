@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import ImageComponent from './ImageComponent/ImageComponent'
 import './App.css';
+import ListImagesComponent from './ListImagesComponent/ListImagesComponent'
 
 ReactDOM.render(
   <React.StrictMode>
