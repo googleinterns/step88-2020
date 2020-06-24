@@ -3,11 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  fetch("/api/v1/data")
-      .then((response) => response.text())
-      .then((text) => {
-        console.log("Here is the text from servlet: ", text);
-      });
+  fetch('/api/v1/data')
+    .then((response) => response.text())
+    .then((text) => {
+      console.log('Here is the text from servlet: ', text);
+    });
   return (
     <div className="App">
       <header className="App-header">
