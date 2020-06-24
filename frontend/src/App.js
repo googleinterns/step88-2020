@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Map from './map/Map.js';
 
 function App() {
   const [text, setText] = useState('');
@@ -17,7 +16,6 @@ function App() {
       <div>
         {text}
       </div>
-      <Map />
     </div>
   );
 }
