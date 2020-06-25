@@ -8,8 +8,8 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
  * Render a button to optimize route on click. 
  * If route is optimized, render text indicating that it is optimized.
  */
-function OptimizeButton() {
-  const [isOptimized, setIsOptimized] = useState(false);
+function OptimizeButton({optimized}) {
+  const [isOptimized, setIsOptimized] = useState(optimized);
 
   if (isOptimized) {
     return (
