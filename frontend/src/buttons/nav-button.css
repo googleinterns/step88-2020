@@ -1,0 +1,9 @@
+#nav-button {
+  min-height: 50px;
+  min-width: 200px;
+  padding: 10px;
+}
+
+#nav-button:hover {
+  opacity: 0.5;
+}
