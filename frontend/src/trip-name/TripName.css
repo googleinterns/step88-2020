@@ -24,19 +24,6 @@
   opacity: 1;
 }
 
-.edit-true .edit-icon {
-  color: var(--blue);
-  opacity: 1;
-}
-
-.edit-true .trip-name-input {
-  border-bottom: 4px solid var(--blue);
-}
-
-.edit-true .save-btn {
-  display: block;
-}
-
 .save-btn {
   background: none;
   border: none;
@@ -54,4 +41,19 @@
 
 .form-group {
   margin-bottom: 4px;
+}
+
+/* styles for when trip name is being edited */
+
+.edit .edit-icon {
+  color: var(--blue);
+  opacity: 1;
+}
+
+.edit .trip-name-input {
+  border-bottom: 4px solid var(--blue);
+}
+
+.edit .save-btn {
+  display: block;
 }

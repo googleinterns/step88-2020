@@ -9,14 +9,14 @@ import './TripName.css';
 
 /**
  * Returns the trip name component that the user can edit and save.
- * @param tripName the name of the trip 
+ * @param {string|undefined} tripName the name of the trip 
  */
 function TripName({tripName}) {
-  const [isEdit, setIsEdit] = useState(false);
-  const [name, setName] = useState(tripName ? tripName : "Trip Name");
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState(tripName ? tripName : 'Trip Name');
 
   function handleSave() {
-    setIsEdit(false);
+    setIsEditing(false);
     // send to back end
   }
 
@@ -25,9 +25,9 @@ function TripName({tripName}) {
   }
 
   return (
-    <Container className={`trip-name-container edit-${isEdit}`}>
+    <Container className={`trip-name-container ${isEditing ? ' edit' : ''}`}>
       <Row>
-        <Form noValidate onClick={() => setIsEdit(true)}>
+        <Form noValidate onClick={() => setIsEditing(true)}>
           <Form.Group>
             <InputGroup>
               <InputGroup.Prepend className="edit-icon">
