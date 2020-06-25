@@ -1,10 +1,10 @@
-#backButton {
+#backToSearchButton {
   min-height: 50px;
   min-width: 200px;
   padding: 10px;
 }
 
-#backButton:hover {
+#backToSearchButton:hover {
   opacity: 0.5;
 }
 
