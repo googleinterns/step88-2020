@@ -1,0 +1,54 @@
+import React, {useState} from 'react';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import './TripName.css';
+
+function TripName({tripName}) {
+  const [isEdit, setIsEdit] = useState(false);
+  const [name, setName] = useState(tripName ? tripName : "Trip Name");
+
+  function handleSave() {
+    setIsEdit(false);
+    // send to back end
+  }
+
+  function handleChange(e) {
+    setName(e.value);
+  }
+
+  return (
+    <Container className={`trip-name-container edit-${isEdit}`}>
+      <Row>
+        <Form noValidate onClick={() => setIsEdit(true)}>
+          <Form.Group>
+            <InputGroup>
+              <InputGroup.Prepend className="edit-icon">
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </InputGroup.Prepend>
+              <Form.Control
+                type="text"
+                placeholder="Trip Name"
+                defaultValue={name}
+                aria-describedby="inputGroupPrepend"
+                className="trip-name-input"
+                onChange={handleChange}
+                required
+              />
+            </InputGroup>
+          </Form.Group>
+        </Form>
+      </Row>
+      <Row>
+        <div className="save-btn" onClick={handleSave}>
+          Save
+        </div>
+      </Row>
+    </Container>
+  );
+}
+
+export default TripName;
