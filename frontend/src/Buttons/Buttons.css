@@ -1,0 +1,19 @@
+#backButton {
+  min-height: 50px;
+  min-width: 200px;
+  padding: 10px;
+}
+
+#backButton:hover {
+  opacity: 0.5;
+}
+
+#routeButton {
+  min-height: 50px;
+  min-width: 200px;
+  padding: 10px;
+}
+
+#routeButton:hover {
+  opacity: 0.5;
+}
