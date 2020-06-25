@@ -1,7 +1,8 @@
 import React from 'react';
 import './Map.css';
 
-/** Makes a call to Map Embed API to display route between multiple locations.
+/** 
+ * Makes a call to Map Embed API to display route between multiple locations.
  * @param destinations list of locations to route between
  */
 function Map({destinations}) {
