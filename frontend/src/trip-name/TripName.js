@@ -7,6 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import './TripName.css';
 
+/**
+ * Returns the trip name component that the user can edit and save.
+ * @param tripName the name of the trip 
+ */
 function TripName({tripName}) {
   const [isEdit, setIsEdit] = useState(false);
   const [name, setName] = useState(tripName ? tripName : "Trip Name");
