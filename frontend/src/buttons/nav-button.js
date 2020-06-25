@@ -3,13 +3,13 @@ import './nav-button.css';
 
 /**
  * NavButton is passed two properties
- * url which has the url to go to
- * text which has the button text
+ * url which has the link to go to
+ * text which has the button label
  **/
 function NavButton(props) {
   return (
-    <a href={props.url}>
-      <button id='nav-button' type='button' class='btn btn-primary'>{props.text}</button>
+    <a href={props.link}>
+      <button id='nav-button' type='button' className='btn btn-primary'>{props.label}</button>
     </a>
   );
 }
