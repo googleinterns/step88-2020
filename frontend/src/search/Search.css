@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+.search-container {
+  align-content: center;
+  margin: 10px;
+}
+
+.where-to {
+  text-align: center;
+}

@@ -9,7 +9,6 @@ npm install
 ## Development Resources
 * [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/)
 * [Markdown Guide](https://guides.github.com/features/mastering-markdown/)
-* [Autoformat on Commit - Prettier](https://docs.google.com/document/d/1FQPR4w38ixA_ic0y0FEo_fQtRvLBiphEwx-XLEiLaTw/edit)
 
 ## React Frontend with Java Servlet Backend
 Based on [chen-dawn/react-servlet-test](https://github.com/chen-dawn/react-servlet-test).
@@ -40,4 +39,63 @@ gcloud app deploy dispatch.yaml // Config routing
 node -v // Check node version
 sudo npm install -g n
 sudo n 10.21.0  // Change node version to 10.21.0
+```
+
+## Formatting/linting
+When you open a PR or push a new commit to a PR branch, github CI will automatically run a validator to check for formatting which prevents merging the PR if it fails.
+See below for how to run the formatter/linter locally.
+![image](https://user-images.githubusercontent.com/22455214/85607255-ecb9d880-b621-11ea-9d58-ffc24d841fbd.png)
+
+##### Initial setup
+You only need to run this once.
+```bash
+# From root directory
+make node_modules
+```
+
+### Format files
+Generally a good idea to run this command before committing or pushing a change.
+```bash
+# From root directory
+make pretty
+```
+
+If you'd like, you can use a pre-commit hook. Create a file named `pre-commit` in the `.git/hooks` directory, then, add the following to the `.git/hooks/pre-commit` file.
+```bash
+#!/bin/sh
+# Move to top level of git repo
+cd `git rev-parse --show-toplevel`
+ 
+FILES=$(git diff --cached --name-only --diff-filter=ACMR "*.js" "*.css" "*.java" | sed 's| |\\ |g')
+if [ -z "$FILES" ]
+then
+ # Move back to original working directory
+ cd -
+ exit 0
+fi
+ 
+# Prettify/format all files
+make pretty
+ 
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+ 
+# Move back to original working directory
+cd -
+exit 0
+```
+Create a new file named `post-commit` in the `.git/hooks` directory and include the following:
+```bash
+#!/bin/sh
+git update-index -g
+```
+Make sure the pre-commit and post-commit files are executable:
+```bash
+chmod 755 .git/hooks/pre-commit .git/hooks/post-commit
+```
+
+#### Lint JS files
+```bash
+# From root directory
+make validate
 ```
