@@ -4,6 +4,7 @@
 
 .trip-name-input {
   border: none;
+  font-size: 1.5rem;
   padding: 2px 4px;
 }
 
@@ -13,6 +14,7 @@
 }
 
 .edit-icon {
+  font-size: 1.2rem;
   margin: auto;
   padding: 0 5px;
   opacity: 0.5;
