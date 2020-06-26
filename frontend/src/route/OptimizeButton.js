@@ -7,6 +7,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 /**
  * Render a button to optimize route on click. 
  * If route is optimized, render text indicating that it is optimized.
+ * @param {boolean|undefined} optimized indicates whether route has been optimized 
  */
 function OptimizeButton({optimized}) {
   const [isOptimized, setIsOptimized] = useState(optimized);
