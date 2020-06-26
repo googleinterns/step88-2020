@@ -3,9 +3,9 @@ import Attraction from '../attraction/Attraction';
 import './AttractionsPanel.css';
 
 /**
-  * AttractionsPanel shows all attractions.
-  * Updates browser url when an image selection is toggled
-  */
+ * AttractionsPanel shows all attractions.
+ * Updates browser url when an image selection is toggled
+ */
 function AttractionsPanel({attractionsUrls}) {
   return (
     <div className="attractions-panel">
