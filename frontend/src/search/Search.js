@@ -16,14 +16,12 @@ function Search() {
       <div className="where-to">
         <h1>Where to?</h1>
       </div>
-      <div className="form">
-        <Form inline>
-          <FormControl type="text" className="mr-sm-2" />
-          <Button variant="secondary"> 
-            <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  
-          </Button>
-        </Form>
-      </div>
+      <Form inline className="form">
+        <FormControl type="text" className="mr-sm-2" />
+        <Button variant="secondary"> 
+          <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  
+        </Button>
+      </Form>
     </div>
   )
 }
