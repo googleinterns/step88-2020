@@ -1,6 +1,6 @@
 import React from 'react';
-import Attraction from '../attraction/attraction';
-import './attractions-panel.css';
+import Attraction from '../attraction/Attraction';
+import './Attractions-panel.css';
 
 /**
   * AttractionsPanel shows all attractions.
