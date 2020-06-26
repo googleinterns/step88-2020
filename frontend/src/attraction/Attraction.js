@@ -8,7 +8,7 @@ import './Attraction.css';
 function Attraction({imageUrl}) {
   return (
     <div className='attraction-container'>
-      <img src={imageUrl} />
+      <img src={imageUrl}/>
     </div>
   );
 }

@@ -1,0 +1,11 @@
+.explore-container {
+  margin: 0 auto;
+  border-style: solid;
+  border-color: black;
+  width: 800px;
+}
+
+.show-route-button {
+  width: 200px;
+  margin: 10px auto;
+}

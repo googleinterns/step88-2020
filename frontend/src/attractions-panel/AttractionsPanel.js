@@ -12,6 +12,8 @@ function AttractionsPanel({attractionsUrls}) {
       <Attraction imageUrl={attractionsUrls[0]} />
       <Attraction imageUrl={attractionsUrls[1]} />
       <Attraction imageUrl={attractionsUrls[2]} />
+      <Attraction imageUrl={attractionsUrls[3]} />
+      <Attraction imageUrl={attractionsUrls[4]} />
     </div>
   );
 }

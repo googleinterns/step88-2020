@@ -1,7 +1,6 @@
 .attractions-panel {
   display: flex;
   flex-flow: row wrap;
-  height: 750px;
-  max-width: 500px;
-  width: auto;
+  height: auto;
+  width: 99px;
 }
