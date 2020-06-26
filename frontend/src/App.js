@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
-import S from './route/SaveButton.js'
-
 function App() {
   const [text, setText] = useState('');
 
@@ -17,7 +15,6 @@ function App() {
       <Button onClick={handleClick} variant="secondary">
         Click Me!
       </Button>
-      <S />
       <div>{text}</div>
     </div>
   );
