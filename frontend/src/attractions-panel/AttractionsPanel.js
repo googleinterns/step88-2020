@@ -5,7 +5,7 @@ import './AttractionsPanel.css';
 /**
   * AttractionsPanel shows all attractions.
   * Updates browser url when an image selection is toggled
-**/
+  */
 function AttractionsPanel(props) {
   return (
     <div className="attractions-panel">
