@@ -12,10 +12,10 @@ function App() {
 
   return (
     <div>
-      <Button onClick={handleClick} variant='secondary'>Click Me!</Button>
-      <div>
-        {text}
-      </div>
+      <Button onClick={handleClick} variant="secondary">
+        Click Me!
+      </Button>
+      <div>{text}</div>
     </div>
   );
 }
