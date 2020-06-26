@@ -9,18 +9,14 @@ import Button from 'react-bootstrap/Button';
 function SaveButton({saved, isLoggedIn}) {
   const [isSaved, setIsSaved] = useState(saved);
 
-  if (isSaved) {
-    return (
-      <Button variant="primary" disabled>Saved</Button>
-    );
-  }
-
-  handleSave() {
+  function handleSave() {
     setIsSaved(true);
   }
 
   return (
-    <Button variant="primary" onClick={handleSave}>Save Trip</Button>
+    <Button variant="primary" onClick={handleSave} disabled={isSaved}>
+      {isSaved ? 'Saved' : 'Save Trip'}
+    </Button>
   );
 }
 
