@@ -1,0 +1,14 @@
+.container {
+  width: 80%;
+}
+
+.icon {
+  opacity: 0.5;
+  color: black;
+  margin: 8px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+}
