@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import loadGoogleMapsApi from 'load-google-maps-api';
 import './Map.css';
 
 /** 
@@ -15,20 +16,22 @@ function Map({destinations, mode, centerLocation}) {
     {lat: 48.859910, lng: 2.326364, name: 'Musee D\'Orsay'}
   ];
 
-  // const google = window.google;
-  const map = new google.maps.Map(document.getElementById('map-container'), {
-    zoom: 12,
-    center: { lat: 48.858405, lng: 2.294449 },
+  loadGoogleMapsApi({key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg'}).then(function(googleMaps) {
+    const map = new googleMaps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: { lat: 48.858405, lng: 2.294449 },
+    });
+
+    for (const place of mockData) {
+      const location = { lat: place.lat, lng: place.lng };
+      const marker = new googleMaps.Marker({ position: location, map, title: place.name });
+    }
   });
 
-  for (const place of mockData) {
-    const location = { lat: place.lat, lng: place.lng };
-    const marker = new google.maps.Marker({ position: location, map, title: place.name });
-  }
-
+  console.log(mode);
   if (mode === 'pins') {
     return (
-      <div className="map-container"></div>
+      <div className="map-container" id="map"></div>
     );
   }
 
