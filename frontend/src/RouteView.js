@@ -13,34 +13,34 @@ import TripName from './trip-name/TripName.js';
 import { MOCK_DATA } from './route/mockData.js';
 
 /**
- * Render the route page with list of locations in order and directions on a map between the locations. 
+ * Render the route page with list of locations in order and directions on a map between the locations.
  */
 function RouteView() {
- return(
-   <Container>
-    <Row>
-      <TripName />
-    </Row>
-    <Row>
-      <Col>
-        <Row className={styles.routeContainer}>
-          <Route places={MOCK_DATA} />
-        </Row>
-        <Row>
-          <OptimizeButton />
-        </Row>
-      </Col>
-      <Col>
-        <Row>
-          <Map mode='directions' />
-        </Row>
-        <Row>
-          <SaveButton />
-        </Row>
-      </Col>
-    </Row>
-   </Container>
- )
+  return (
+    <Container>
+      <Row>
+        <TripName />
+      </Row>
+      <Row>
+        <Col>
+          <Row className={styles.routeContainer}>
+            <Route places={MOCK_DATA} />
+          </Row>
+          <Row>
+            <OptimizeButton />
+          </Row>
+        </Col>
+        <Col>
+          <Row>
+            <Map mode="directions" />
+          </Row>
+          <Row>
+            <SaveButton />
+          </Row>
+        </Col>
+      </Row>
+    </Container>
+  );
 }
 
 export default RouteView;
