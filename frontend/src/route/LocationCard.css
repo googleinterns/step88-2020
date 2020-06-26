@@ -1,0 +1,36 @@
+.location-card-container {
+  margin: 16px;
+  max-width: 600px;
+}
+
+.location-card,
+.location-img {
+  height: 16rem;
+  object-fit: cover;
+}
+
+.overlay {
+  background-color: #303030;
+  opacity: 0.3;
+}
+
+.card-txt {
+  padding: 4rem 2rem;
+}
+
+.arrows {
+  color: #616161;
+  font-size: 2rem;
+  margin: auto;
+}
+
+.up-arrow,
+.down-arrow {
+  opacity: 0.5;
+}
+
+.up-arrow:hover,
+.down-arrow:hover {
+  cursor: pointer;
+  opacity: 1;
+}
