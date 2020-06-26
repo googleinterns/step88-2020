@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
+import M from './map/MapWithMarkers.js'
+
 function App() {
   const [text, setText] = useState('');
 
@@ -16,6 +18,7 @@ function App() {
         Click Me!
       </Button>
       <div>{text}</div>
+      <M mode="pins"/>
     </div>
   );
 }
