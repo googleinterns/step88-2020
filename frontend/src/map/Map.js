@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GoogleMap, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow.js';
 import './Map.css';
 
@@ -33,7 +33,7 @@ function MapContainer(props) {
     {lat: 48.859910, lng: 2.326364, name: 'Musee D\'Orsay'}
   ];
 
-      // <Marker
+        // <Marker
       //   onClick={onMarkerClick}
       //   name={place.name}
       //   position={{ lat: place.lat, lng: place.lng }}
@@ -58,7 +58,7 @@ function MapContainer(props) {
 
   if (props.mode === 'pins') {
     return (
-      <GoogleMap
+      <Map
         google={props.google}
         zoom={14}
         defaultCenter={{
@@ -67,7 +67,7 @@ function MapContainer(props) {
         }}
       >
         {markers}
-      </GoogleMap>
+      </Map>
     );
   }
 
