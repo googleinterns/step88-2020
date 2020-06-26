@@ -1,31 +1,13 @@
 import React, { useState } from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
-import MarkerWithInfoWindow from './MarkerWithInfoWindow.js';
 import './Map.css';
 
 /** 
  * Makes a call to Map Embed API to display route between multiple locations.
- * @param destinations list of locations to route between
+ * @param {list} destinations list of locations to route between
+ * @param {string} mode either 'pins' or 'directions' to put on the map
+ * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched 
  */
-function MapContainer(props) {
-
-  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
-  const [activeMarker, setActiveMarker] = useState(null);
-  const [selectedPlace, setSelectedPlace] = useState(null);
-
-  function onMarkerClick(props, marker) {
-    setActiveMarker(marker);
-    setShowingInfoWindow(true);
-    setSelectedPlace(props.name);
-  }
-
-  function onClose() {
-    if (showingInfoWindow) {
-      setShowingInfoWindow(false);
-      setActiveMarker(null);
-      setSelectedPlace(null);
-    }
-  };
+function Map({destinations, mode, centerLocation}) {
 
   const mockData = [
     {lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower'},
@@ -33,41 +15,19 @@ function MapContainer(props) {
     {lat: 48.859910, lng: 2.326364, name: 'Musee D\'Orsay'}
   ];
 
-        // <Marker
-      //   onClick={onMarkerClick}
-      //   name={place.name}
-      //   position={{ lat: place.lat, lng: place.lng }}
-      // />
-      // <InfoWindow
-      //   marker={activeMarker}
-      //   visible={showingInfoWindow}
-      //   onClose={onClose}
-      // >
-      //   <div>
-      //     <h4>{selectedPlace}</h4>
-      //   </div>
-      // </InfoWindow>
+  const map = new google.maps.Map(document.getElementById('map-container'), {
+    zoom: 12,
+    center: { lat: 48.858405, lng: 2.294449 },
+  });
 
-  const markers = mockData.map((place, index) =>
-    <div key={index}>
-      <MarkerWithInfoWindow position={{lat: place.lat, lng:place.lng}} name={place.name} />
-    </div>
-  );
+  for (place of mockData) {
+    const location = { lat: place.lat, lng: place.lng };
+    const marker = new google.maps.Marker({ position: location, map, title: place.name });
+  }
 
-  console.log(markers)
-
-  if (props.mode === 'pins') {
+  if (mode === 'pins') {
     return (
-      <Map
-        google={props.google}
-        zoom={14}
-        defaultCenter={{
-         lat: 48.861428,
-         lng: 2.326665
-        }}
-      >
-        {markers}
-      </Map>
+      <div className="map-container"></div>
     );
   }
 
@@ -84,6 +44,4 @@ function MapContainer(props) {
   )
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg'
-})(MapContainer);
+export default Map;
