@@ -1,8 +1,9 @@
-.map-container {
+.mapContainer {
   margin: 10px;
 }
 
-.map {
+.map,
+#mapWithPin {
   border: 0;
   height: 450px; 
   width: 600px; 
