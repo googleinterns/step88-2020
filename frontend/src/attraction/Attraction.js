@@ -5,12 +5,12 @@ import './Attraction.css';
  * Attraction contains the image of the attraction.
  * props.imageUrl contains source of image.
  */
-function Attraction(props) {
+function Attraction({imageUrl}) {
   return (
     <div className='attraction-container'>
-      <img src={props.imageUrl} />
+      <img src={imageUrl} />
     </div>
   );
 }
- 
+
 export default Attraction;

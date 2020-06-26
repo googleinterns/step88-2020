@@ -6,12 +6,12 @@ import './AttractionsPanel.css';
   * AttractionsPanel shows all attractions.
   * Updates browser url when an image selection is toggled
   */
-function AttractionsPanel(props) {
+function AttractionsPanel({attractionsUrls}) {
   return (
     <div className="attractions-panel">
-      <Attraction imageUrl={props.attractionsUrls[0]} />
-      <Attraction imageUrl={props.attractionsUrls[1]} />
-      <Attraction imageUrl={props.attractionsUrls[2]} />
+      <Attraction imageUrl={attractionsUrls[0]} />
+      <Attraction imageUrl={attractionsUrls[1]} />
+      <Attraction imageUrl={attractionsUrls[2]} />
     </div>
   );
 }
