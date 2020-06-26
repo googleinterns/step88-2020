@@ -1,6 +1,6 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import './SavedTrips.css';
+import styles from './SavedTrips.module.css';
 import SavedTrip from './SavedTrip.js';
 
 /** 
@@ -8,7 +8,7 @@ import SavedTrip from './SavedTrip.js';
  */
 function SavedTrips({trips}) {
   return (
-    <div className="container">
+    <div className={styles.container}>
       <h3>Saved Trips:</h3>
       <ListGroup>
         {trips.map(trip => (
