@@ -12,6 +12,9 @@ import TripName from './trip-name/TripName.js';
 
 import { MOCK_DATA } from './route/mockData.js';
 
+/**
+ * Render the route page with list of locations in order and directions on a map between the locations. 
+ */
 function RouteView() {
  return(
    <Container>
