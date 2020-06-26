@@ -19,7 +19,9 @@ function Search() {
       <div className="form">
         <Form inline>
           <FormControl type="text" className="mr-sm-2" />
-          <Button variant="secondary"> <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  </Button>
+          <Button variant="secondary"> 
+            <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  
+          </Button>
         </Form>
       </div>
     </div>
