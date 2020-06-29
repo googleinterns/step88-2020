@@ -1,18 +1,23 @@
 import React from 'react';
-import './Explore.css';
+import styles from './Explore.module.css';
 import AttractionsPanel from '../attractions-panel/AttractionsPanel';
 import NavButton from '../navigation/NavButton';
+import Map from '../map/Map';
 
 /**
- * Attraction contains the image of the attraction.
- * props.imageUrl contains source of image.
+ * Explore view with attraction selection and map
+ * images is array of urls for an image
  */
+
 function Explore({images}) {
   return (
-    <div className='explore-container'>
-      <AttractionsPanel attractionsUrls={images}/>
-      <div className="show-route-button">
-        <NavButton link={'/route'} label={'Show Route'}/>
+    <div className={styles['exploreContainer']}>
+      <div className={styles['attractionsSection']}>
+        <AttractionsPanel attractionUrls={images}/>
+        <NavButton className={styles['routeButton']} link={'/route'} label={'Show Route'}/>
+      </div>
+      <div className={styles['mapContainer']}>
+        <Map destinations={''}/>
       </div>
     </div>
   );

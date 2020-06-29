@@ -4,15 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Explore from './explore/Explore';
-import Can from './explore/can.png';
-import ILetter from './explore/I.png';
-import Get from './explore/Get.png';
-import ALetter from './explore/A.png';
-import Hooyah from './explore/hooyaa.png';
+import imgTest from './attraction/Attraction.png';
 
 ReactDOM.render(
   <div>
-    <Explore images={[Can,ILetter,Get,ALetter,Hooyah]}/>
+    <Explore images={[imgTest,imgTest,imgTest]}/>
   </div>,
   document.getElementById('root')
 );

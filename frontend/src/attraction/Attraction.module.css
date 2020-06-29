@@ -1,5 +1,5 @@
-.attractionContainer {
-  background-color: grey;
-  width: 250px;
-  height: 250px;
+.attraction {
+  height: 300px;
+  width: 300px;
+  margin: 5px;
 }
