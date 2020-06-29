@@ -9,7 +9,6 @@ import styles from './attractionsPanel.css';
  */
 function AttractionsPanel({attractionUrls}) {
   return (
-
     <div className={styles['attractions-panel']}>
     {attractionUrls.map(url => (
       <Attraction imageUrl={url} />
