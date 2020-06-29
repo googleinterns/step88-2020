@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import imageTest from './attraction/Attraction.png';
+import AttractionsPanel from  './attractions-panel/AttractionsPanel';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+  <AttractionsPanel attractionUrls={[imageTest,imageTest]} />
   </React.StrictMode>,
   document.getElementById('root')
 );
