@@ -18,6 +18,10 @@ function Map({ destinations, mode, centerLocation }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
+    if (mode !== 'pins') {
+      return;
+    }
+    
     loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
       (googleMaps) => {
         const map = new googleMaps.Map(mapRef.current, {

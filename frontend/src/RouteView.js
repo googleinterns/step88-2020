@@ -23,7 +23,7 @@ function RouteView() {
       </Row>
       <Row>
         <Col>
-          <Row className={styles.routeContainer}>
+          <Row className={styles.routeListContainer}>
             <Route places={MOCK_DATA} />
           </Row>
           <Row>
