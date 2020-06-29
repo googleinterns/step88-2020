@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
  */
 function NavButton({link,label}) {
   return (
-    <Button href={link} type='button' className={styles['navButton']}>{label}</Button>
+    <Button href={link} type='button' className={styles.navButton}>{label}</Button>
   );
 }
 

@@ -1,7 +1,9 @@
 .attractionsPanel {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   margin: 40px auto;
   margin-left: 100px;
   width: 800px;
+  height: auto;
 }

@@ -11,12 +11,12 @@ import Map from '../map/Map';
 
 function Explore({images}) {
   return (
-    <div className={styles['exploreContainer']}>
-      <div className={styles['attractionsSection']}>
+    <div className={styles.exploreContainer}>
+      <div className={styles.attractionsSection}>
         <AttractionsPanel attractionUrls={images}/>
-        <NavButton className={styles['routeButton']} link={'/route'} label={'Show Route'}/>
+        <NavButton className={styles.routeButton} link={'/route'} label={'Show Route'}/>
       </div>
-      <div className={styles['mapContainer']}>
+      <div className={styles.mapContainer}>
         <Map destinations={''}/>
       </div>
     </div>

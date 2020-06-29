@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Explore from './explore/Explore';
+import imgTest from './attraction/Attraction.png';
 
 function App() {
   const [text, setText] = useState('');
@@ -12,10 +14,7 @@ function App() {
 
   return (
     <div>
-      <Button onClick={handleClick} variant="secondary">
-        Click Me!
-      </Button>
-      <div>{text}</div>
+    <Explore images={[imgTest,imgTest,imgTest]}/>
     </div>
   );
 }
