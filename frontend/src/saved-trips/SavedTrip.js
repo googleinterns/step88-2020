@@ -10,7 +10,7 @@ import styles from './SavedTrips.module.css';
  */
 function SavedTrip({name}) {
   return (
-    <ListGroup.Item className={styles.listItem}>
+    <ListGroup.Item action className={styles.listItem}>
       {name}
       <div>
         <a href="/" title="Edit" className={styles.icon}>
