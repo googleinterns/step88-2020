@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import './TripName.css';
+import styles from './TripName.module.css';
 
 /**
  * Returns the trip name component that the user can edit and save.
@@ -25,12 +25,12 @@ function TripName({tripName}) {
   }
 
   return (
-    <Container className={`trip-name-container ${isEditing ? ' edit' : ''}`}>
+    <Container className={`${styles.tripNameContainer} ${isEditing ? styles.edit : ''}`}>
       <Row>
         <Form noValidate onClick={() => setIsEditing(true)}>
           <Form.Group>
             <InputGroup>
-              <InputGroup.Prepend className="edit-icon">
+              <InputGroup.Prepend className={styles.editIcon}>
                 <FontAwesomeIcon icon={faPencilAlt} />
               </InputGroup.Prepend>
               <Form.Control
@@ -38,7 +38,7 @@ function TripName({tripName}) {
                 placeholder="Trip Name"
                 defaultValue={name}
                 aria-describedby="inputGroupPrepend"
-                className="trip-name-input"
+                className={styles.tripNameInput}
                 onChange={handleChange}
                 required
               />
@@ -47,7 +47,7 @@ function TripName({tripName}) {
         </Form>
       </Row>
       <Row>
-        <div className="save-btn" onClick={handleSave}>
+        <div className={styles.saveBtn} onClick={handleSave}>
           Save
         </div>
       </Row>
