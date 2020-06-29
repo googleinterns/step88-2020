@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-    <Explore images={[imgTest,imgTest,imgTest]}/>
+      <Explore images={[imgTest, imgTest, imgTest]} />
     </div>
   );
 }

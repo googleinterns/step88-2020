@@ -7,9 +7,7 @@ import styles from './Attraction.module.css';
  */
 function Attraction({imageUrl}) {
   return (
-    <div className={styles.attraction}>
-      <img src={imageUrl}/>
-    </div>
+    <img className={styles.attraction} src={imageUrl}/>
   );
 }
 
