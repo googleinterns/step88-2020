@@ -7,38 +7,48 @@ import styles from './LocationCard.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
+import { Draggable } from 'react-beautiful-dnd';
+
 /**
  * Return a card component representing a place the user has selected. 
  * @param location the name of the place selected
  * @param description a description of @param location
  * @param image image of @param location
  */
-function LocationCard({location, description, image}) {
+function LocationCard({location, description, image, index}) {
   return(
-    <Container className={styles.locationCardContainer}>
-      <Row>
-        <Col xs={11} className={styles.locationCard}>
-          <Card>
-            <Card.Img src={image} className={styles.locationImg} alt="Card image" />
-            <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-            <Card.ImgOverlay className={styles.cardTxt}>
-              <Card.Title>{location}</Card.Title>
-              <Card.Text>
-                {description}
-              </Card.Text>
-            </Card.ImgOverlay>
-          </Card>
-        </Col>
-        <Col xs={1} className={styles.arrows}>
+    <Draggable draggableId={`drag-${index}`} index={index}>
+      {(provided) => 
+        <Container className={styles.locationCardContainer}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
           <Row>
-            <FontAwesomeIcon icon={faAngleUp} className={styles.upArrow} />
+            <Col xs={11} className={styles.locationCard}>
+              <Card>
+                <Card.Img src={image} className={styles.locationImg} alt="Card image" />
+                <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
+                <Card.ImgOverlay className={styles.cardTxt}>
+                  <Card.Title>{location}</Card.Title>
+                  <Card.Text>
+                    {description}
+                  </Card.Text>
+                </Card.ImgOverlay>
+              </Card>
+            </Col>
+            <Col xs={1} className={styles.arrows}>
+              <Row>
+                <FontAwesomeIcon icon={faAngleUp} className={styles.upArrow} />
+              </Row>
+              <Row>
+                <FontAwesomeIcon icon={faAngleDown} className={styles.downArrow} />
+              </Row>
+            </Col>
           </Row>
-          <Row>
-            <FontAwesomeIcon icon={faAngleDown} className={styles.downArrow} />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+        </Container>
+      }
+    </Draggable>
   );
 }
 
