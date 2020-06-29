@@ -1,0 +1,15 @@
+.container {
+  margin: auto;
+  width: 80%;
+}
+
+.icon {
+  color: black;
+  margin: 8px;
+  opacity: 0.5;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+}
