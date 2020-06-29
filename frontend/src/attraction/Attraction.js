@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './attraction.css';
+import styles from './Attraction.css';
 
 /**
  * Attraction contains the image of the attraction.
- * props.imageUrl contains source of image.
+ * imageUrl contains source of image.
  */
 function Attraction({imageUrl}) {
   return (
-    <div className={styles['attraction-container']}>
+    <div className={styles['attractionContainer']}>
       <img src={imageUrl}/>
     </div>
   );
