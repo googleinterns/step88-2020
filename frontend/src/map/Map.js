@@ -17,7 +17,7 @@ function Map({ destinations, mode, centerLocation }) {
 
   useEffect(() => {
     loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
-      function (googleMaps) {
+      (googleMaps) => {
         const map = new googleMaps.Map(document.getElementById(styles.mapWithPin), {
           zoom: 12,
           center: { lat: 48.858405, lng: 2.294449 },
@@ -35,7 +35,6 @@ function Map({ destinations, mode, centerLocation }) {
     );
   });
 
-  console.log(mode);
   if (mode === 'pins') {
     return <div className={styles.mapContainer} id={styles.mapWithPin}></div>;
   }
