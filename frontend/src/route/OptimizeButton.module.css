@@ -1,0 +1,14 @@
+.optimizedBtnContainer {
+  margin: 10px;
+}
+
+.optimizedTxt {
+  color: #6e6e6e;
+  margin: 16px auto;
+  text-align: center;
+}
+
+.optimizedIcon {
+  color: #3cb05b;
+  margin: 0 6px;
+}
