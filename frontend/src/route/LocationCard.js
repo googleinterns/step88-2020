@@ -5,17 +5,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styles from './LocationCard.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-
+import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
 /**
  * Return a card component representing a place the user has selected. 
- * @param location the name of the place selected
- * @param description a description of @param location
- * @param image image of @param location
+ * @param {string} location the name of the place selected
+ * @param {string} description a description of @param location
+ * @param {string} image image source of @param location
+ * @param {number} index index of location in route list
  */
 function LocationCard({location, description, image, index}) {
+  // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
   return(
     <Draggable draggableId={`draggable-${index}`} index={index}>
       {(provided) => 
@@ -37,13 +38,8 @@ function LocationCard({location, description, image, index}) {
                 </Card.ImgOverlay>
               </Card>
             </Col>
-            <Col xs={1} className={styles.arrows}>
-              <Row>
-                <FontAwesomeIcon icon={faAngleUp} className={styles.upArrow} />
-              </Row>
-              <Row>
-                <FontAwesomeIcon icon={faAngleDown} className={styles.downArrow} />
-              </Row>
+            <Col className={styles.arrows}>
+              <FontAwesomeIcon icon={faSort} />
             </Col>
           </Row>
         </Container>

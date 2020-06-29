@@ -3,7 +3,8 @@ import LocationCard from './LocationCard.js';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 /**
- * Return locations listed in order of the user's planned route.
+ * Return locations listed in order of the user's planned route. 
+ * Route list is customizable via drag and drop (docs: https://github.com/atlassian/react-beautiful-dnd)
  */
 function Route({places}) {
   // map data into list of location cards each representing a place the use selected
@@ -29,6 +30,7 @@ function Route({places}) {
     setPlacesList(newPlacesList);
   }
 
+  // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
   return (
     <DragDropContext
       onDragEnd={handleOnDragEnd}
