@@ -3,3 +3,7 @@
   width: 300px;
   margin: 5px;
 }
+
+.attraction:hover {
+  opacity: 0.5;
+}
