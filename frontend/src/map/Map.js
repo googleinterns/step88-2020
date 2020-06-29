@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import loadGoogleMapsApi from 'load-google-maps-api';
 import styles from './Map.module.css';
 
@@ -15,10 +15,12 @@ function Map({ destinations, mode, centerLocation }) {
     { lat: 48.85991, lng: 2.326364, name: "Musee D'Orsay" },
   ];
 
+  const mapRef = useRef(null);
+
   useEffect(() => {
     loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
       (googleMaps) => {
-        const map = new googleMaps.Map(document.getElementById(styles.mapWithPin), {
+        const map = new googleMaps.Map(mapRef.current, {
           zoom: 12,
           center: { lat: 48.858405, lng: 2.294449 },
         });
@@ -36,7 +38,7 @@ function Map({ destinations, mode, centerLocation }) {
   });
 
   if (mode === 'pins') {
-    return <div className={styles.mapContainer} id={styles.mapWithPin}></div>;
+    return <div ref={mapRef} className={styles.mapContainer}></div>;
   }
 
   return (
