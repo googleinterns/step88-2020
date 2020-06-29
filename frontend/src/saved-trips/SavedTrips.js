@@ -8,25 +8,17 @@ import SavedTrip from './SavedTrip.js';
  * @param {string[]} trips - a list of the names of the trips
  */
 function SavedTrips({trips}) {
+  const tripList = trips.map(trip => 
+    <SavedTrip name={trip}/>
+  );
+  
   return (
     <div className={styles.container}>
       <h3>Saved Trips:</h3>
-    {iterateTrips({trips})}
+      <ListGroup>
+        {tripList}
+      </ListGroup>
     </div>
-  )
-}
-
-/**
- * Helper method to create SavedTrip for each trip.
- * @param {string[]} trips - a list of the names of the trips
- */
-function iterateTrips({trips}) {
-  return (
-    <ListGroup>
-      {trips.map(trip => (
-        <SavedTrip name={trip}/>
-      ))}
-    </ListGroup>
   );
 }
 
