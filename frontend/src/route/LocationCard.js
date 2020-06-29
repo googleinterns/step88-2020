@@ -17,7 +17,7 @@ import { Draggable } from 'react-beautiful-dnd';
  */
 function LocationCard({location, description, image, index}) {
   return(
-    <Draggable draggableId={`drag-${index}`} index={index}>
+    <Draggable draggableId={`draggable-${index}`} index={index}>
       {(provided) => 
         <Container className={styles.locationCardContainer}
           {...provided.draggableProps}
