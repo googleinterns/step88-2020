@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
+import RouteView from './RouteView.js';
+
 function App() {
   const [text, setText] = useState('');
 
@@ -16,6 +18,7 @@ function App() {
         Click Me!
       </Button>
       <div>{text}</div>
+      <RouteView />
     </div>
   );
 }
