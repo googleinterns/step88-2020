@@ -10,15 +10,14 @@ import styles from './SearchView.module.css';
 function SearchView({ loggedIn }) {
   const trips = ['London', 'Paris'];
 
-  let savedTrips;
-  if (loggedIn) {
-    savedTrips = <SavedTrips trips={trips} />;
-  }
+  const savedTrips = loggedIn ? <SavedTrips trips={trips} /> : <> </>;
 
   return (
     <div className={styles.container}>
-      <Search />
-      {savedTrips}
+      <div>
+        <Search />
+        {savedTrips}
+      </div>
     </div>
   );
 }
