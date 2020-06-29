@@ -1,5 +1,5 @@
 import React from 'react';
-import './Attraction.css';
+import styles from './attraction.css';
 
 /**
  * Attraction contains the image of the attraction.
@@ -7,8 +7,8 @@ import './Attraction.css';
  */
 function Attraction({imageUrl}) {
   return (
-    <div className='attraction-container'>
-      <img src={imageUrl} />
+    <div className={styles['attraction-container']}>
+      <img src={imageUrl}/>
     </div>
   );
 }
