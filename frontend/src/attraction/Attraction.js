@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Attraction.css';
+import styles from './Attraction.module.css';
 
 /**
  * Attraction contains the image of the attraction.
