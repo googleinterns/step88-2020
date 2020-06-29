@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import NavButton from './navigation/NavButton';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <NavButton link={'/route'} label={'Show Route'} />
   </React.StrictMode>,
   document.getElementById('root')
 );
