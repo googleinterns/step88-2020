@@ -3,13 +3,9 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Explore from './explore/Explore';
-import imgTest from './attraction/Attraction.png';
 
 ReactDOM.render(
-  <div>
-    <Explore images={[imgTest, imgTest, imgTest]} />
-  </div>,
+  <App/>,
   document.getElementById('root')
 );
 
