@@ -1,19 +1,18 @@
 import React from 'react';
 import Attraction from '../attraction/Attraction';
-import './AttractionsPanel.css';
+import styles from './AttractionsPanel.module.css';
 
 /**
-  * AttractionsPanel shows all attractions.
-  * Updates browser url when an image selection is toggled
-  */
-function AttractionsPanel({attractionsUrls}) {
+ * AttractionsPanel shows all attractions.
+ * Updates browser url when an image selection is toggled
+ * attractionUrls is an array of urls of type String
+ */
+function AttractionsPanel({attractionUrls}) {
   return (
-    <div className="attractions-panel">
-      <Attraction imageUrl={attractionsUrls[0]} />
-      <Attraction imageUrl={attractionsUrls[1]} />
-      <Attraction imageUrl={attractionsUrls[2]} />
-      <Attraction imageUrl={attractionsUrls[3]} />
-      <Attraction imageUrl={attractionsUrls[4]} />
+    <div className={styles['attractionsPanel']}>
+      {attractionUrls.map(url => (
+        <Attraction imageUrl={url} />
+      ))}
     </div>
   );
 }

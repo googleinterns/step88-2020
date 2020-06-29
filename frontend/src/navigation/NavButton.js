@@ -1,5 +1,5 @@
 import React from 'react';
-import './NavButton.css';
+import styles from './NavButton.module.css';
 import Button from 'react-bootstrap/Button';
 
 /**
@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
  */
 function NavButton({link,label}) {
   return (
-    <Button href={link} type='button' className='btn btn-primary nav-button'>{label}</Button>
+    <Button href={link} type='button' className={styles['navButton']}>{label}</Button>
   );
 }
 
