@@ -8,7 +8,7 @@ import imgTest from './attraction/Attraction.png';
 
 ReactDOM.render(
   <div>
-    <Explore images={[imgTest,imgTest,imgTest]}/>
+    <Explore images={[imgTest, imgTest, imgTest]} />
   </div>,
   document.getElementById('root')
 );
