@@ -1,6 +1,6 @@
 import React from 'react';
 import Attraction from '../attraction/Attraction';
-import styles from './attractionsPanel.css';
+import styles from './AttractionsPanel.css';
 
 /**
  * AttractionsPanel shows all attractions.
@@ -9,7 +9,7 @@ import styles from './attractionsPanel.css';
  */
 function AttractionsPanel({attractionUrls}) {
   return (
-    <div className={styles['attractions-panel']}>
+    <div className={styles['attractionsPanel']}>
     {attractionUrls.map(url => (
       <Attraction imageUrl={url} />
     ))}
