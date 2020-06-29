@@ -8,6 +8,7 @@ function Navbar() {
   const [text, setText] = useState('Sign In');
 
   function handleLogin() {
+    //TODO: Use enums instead of string.
     const display = text === 'Sign In' ? 'Sign Out': 'Sign In';
     setText(display);
   }
