@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button';
 /**
  * Navigation bar link button
  */
-function NavButton({link,label}) {
+function NavButton({href,label}) {
   return (
-    <Button href={link} type='button' className={styles.navButton}>{label}</Button>
+    <Button href={href} type='button' className={styles.navButton}>{label}</Button>
   );
 }
 
