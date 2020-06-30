@@ -22,16 +22,15 @@
 .arrows {
   color: #616161;
   font-size: 2rem;
-  margin: auto;
+  margin: auto 0;
+  padding: 0;
+  opacity: 0;
 }
 
-.upArrow,
-.downArrow {
+.locationCardContainer:hover .overlay {
   opacity: 0.5;
 }
 
-.upArrow:hover,
-.downArrow:hover {
-  cursor: pointer;
-  opacity: 1;
+.locationCardContainer:hover .arrows {
+  opacity: 0.6;
 }
