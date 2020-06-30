@@ -3,7 +3,7 @@ import styles from './Attraction.module.css';
 
 /**
  * Attraction contains the image of the attraction.
- * imageUrl contains source of image.
+ * @param {String} imageUrl url of image
  */
 function Attraction({imageUrl}) {
   return (

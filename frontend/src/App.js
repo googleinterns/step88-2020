@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Explore from './explore/Explore';
-import imgTest from './attraction/Attraction.png';
 
 import RouteView from './RouteView.js';
 
@@ -15,9 +13,7 @@ function App() {
   }
 
   return (
-    <div>
-      <Explore images={[imgTest, imgTest, imgTest]} />
-    </div>
+    <div></div>
   );
 }
 

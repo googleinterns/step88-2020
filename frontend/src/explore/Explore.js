@@ -6,9 +6,8 @@ import Map from '../map/Map';
 
 /**
  * Explore view with attraction selection and map
- * images is array of urls for an image
+ * @param {list} images list image urls
  */
-
 function Explore({images}) {
   return (
     <div className={styles.exploreContainer}>
@@ -17,7 +16,7 @@ function Explore({images}) {
         <NavButton link={'/route'} label={'Show Route'}/>
       </div>
       <div className={styles.mapContainer}>
-        <Map destinations={''}/>
+        <Map destinations={''} mode={'pins'}/>
       </div>
     </div>
   );
