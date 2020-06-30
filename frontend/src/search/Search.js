@@ -4,7 +4,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import React from 'react';
-import './Search.css';
+import styles from './Search.module.css';
 
 
 /** 
@@ -12,11 +12,11 @@ import './Search.css';
  */
 function Search() {
   return (
-    <div className="search-container">
-      <div className="where-to">
+    <div className={styles.searchContainer}>
+      <div className={styles.whereTo}>
         <h1>Where to?</h1>
       </div>
-      <Form inline className="form">
+      <Form inline className={styles.form}>
         <FormControl type="text" className="mr-sm-2" />
         <Button variant="secondary"> 
           <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  

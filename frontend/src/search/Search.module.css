@@ -3,11 +3,11 @@
   justify-content: center;
 }
 
-.search-container {
+.searchContainer {
   align-content: center;
-  margin: 10px;
+  margin: 15px auto;
 }
 
-.where-to {
+.whereTo {
   text-align: center;
 }
