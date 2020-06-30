@@ -31,10 +31,24 @@ function Map({ destinations, mode, centerLocation }) {
 
         for (const place of mockData) {
           const location = { lat: place.lat, lng: place.lng };
+          const infowindow = new googleMaps.InfoWindow({
+            content: `
+            <div>
+              <h4>${place.name}</h4>
+              <div>Short description of place if desired</div>
+              <div>
+                <img src="" alt="${place.name} Image" />
+              </div>
+            </div>
+            `
+          });
           const marker = new googleMaps.Marker({
             position: location,
             map,
             title: place.name,
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
           });
         }
       }
