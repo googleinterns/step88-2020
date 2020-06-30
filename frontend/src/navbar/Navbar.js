@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 
 /** 
  * Creates Navbar component with login button.
  */
-function Navbar() {
-  const [text, setText] = useState('Sign In');
-
-  function handleLogin() {
-    //TODO: Use enums instead of string.
-    const display = text === 'Sign In' ? 'Sign Out': 'Sign In';
-    setText(display);
-  }
+function Navbar({loggedIn, onLoginChange}) {
 
   return (
     <Nav className="justify-content-end">
       <Nav.Item>
-        <Nav.Link onClick={handleLogin} href="">{text}</Nav.Link>
+        <Nav.Link onClick={() => onLoginChange(!loggedIn)} href="">{loggedIn ? 'Sign Out' : 'Sign In'}</Nav.Link>
       </Nav.Item>
     </Nav>
   );
