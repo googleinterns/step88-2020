@@ -8,6 +8,8 @@ import styles from './Map.module.css';
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
+// TODO: Remove temporarily disabled linter.
+// eslint-disable-next-line
 function Map({ destinations, mode, centerLocation }) {
   const mockData = [
     { lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower' },
@@ -21,7 +23,7 @@ function Map({ destinations, mode, centerLocation }) {
     if (mode !== 'pins') {
       return;
     }
-    
+
     loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
       (googleMaps) => {
         const map = new googleMaps.Map(mapRef.current, {
@@ -31,6 +33,8 @@ function Map({ destinations, mode, centerLocation }) {
 
         for (const place of mockData) {
           const location = { lat: place.lat, lng: place.lng };
+          // TODO: Remove temporarily disabled linter.
+          // eslint-disable-next-line
           const marker = new googleMaps.Marker({
             position: location,
             map,
