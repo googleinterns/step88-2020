@@ -17,7 +17,7 @@ import { Draggable } from 'react-beautiful-dnd';
  */
 function LocationCard({location, description, image, index}) {
   // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
-  return(
+  return (
     <Draggable draggableId={`draggable-${index}`} index={index}>
       {(provided) => 
         <Container className={styles.locationCardContainer}
