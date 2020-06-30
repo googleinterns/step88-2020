@@ -14,9 +14,9 @@ node_modules:
 	npm install clang-format prettier eslint react@16.13.1 eslint-config-react-app babel-eslint eslint-plugin-import eslint-plugin-flowtype eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
 
 pretty: node_modules
-	$(PRETTIER) --write 'frontend/src/*.css' 'frontend/src/**/*.css'
-	$(PRETTIER) --write 'frontend/src/*.js' 'frontend/src/**/*.js'
+	$(PRETTIER) --write 'frontend/src/**/*.css'
+	$(PRETTIER) --write 'frontend/src/**/*.js'
 	find backend/src/main -iname *.java | xargs $(CLANG_FORMAT) -i
 
 validate: node_modules
-	$(ESLINT) 'frontend/src/*.js' 'frontend/src/**/*.js'
+	$(ESLINT) 'frontend/src/**/*.js'
