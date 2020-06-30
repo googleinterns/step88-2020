@@ -9,18 +9,19 @@ import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { Draggable } from 'react-beautiful-dnd';
 
 /**
- * Return a card component representing a place the user has selected. 
+ * Return a card component representing a place the user has selected.
  * @param {string} location the name of the place selected
  * @param {string} description a description of @param location
  * @param {string} image image source of @param location
  * @param {number} index index of location in route list
  */
-function LocationCard({location, description, image, index}) {
+function LocationCard({ location, description, image, index }) {
   // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
   return (
     <Draggable draggableId={`draggable-${index}`} index={index}>
-      {(provided) => 
-        <Container className={styles.locationCardContainer}
+      {(provided) => (
+        <Container
+          className={styles.locationCardContainer}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -32,9 +33,7 @@ function LocationCard({location, description, image, index}) {
                 <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
                 <Card.ImgOverlay className={styles.cardTxt}>
                   <Card.Title>{location}</Card.Title>
-                  <Card.Text>
-                    {description}
-                  </Card.Text>
+                  <Card.Text>{description}</Card.Text>
                 </Card.ImgOverlay>
               </Card>
             </Col>
@@ -43,7 +42,7 @@ function LocationCard({location, description, image, index}) {
             </Col>
           </Row>
         </Container>
-      }
+      )}
     </Draggable>
   );
 }

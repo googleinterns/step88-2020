@@ -5,10 +5,11 @@ import styles from './Attraction.module.css';
  * Attraction contains the image of the attraction.
  * imageUrl contains source of image.
  */
-function Attraction({imageUrl}) {
+function Attraction({ imageUrl }) {
   return (
     <div className={styles.attractionContainer}>
-      <img src={imageUrl}/>
+      {/* TODO: Add meaningful alt text. */}
+      <img src={imageUrl} alt="" />
     </div>
   );
 }
