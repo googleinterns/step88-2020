@@ -17,6 +17,7 @@ import { MOCK_DATA } from './route/mockData.js';
  */
 function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
+  const [places, setPlaces] = useState(MOCK_DATA);
 
   return (
     <Container>
@@ -26,7 +27,7 @@ function RouteView() {
       <Row>
         <Col>
           <Row className={styles.routeListContainer}>
-            <Route places={MOCK_DATA} />
+            <Route places={places} setPlaces={setPlaces} />
           </Row>
           <Row>
             <OptimizeButton isOptimized={isOptimized} optimize={setIsOptimized}/>
