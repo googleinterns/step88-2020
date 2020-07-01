@@ -7,7 +7,7 @@ import styles from './AttractionsPanel.module.css';
  * Updates browser url when an image selection is toggled
  * @param {string[]} attractionUrls list of img urls
  */
-function AttractionsPanel({attractionUrls}) {
+function AttractionsPanel({ attractionUrls }) {
   return (
     <div className={styles.attractionsPanel}>
       {attractionUrls.map(url => (

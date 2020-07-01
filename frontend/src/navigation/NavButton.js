@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
  * @param {string} link url to redirect to
  * @param {string} label label of button
  */
-function NavButton({href,label}) {
+function NavButton({ href, label }) {
   return (
     <Button href={href} type='button' className={styles.navButton}>
       {label}
