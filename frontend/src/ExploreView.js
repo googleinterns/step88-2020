@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './ExploreView.module.css';
 import AttractionsPanel from './attractions-panel/AttractionsPanel';
 import NavButton from './navigation/NavButton';
@@ -11,7 +11,7 @@ import { MOCK_DATA } from './route/mockData.js';
  * @param {list} images list image urls
  */
 function Explore({ images }) {
-  const [places, setPlaces] = useState(MOCK_DATA);
+  const places = MOCK_DATA;
 
   return (
     <div className={styles.exploreContainer}>
