@@ -5,14 +5,14 @@ import styles from './AttractionsPanel.module.css';
 /**
  * AttractionsPanel shows all attractions.
  * Updates browser url when an image selection is toggled
- * attractionUrls is an array of urls of type String
+ * @param {string[]} attractionUrls list of img urls
  */
-function AttractionsPanel({attractionUrls}) {
+function AttractionsPanel({ attractionUrls }) {
   return (
     <div className={styles.attractionsPanel}>
-    {attractionUrls.map(url => (
-    <Attraction imageUrl={url} key={url} />
-    ))}
+      {attractionUrls.map((url) => (
+        <Attraction imageUrl={url} key={url} />
+      ))}
     </div>
   );
 }

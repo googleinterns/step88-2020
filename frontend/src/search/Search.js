@@ -6,8 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import React from 'react';
 import styles from './Search.module.css';
 
-
-/** 
+/**
  * Creates Search component with search bar.
  */
 function Search() {
@@ -18,12 +17,12 @@ function Search() {
       </div>
       <Form inline className={styles.form}>
         <FormControl type="text" className="mr-sm-2" />
-        <Button variant="secondary"> 
-          <FontAwesomeIcon icon={faSearch} className="optimized-icon" />  
+        <Button variant="secondary">
+          <FontAwesomeIcon icon={faSearch} className="optimized-icon" />
         </Button>
       </Form>
     </div>
-  )
+  );
 }
 
 export default Search;

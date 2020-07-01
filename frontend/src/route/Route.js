@@ -3,15 +3,15 @@ import LocationCard from './LocationCard.js';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 /**
- * Return locations listed in order of the user's planned route. 
+ * Return locations listed in order of the user's planned route.
  * Route list is customizable via drag and drop (docs: https://github.com/atlassian/react-beautiful-dnd)
  */
-function Route({places: initialPlaces}) {
+function Route({ places: initialPlaces }) {
   // map data into list of location cards each representing a place the use selected
   const [places, setPlaces] = useState(initialPlaces);
 
   // referece: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
-  function handleOnDragEnd({destination, source, draggableId}) {
+  function handleOnDragEnd({ destination, source, draggableId }) {
     // const  = result;
 
     // no change in list ordering due after drag
@@ -20,7 +20,10 @@ function Route({places: initialPlaces}) {
     }
 
     // item dropped in same place it started in (no change in list ordering)
-    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
       return;
     }
 
@@ -34,23 +37,20 @@ function Route({places: initialPlaces}) {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="route-list">
-        {provided => 
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {places.map((place, index) => 
-              <LocationCard 
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            {places.map((place, index) => (
+              <LocationCard
                 location={place.location}
                 description={place.description}
                 image={place.image}
                 index={index}
                 key={index}
               />
-            )}
+            ))}
             {provided.placeholder}
           </div>
-        }
+        )}
       </Droppable>
     </DragDropContext>
   );
