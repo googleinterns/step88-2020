@@ -19,7 +19,7 @@ function App() {
             <SearchView loggedIn={loggedIn} />
           </Route>
           <Route path="/explore">
-            <ExploreView images={[testImg,testImg,testImg]} />
+            <ExploreView images={[testImg, testImg, testImg]} />
           </Route>
           <Route path="/route">
             <RouteView />
