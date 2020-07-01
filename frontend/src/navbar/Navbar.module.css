@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  width: 100%;
+}
+
+.a {
+  flex: 1 0 auto;
+}
+
+.b {
+  flex: 0 1 auto;
+}
