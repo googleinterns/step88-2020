@@ -17,6 +17,7 @@ import { MOCK_DATA } from './route/mockData.js';
  */
 function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
 
   return (
@@ -30,15 +31,15 @@ function RouteView() {
             <Route places={places} setPlaces={setPlaces} />
           </Row>
           <Row>
-            <OptimizeButton isOptimized={isOptimized} optimize={setIsOptimized}/>
+            <OptimizeButton isOptimized={isOptimized} optimize={setIsOptimized} />
           </Row>
         </Col>
         <Col>
           <Row>
-            <Map mode="directions" places={places} centerLocation={places[0]}/>
+            <Map mode="directions" places={places} centerLocation={places[0]} />
           </Row>
           <Row>
-            <SaveButton />
+            <SaveButton isSaved={isSaved} setIsSaved={setIsSaved} />
           </Row>
         </Col>
       </Row>

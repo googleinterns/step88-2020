@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 /**
  * Render button to save trip. If trip is saved, rendered disabled button with "Saved" text.
- * @param {boolean|undefined} saved status of whether trip is saved.
+ * @param {boolean|undefined} isSaved status of whether trip is saved.
+ * @param {function} setIsSaved called to set saved status of trip
  * @param {boolean|undefined} isLoggedIn status of whether user is logged in to Google account.
  */
-function SaveButton({ saved, isLoggedIn }) {
-  const [isSaved, setIsSaved] = useState(saved);
-
+function SaveButton({ isSaved, setIsSaved, isLoggedIn }) {
   function handleSave() {
     setIsSaved(true);
   }

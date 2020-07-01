@@ -11,7 +11,6 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
  * @param {function} optimize called to optimize the route
  */
 function OptimizeButton({ isOptimized, optimize }) {
-
   if (isOptimized) {
     return (
       <div className={`${styles.optimizedBtnContainer} ${styles.optimizedTxt}`}>
