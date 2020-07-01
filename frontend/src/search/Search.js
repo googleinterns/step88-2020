@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
  */
 function Search() {
   const [name, setName] = useState('');
-  let history = useHistory();
+  const history = useHistory();
 
   return (
     <div className={styles.searchContainer}>
