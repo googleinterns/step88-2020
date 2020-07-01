@@ -40,6 +40,10 @@
   cursor: pointer;
 }
 
+.saveRow {
+  height: 20px;
+}
+
 .formGroup {
   margin-bottom: 4px;
 }
