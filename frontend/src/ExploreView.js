@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Explore.module.css';
+import styles from './ExploreView.module.css';
 import AttractionsPanel from './attractions-panel/AttractionsPanel';
 import NavButton from './navigation/NavButton';
 import Map from './map/Map';
