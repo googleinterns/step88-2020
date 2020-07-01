@@ -33,13 +33,13 @@ function Map({ destinations, mode, centerLocation }) {
           const location = { lat: place.lat, lng: place.lng };
           const infowindow = new googleMaps.InfoWindow({
             content: `
-            <div>
-              <h4>${place.name}</h4>
-              <div>Short description of place if desired</div>
               <div>
-                <img src="" alt="${place.name} Image" />
+                <h4>${place.name}</h4>
+                <div>Short description of place if desired</div>
+                <div>
+                  <img src="" alt="${place.name} Image" />
+                </div>
               </div>
-            </div>
             `
           });
           const marker = new googleMaps.Marker({
@@ -47,7 +47,7 @@ function Map({ destinations, mode, centerLocation }) {
             map,
             title: place.name,
           });
-          marker.addListener('click', function() {
+          marker.addListener('click', () => {
             infowindow.open(map, marker);
           });
         }
