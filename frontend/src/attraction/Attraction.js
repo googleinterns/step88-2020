@@ -3,14 +3,10 @@ import styles from './Attraction.module.css';
 
 /**
  * Attraction contains the image of the attraction.
- * imageUrl contains source of image.
+ * @param {string} imageUrl url of image
  */
-function Attraction({imageUrl}) {
-  return (
-    <div className={styles.attractionContainer}>
-      <img src={imageUrl}/>
-    </div>
-  );
+function Attraction({ imageUrl }) {
+  return <img className={styles.attraction} src={imageUrl} />;
 }
 
 export default Attraction;

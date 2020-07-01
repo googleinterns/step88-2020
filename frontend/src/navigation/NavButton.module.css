@@ -1,7 +1,10 @@
 .navButton {
-  min-height: 50px;
-  min-width: 200px;
-  padding: 10px;
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  margin: 0 auto;
+  width: 300px;
 }
 
 .navButton:hover {

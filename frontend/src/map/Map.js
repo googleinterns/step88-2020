@@ -8,6 +8,8 @@ import styles from './Map.module.css';
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
+// TODO: Remove temporarily disabled linter.
+// eslint-disable-next-line no-unused-vars
 function Map({ destinations, mode, centerLocation }) {
   const mockData = [
     { lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower' },
@@ -42,6 +44,8 @@ function Map({ destinations, mode, centerLocation }) {
               </div>
             `,
           });
+          // TODO: Remove temporarily disabled linter.
+          // eslint-disable-next-line no-unused-vars
           const marker = new googleMaps.Marker({
             position: location,
             map,
