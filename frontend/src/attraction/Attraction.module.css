@@ -1,5 +1,9 @@
-.attractionContainer {
-  background-color: grey;
-  width: 250px;
-  height: 250px;
+.attraction {
+  height: 300px;
+  margin: 5px;
+  width: 300px;
+}
+
+.attraction:hover {
+  opacity: 0.5;
 }

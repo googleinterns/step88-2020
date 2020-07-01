@@ -1,0 +1,13 @@
+.exploreContainer {
+  display: flex;
+}
+
+.attractionsSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.mapContainer {
+  margin-right: 100px;
+  margin-top: 30px;
+}

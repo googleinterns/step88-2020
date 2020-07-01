@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 
 /**
  * Navigation bar link button
+ * @param {string} link url to redirect to
+ * @param {string} label label of button
  */
 function NavButton({ href, label }) {
   return (
