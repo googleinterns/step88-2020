@@ -6,9 +6,7 @@ import styles from './Attraction.module.css';
  * @param {string} imageUrl url of image
  */
 function Attraction({ imageUrl }) {
-  return (
-    <img className={styles.attraction} src={imageUrl}/>
-  );
+  return <img className={styles.attraction} src={imageUrl} />;
 }
 
 export default Attraction;
