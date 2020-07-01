@@ -3,10 +3,10 @@
   width: 100%;
 }
 
-.a {
+.leftLink {
   flex: 1 0 auto;
 }
 
-.b {
+.rightLink {
   flex: 0 1 auto;
 }

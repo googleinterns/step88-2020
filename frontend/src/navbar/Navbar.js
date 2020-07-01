@@ -10,7 +10,7 @@ function Navbar({ loggedIn, onLoginChange }) {
   return (
     <Router>
       <Nav className={styles.container}>
-        <Nav.Item className={styles.a}>
+        <Nav.Item className={styles.leftLink}>
           <Switch>
             <Route path="/explore">
               <Nav.Link href="/">Back to Search</Nav.Link>
@@ -24,7 +24,7 @@ function Navbar({ loggedIn, onLoginChange }) {
           <Nav.Link
             onClick={() => onLoginChange(!loggedIn)}
             href=""
-            className={styles.b}
+            className={styles.rightLink}
           >
             {loggedIn ? 'Sign Out' : 'Sign In'}
           </Nav.Link>
