@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import styles from './OptimizeButton.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,10 +7,10 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 /**
  * Render a button to optimize route on click.
  * If route is optimized, render text indicating that it is optimized.
- * @param {boolean|undefined} optimized indicates whether route has been optimized
+ * @param {boolean|undefined} isOptimized indicates whether route has been optimized
+ * @param {function} optimize called to optimize the route
  */
-function OptimizeButton({ optimized }) {
-  const [isOptimized, setIsOptimized] = useState(optimized);
+function OptimizeButton({ isOptimized, optimize }) {
 
   if (isOptimized) {
     return (
@@ -23,7 +23,7 @@ function OptimizeButton({ optimized }) {
 
   return (
     <div className={styles.optimizedBtnContainer}>
-      <Button variant="primary" onClick={() => setIsOptimized(true)}>
+      <Button variant="primary" onClick={optimize}>
         Optimize
       </Button>
     </div>

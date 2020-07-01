@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,6 +16,8 @@ import { MOCK_DATA } from './route/mockData.js';
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
 function RouteView() {
+  const [isOptimized, setIsOptimized] = useState(false);
+
   return (
     <Container>
       <Row>
@@ -27,7 +29,7 @@ function RouteView() {
             <Route places={MOCK_DATA} />
           </Row>
           <Row>
-            <OptimizeButton />
+            <OptimizeButton isOptimized={isOptimized} optimize={setIsOptimized}/>
           </Row>
         </Col>
         <Col>
