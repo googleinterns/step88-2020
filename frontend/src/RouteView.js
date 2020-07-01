@@ -35,7 +35,7 @@ function RouteView() {
         </Col>
         <Col>
           <Row>
-            <Map mode="directions" />
+            <Map mode="directions" places={places} centerLocation={places[0]}/>
           </Row>
           <Row>
             <SaveButton />

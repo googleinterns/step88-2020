@@ -4,19 +4,13 @@ import styles from './Map.module.css';
 
 /**
  * Makes a call to Map Embed API to display route between multiple locations.
- * @param {list} destinations list of locations to route between
+ * @param {list} places list of locations to route between
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
 // TODO: Remove temporarily disabled linter.
 // eslint-disable-next-line no-unused-vars
-function Map({ destinations, mode, centerLocation }) {
-  const mockData = [
-    { lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower' },
-    { lat: 48.860611, lng: 2.337698, name: 'Louvre' },
-    { lat: 48.85991, lng: 2.326364, name: "Musee D'Orsay" },
-  ];
-
+function Map({ places, mode, centerLocation }) {
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -28,10 +22,10 @@ function Map({ destinations, mode, centerLocation }) {
       (googleMaps) => {
         const map = new googleMaps.Map(mapRef.current, {
           zoom: 12,
-          center: { lat: 48.858405, lng: 2.294449 },
+          center: { lat: centerLocation.lat, lng: centerLocation.lng },
         });
 
-        for (const place of mockData) {
+        for (const place of places) {
           const location = { lat: place.lat, lng: place.lng };
           const infowindow = new googleMaps.InfoWindow({
             content: `
@@ -63,12 +57,19 @@ function Map({ destinations, mode, centerLocation }) {
     return <div ref={mapRef} className={styles.mapContainer}></div>;
   }
 
+  const origin = places[0].name.replace(' ', '+');
+  const destination = places[places.length - 1].name.replace(' ', '+');
+  const waypoints = [];
+  for (let i = 1; i < places.length - 1; i++) {
+    waypoints.push(places[i].name.replace(' ', '+'));
+  }
+
   return (
     <div className={styles.mapContainer}>
       <iframe
         className={styles.map}
         title="trip-map"
-        src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8&origin=Eiffel+Tower&destination=Museum+d'Orsay&waypoints=Louvre|Arc+De+Triomphe"
+        src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8&origin=${origin}&destination=${destination}&waypoints=${waypoints.join('|')}`}
         allowFullScreen
       ></iframe>
     </div>
