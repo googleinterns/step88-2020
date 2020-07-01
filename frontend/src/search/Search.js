@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
  * Creates Search component with search bar.
  */
 function Search() {
-  const [name, setName] = useState('');
+  const [query, setQuery] = useState('');
   const history = useHistory();
 
   return (
@@ -23,14 +23,16 @@ function Search() {
         inline
         className={styles.form}
         onSubmit={() => {
-          history.push(`/explore?search=${name}`);
+          if (query !== '') {
+            history.push(`/explore?search=${query}`);
+          }
         }}
       >
         <FormControl
           type="text"
           className="mr-sm-2 "
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
         <Button variant="secondary" type="submit">
           <FontAwesomeIcon icon={faSearch} className="optimized-icon" />
