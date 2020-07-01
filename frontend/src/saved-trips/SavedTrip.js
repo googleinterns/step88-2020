@@ -5,10 +5,10 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 import styles from './SavedTrips.module.css';
 
-/** 
+/**
  * Creates single saved trip.
  */
-function SavedTrip({name}) {
+function SavedTrip({ name }) {
   return (
     <ListGroup.Item action className={styles.listItem}>
       {name}
@@ -17,11 +17,11 @@ function SavedTrip({name}) {
           <FontAwesomeIcon icon={faPencilAlt} />
         </a>
         <a href="/" title="Share" className={styles.icon}>
-          <FontAwesomeIcon icon={faShare}/>
+          <FontAwesomeIcon icon={faShare} />
         </a>
       </div>
     </ListGroup.Item>
-  )
+  );
 }
 
 export default SavedTrip;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
@@ -9,9 +9,9 @@ import styles from './TripName.module.css';
 
 /**
  * Returns the trip name component that the user can edit and save.
- * @param {string|undefined} tripName the name of the trip 
+ * @param {string|undefined} tripName the name of the trip
  */
-function TripName({tripName}) {
+function TripName({ tripName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(tripName ? tripName : 'Trip Name');
 
@@ -25,7 +25,9 @@ function TripName({tripName}) {
   }
 
   return (
-    <Container className={`${styles.tripNameContainer} ${isEditing ? styles.edit : ''}`}>
+    <Container
+      className={`${styles.tripNameContainer} ${isEditing ? styles.edit : ''}`}
+    >
       <Row>
         <Form noValidate onClick={() => setIsEditing(true)}>
           <Form.Group>

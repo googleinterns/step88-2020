@@ -23,4 +23,19 @@ export const /** !Array<Place> */ MOCK_DATA = [
       description: 'Description of location if we want to include it here.',
       image: testImg,
     },
+    {
+      location: 'Duplicate 3',
+      description: 'Description of location if we want to include it here.',
+      image: testImg,
+    },
+    {
+      location: 'Duplicate 4',
+      description: 'Description of location if we want to include it here.',
+      image: testImg,
+    },
+    {
+      location: 'Duplicate 5',
+      description: 'Description of location if we want to include it here.',
+      image: testImg,
+    },
   ];
