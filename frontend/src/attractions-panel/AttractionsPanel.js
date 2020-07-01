@@ -5,7 +5,7 @@ import styles from './AttractionsPanel.module.css';
 /**
  * AttractionsPanel shows all attractions.
  * Updates browser url when an image selection is toggled
- * @param {list} attractionUrls list of img urls
+ * @param {string[]} attractionUrls list of img urls
  */
 function AttractionsPanel({attractionUrls}) {
   return (
