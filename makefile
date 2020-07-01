@@ -11,7 +11,7 @@ ESLINT=node_modules/eslint/bin/eslint.js
 PRETTIER=node_modules/prettier/bin-prettier.js
 
 node_modules:
-	npm install clang-format prettier eslint react@16.13.1 eslint-config-react-app babel-eslint eslint-plugin-import eslint-plugin-flowtype eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
+	npm install clang-format prettier eslint@6.6.0 react@16.13.1 eslint-config-react-app babel-eslint eslint-plugin-import eslint-plugin-flowtype eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
 
 pretty: node_modules
 	$(PRETTIER) --write 'frontend/src/**/*.css'
