@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Explore.module.css';
+import styles from './ExploreView.module.css';
 import AttractionsPanel from './attractions-panel/AttractionsPanel';
 import NavButton from './navigation/NavButton';
 import Map from './map/Map';
@@ -13,7 +13,7 @@ function Explore({ images }) {
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
         <AttractionsPanel attractionUrls={images} />
-        <NavButton link={'/route'} label={'Show Route'} />
+        <NavButton href={'/route'} label={'Show Route'} />
       </div>
       <div className={styles.mapContainer}>
         <Map destinations={''} mode={'pins'} />
