@@ -48,7 +48,7 @@ function TripName({ tripName }) {
           </Form.Group>
         </Form>
       </Row>
-      <Row>
+      <Row className={styles.saveRow}>
         <div className={styles.saveBtn} onClick={handleSave}>
           Save
         </div>
