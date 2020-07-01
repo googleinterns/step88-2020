@@ -12,7 +12,6 @@ function Route({ places: initialPlaces }) {
 
   // referece: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
   function handleOnDragEnd({ destination, source, draggableId }) {
-
     // no change in list ordering due after drag
     if (!destination) {
       return;
