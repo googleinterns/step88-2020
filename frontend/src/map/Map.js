@@ -21,7 +21,7 @@ function Map({ destinations, mode, centerLocation }) {
     if (mode !== 'pins') {
       return;
     }
-    
+
     loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
       (googleMaps) => {
         const map = new googleMaps.Map(mapRef.current, {
@@ -40,7 +40,7 @@ function Map({ destinations, mode, centerLocation }) {
                   <img src="" alt="${place.name} Image" />
                 </div>
               </div>
-            `
+            `,
           });
           const marker = new googleMaps.Marker({
             position: location,
