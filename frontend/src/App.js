@@ -11,22 +11,20 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
-    <>
+    <Router>
       <Navbar loggedIn={loggedIn} onLoginChange={setLoggedIn} />
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <SearchView loggedIn={loggedIn} />
-          </Route>
-          <Route path="/explore">
-            <ExploreView images={[testImg, testImg, testImg]} />
-          </Route>
-          <Route path="/route">
-            <RouteView />
-          </Route>
-        </Switch>
-      </Router>
-    </>
+      <Switch>
+        <Route exact path="/">
+          <SearchView loggedIn={loggedIn} />
+        </Route>
+        <Route path="/explore">
+          <ExploreView images={[testImg, testImg, testImg]} />
+        </Route>
+        <Route path="/route">
+          <RouteView />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
