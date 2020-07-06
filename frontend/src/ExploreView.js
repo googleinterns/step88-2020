@@ -4,11 +4,15 @@ import AttractionsPanel from './attractions-panel/AttractionsPanel';
 import NavButton from './navigation/NavButton';
 import Map from './map/Map';
 
+import { MOCK_DATA } from './route/mockData.js';
+
 /**
  * Explore view with attraction selection and map
  * @param {list} images list image urls
  */
 function Explore({ images }) {
+  const places = MOCK_DATA;
+
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -16,7 +20,7 @@ function Explore({ images }) {
         <NavButton href={'/route'} label={'Show Route'} />
       </div>
       <div className={styles.mapContainer}>
-        <Map destinations={''} mode={'pins'} />
+        <Map places={places} mode="pins" centerLocation={places[0]} />
       </div>
     </div>
   );
