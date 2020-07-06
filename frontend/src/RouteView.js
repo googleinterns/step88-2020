@@ -43,7 +43,7 @@ function RouteView() {
 
           function callback(response, status) {
             if (status === 'OK') {
-              // create dictionary
+              // create dictionary mapping two places to distance between them
               const distanceDict = {};
               for (let i = 0; i < attractions.length; i++) {
                 const results = response.rows[i].elements;
@@ -57,6 +57,9 @@ function RouteView() {
               }
 
               // call TSP approximation algorithm
+              fetch('/optimize')
+                .then((response) => response.text())
+                .then(json => console.log(json));
             }
           }
         });
