@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import styles from './Navbar.module.css';
 
@@ -8,17 +8,15 @@ import styles from './Navbar.module.css';
  */
 function Navbar({ loggedIn, onLoginChange }) {
   return (
-    <Router>
+    <Switch>
       <Nav className={styles.container}>
         <Nav.Item className={styles.leftLink}>
-          <Switch>
-            <Route path="/explore">
-              <Nav.Link href="/">Back to Search</Nav.Link>
-            </Route>
-            <Route path="/route">
-              <Nav.Link href="/explore">Back to Edit</Nav.Link>
-            </Route>
-          </Switch>
+          <Route path="/explore">
+            <Nav.Link href="/">Back to Search</Nav.Link>
+          </Route>
+          <Route path="/route">
+            <Nav.Link href="/explore">Back to Edit</Nav.Link>
+          </Route>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link
@@ -30,7 +28,7 @@ function Navbar({ loggedIn, onLoginChange }) {
           </Nav.Link>
         </Nav.Item>
       </Nav>
-    </Router>
+    </Switch>
   );
 }
 
