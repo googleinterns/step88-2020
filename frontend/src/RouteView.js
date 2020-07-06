@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styles from './RouteView.module.css';
-import loadGoogleMapsApi from 'load-google-maps-api';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -12,8 +11,6 @@ import SaveButton from './route/SaveButton.js';
 import TripName from './trip-name/TripName.js';
 
 import { MOCK_DATA } from './route/mockData.js';
-
-const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -28,7 +25,7 @@ function RouteView() {
     if (!optimizedOrder) {
       fetch('/optimize', {
         method: 'POST',
-        body: JSON.stringify(places)
+        body: JSON.stringify(places),
       })
         .then((response) => response.text())
         .then((json) => {
