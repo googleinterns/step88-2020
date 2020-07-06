@@ -1,19 +1,40 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './ExploreView.module.css';
 import AttractionsPanel from './attractions-panel/AttractionsPanel';
 import NavButton from './navigation/NavButton';
 import Map from './map/Map';
-import { useLocation} from "react-router-dom";
-
+import {useLocation} from "react-router-dom";
+import Places from "google-places-web";
 
 /**
  * Explore view with attraction selection and map
  * @param {list} images list image urls
  */
 function Explore({ images }) {
-  const location = useLocation();
-  const queryParameters = getQueryParameters(location.search);
-  
+  Places.apiKey = "AIzaSyBv8VhzMfxTUOGRmdEFWkXrGinbH_b4QsU";
+
+  const urlParameters = useLocation();
+  const queryParameters = getQueryParameters(urlParameters.search);
+
+  useEffect(() => {
+   //requestPlaceData();
+   //copy paste this link to get the results of the request
+   //https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyBv8VhzMfxTUOGRmdEFWkXrGinbH_b4QsU&query=Paris
+ });
+
+ async function requestPlaceData() {
+   try {
+   const response = await Places.textsearch({
+     query: "Paris"
+   });
+    console.log(response);
+   const { status, results } = response;
+
+ } catch (error) {
+     console.log(error);
+   }
+ }
+
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
