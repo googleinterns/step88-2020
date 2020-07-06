@@ -3,7 +3,6 @@ import loadGoogleMapsApi from 'load-google-maps-api';
 import styles from './Map.module.css';
 
 const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
-const MAPS_EMBED_API_KEY = 'AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
 /**
@@ -12,8 +11,6 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
-// TODO: Remove temporarily disabled linter.
-// eslint-disable-next-line no-unused-vars
 function Map({ places, mode, centerLocation }) {
   const mapRef = useRef(null);
 
@@ -41,8 +38,6 @@ function Map({ places, mode, centerLocation }) {
               </div>
             `,
         });
-        // TODO: Remove temporarily disabled linter.
-        // eslint-disable-next-line no-unused-vars
         const marker = new googleMaps.Marker({
           position: location,
           map,
@@ -59,12 +54,12 @@ function Map({ places, mode, centerLocation }) {
     return <div ref={mapRef} className={styles.mapContainer}></div>;
   }
 
-  const origin = places[0].name.replace(/\s/g, '+');
-  const destination = places[places.length - 1].name.replace(/\s/g, '+');
-  const waypoints = [];
-  for (let i = 1; i < places.length - 1; i++) {
-    waypoints.push(places[i].name.replace(/\s/g, '+'));
-  }
+  const placeNames = places.map((place) =>
+    encodeURIComponent(place.name).replace(/%20/g, '+')
+  );
+  const origin = placeNames[0];
+  const destination = placeNames[placeNames.length - 1];
+  const waypoints = placeNames.slice(1, placeNames.length - 1);
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
@@ -72,7 +67,7 @@ function Map({ places, mode, centerLocation }) {
       <iframe
         className={styles.map}
         title="trip-map"
-        src={`${MAPS_EMBED_URL}?key=${MAPS_EMBED_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
         allowFullScreen
       ></iframe>
     </div>
