@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styles from './RouteView.module.css';
+import loadGoogleMapsApi from 'load-google-maps-api';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -11,6 +12,8 @@ import SaveButton from './route/SaveButton.js';
 import TripName from './trip-name/TripName.js';
 
 import { MOCK_DATA } from './route/mockData.js';
+
+const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -24,10 +27,43 @@ function RouteView() {
   function optimize() {
     if (!optimizedOrder) {
       // call distance matrix API
-      // create dictionary
+      const attractions = [];
+      for (const place of MOCK_DATA) {
+        attractions.push(place.name);
+      }
+      loadGoogleMapsApi({ key: MAPS_API_KEY }).then(
+        (googleMaps) => {
+          const service = new googleMaps.DistanceMatrixService();
+          service.getDistanceMatrix(
+            {
+              origins: attractions,
+              destinations: attractions,
+              travelMode: 'DRIVING',
+            }, callback);
+
+          function callback(response, status) {
+            if (status === 'OK') {
+              // create dictionary
+              const distanceDict = {};
+              for (let i = 0; i < attractions.length; i++) {
+                const results = response.rows[i].elements;
+                for (let j = 0; j < results.length; j++) {
+                  if (i !== j) {
+                    const from = attractions[i];
+                    const to = attractions[j];
+                    distanceDict[[from, to]] = results[j].distance.value;
+                  }
+                }
+              }
+
+              // call TSP approximation algorithm
+            }
+          }
+        });
+
       // setOptimizedOrder();
     }
-    setPlaces(optimizedOrder);
+    // setPlaces(optimizedOrder);
     setIsOptimized(true);
   }
 

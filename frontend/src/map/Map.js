@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import loadGoogleMapsApi from 'load-google-maps-api';
 import styles from './Map.module.css';
 
-const MAPS_API_KEY = 'AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8';
+const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
+const MAPS_EMBED_API_KEY = 'AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
 /**
@@ -21,7 +22,7 @@ function Map({ places, mode, centerLocation }) {
       return;
     }
 
-    loadGoogleMapsApi({ key: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg' }).then(
+    loadGoogleMapsApi({ key: MAPS_API_KEY }).then(
       (googleMaps) => {
         const map = new googleMaps.Map(mapRef.current, {
           zoom: 12,
@@ -60,11 +61,11 @@ function Map({ places, mode, centerLocation }) {
     return <div ref={mapRef} className={styles.mapContainer}></div>;
   }
 
-  const origin = places[0].name.replace(' ', '+');
-  const destination = places[places.length - 1].name.replace(' ', '+');
+  const origin = places[0].name.replace(/\s/g, '+');
+  const destination = places[places.length - 1].name.replace(/\s/g, '+');
   const waypoints = [];
   for (let i = 1; i < places.length - 1; i++) {
-    waypoints.push(places[i].name.replace(' ', '+'));
+    waypoints.push(places[i].name.replace(/\s/g, '+'));
   }
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
@@ -73,7 +74,7 @@ function Map({ places, mode, centerLocation }) {
       <iframe
         className={styles.map}
         title="trip-map"
-        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+        src={`${MAPS_EMBED_URL}?key=${MAPS_EMBED_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
         allowFullScreen
       ></iframe>
     </div>
