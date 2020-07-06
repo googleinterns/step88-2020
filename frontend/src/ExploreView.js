@@ -13,7 +13,7 @@ import { useLocation} from "react-router-dom";
 function Explore({ images }) {
   const location = useLocation();
   const queryParameters = getQueryParameters(location.search);
-  console.log(queryParameters.search);
+  
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -33,15 +33,7 @@ function Explore({ images }) {
    */
   function getQueryParameters(query) {
     const params = query.split('?')[1];
-    const attributes = params.split('&');
-    let paramsDict = [];
-
-    for (const param of attributes) {
-      const key = param.split('=')[0];
-      const value = param.split('=')[1];
-      paramsDict[key] = value;
-    }
-    return paramsDict;
+    return Object.fromEntries(new URLSearchParams(params));
   }
 }
 
