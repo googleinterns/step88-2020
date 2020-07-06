@@ -8,12 +8,12 @@ import styles from './SavedTrips.module.css';
 /**
  * Creates single saved trip.
  */
-function SavedTrip({ name }) {
+function SavedTrip({ name, id }) {
   return (
-    <ListGroup.Item action className={styles.listItem}>
+    <ListGroup.Item action href={`/route?id=${id}`} className={styles.listItem}>
       {name}
       <div>
-        <a href="/" title="Edit" className={styles.icon}>
+        <a href="/explore" title="Edit" className={styles.icon}>
           <FontAwesomeIcon icon={faPencilAlt} />
         </a>
         <a href="/" title="Share" className={styles.icon}>
