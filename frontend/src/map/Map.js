@@ -22,17 +22,16 @@ function Map({ places, mode, centerLocation }) {
       return;
     }
 
-    loadGoogleMapsApi({ key: MAPS_API_KEY }).then(
-      (googleMaps) => {
-        const map = new googleMaps.Map(mapRef.current, {
-          zoom: 12,
-          center: { lat: centerLocation.lat, lng: centerLocation.lng },
-        });
+    loadGoogleMapsApi({ key: MAPS_API_KEY }).then((googleMaps) => {
+      const map = new googleMaps.Map(mapRef.current, {
+        zoom: 12,
+        center: { lat: centerLocation.lat, lng: centerLocation.lng },
+      });
 
-        for (const place of places) {
-          const location = { lat: place.lat, lng: place.lng };
-          const infowindow = new googleMaps.InfoWindow({
-            content: `
+      for (const place of places) {
+        const location = { lat: place.lat, lng: place.lng };
+        const infowindow = new googleMaps.InfoWindow({
+          content: `
               <div>
                 <h4>${place.name}</h4>
                 <div>Short description of place if desired</div>
@@ -41,20 +40,19 @@ function Map({ places, mode, centerLocation }) {
                 </div>
               </div>
             `,
-          });
-          // TODO: Remove temporarily disabled linter.
-          // eslint-disable-next-line no-unused-vars
-          const marker = new googleMaps.Marker({
-            position: location,
-            map,
-            title: place.name,
-          });
-          marker.addListener('click', () => {
-            infowindow.open(map, marker);
-          });
-        }
+        });
+        // TODO: Remove temporarily disabled linter.
+        // eslint-disable-next-line no-unused-vars
+        const marker = new googleMaps.Marker({
+          position: location,
+          map,
+          title: place.name,
+        });
+        marker.addListener('click', () => {
+          infowindow.open(map, marker);
+        });
       }
-    );
+    });
   });
 
   if (mode === 'pins') {
