@@ -38,8 +38,8 @@ public class OptimizeServlet extends HttpServlet {
       DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
       DistanceMatrix result = req.origins(origins).destinations(destinations).await();
 
-      for(int i = 0; i < origins.length; i++) {
-        for(int j = 0; j < destinations.length; j++) {
+      for (int i = 0; i < origins.length; i++) {
+        for (int j = 0; j < destinations.length; j++) {
           int distance = result.rows[i].elements[j].distance.inMeters;
         }
       } 
