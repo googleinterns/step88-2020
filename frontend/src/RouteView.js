@@ -26,49 +26,16 @@ function RouteView() {
 
   function optimize() {
     if (!optimizedOrder) {
-      const attractions = [];
-      for (const place of MOCK_DATA) {
-        attractions.push(place.name);
-      }
-
-      // call distance matrix API
-      loadGoogleMapsApi({ key: MAPS_API_KEY }).then((googleMaps) => {
-        const service = new googleMaps.DistanceMatrixService();
-        service.getDistanceMatrix(
-          {
-            origins: attractions,
-            destinations: attractions,
-            travelMode: 'DRIVING',
-          },
-          callback
-        );
-
-        function callback(response, status) {
-          if (status === 'OK') {
-            // create dictionary mapping two places to distance between them
-            const distanceDict = {};
-            for (let i = 0; i < attractions.length; i++) {
-              const results = response.rows[i].elements;
-              for (let j = 0; j < results.length; j++) {
-                if (i !== j) {
-                  const from = attractions[i];
-                  const to = attractions[j];
-                  distanceDict[[from, to]] = results[j].distance.value;
-                }
-              }
-            }
-
-            // call TSP approximation algorithm
-            fetch('/optimize')
-              .then((response) => response.text())
-              .then((json) => {
-                // setOptimizedOrder(places);
-                // setPlaces(optimizedOrder);
-                setIsOptimized(true);
-              });
-          }
-        }
-      });
+      fetch('/optimize', {
+        method: 'POST',
+        body: JSON.stringify(places)
+      })
+        .then((response) => response.text())
+        .then((json) => {
+          // setOptimizedOrder(places);
+          // setPlaces(optimizedOrder);
+          setIsOptimized(true);
+        });
     }
   }
 

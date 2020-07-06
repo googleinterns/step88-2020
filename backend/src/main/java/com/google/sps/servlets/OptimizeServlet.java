@@ -14,17 +14,42 @@
 
 package com.google.sps.servlets;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.DistanceMatrixApiRequest;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that returns the optimized route between list of attractions */
 @WebServlet("/optimize")
 public class OptimizeServlet extends HttpServlet {
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+    try {
+      // call Distance Matrix API
+      GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg")
+        .build();
+      String[] origins = new String[] {"Vancouver BC", "Seattle"};
+      String[] destinations = new String[] {"San Francisco", "Victoria BC"};
+      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
+      DistanceMatrix result = req.origins(origins)
+              .destinations(destinations)
+              .await();
+
+      for(int i = 0; i < origins.length; i++){
+        for(int j = 0; j < destinations.length; j++){
+          int distance = result.rows[i].elements[j].distance.inMeters;
+        }
+      } 
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
     response.setContentType("text/html;");
     response.getWriter().println("Hello Packaged BEANS!");
   }
