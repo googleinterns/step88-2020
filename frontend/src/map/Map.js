@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import loadGoogleMapsApi from 'load-google-maps-api';
 import styles from './Map.module.css';
 
+const MAPS_API_KEY = 'AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8';
+const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
+
 /**
  * Makes a call to Map Embed API to display route between multiple locations.
  * @param {list} places list of locations to route between
@@ -63,15 +66,14 @@ function Map({ places, mode, centerLocation }) {
   for (let i = 1; i < places.length - 1; i++) {
     waypoints.push(places[i].name.replace(' ', '+'));
   }
+  const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
     <div className={styles.mapContainer}>
       <iframe
         className={styles.map}
         title="trip-map"
-        src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyBbZSSvn85LLfo6F5uF1G7VawuvingacM8&origin=${origin}&destination=${destination}&waypoints=${waypoints.join(
-          '|'
-        )}`}
+        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
         allowFullScreen
       ></iframe>
     </div>

@@ -7,13 +7,9 @@ import Button from 'react-bootstrap/Button';
  * @param {function} setIsSaved called to set saved status of trip
  * @param {boolean|undefined} isLoggedIn status of whether user is logged in to Google account.
  */
-function SaveButton({ isSaved, setIsSaved, isLoggedIn }) {
-  function handleSave() {
-    setIsSaved(true);
-  }
-
+function SaveButton({ isSaved, save, isLoggedIn }) {
   return (
-    <Button variant="primary" onClick={handleSave} disabled={isSaved}>
+    <Button variant="primary" onClick={save} disabled={isSaved}>
       {isSaved ? 'Saved' : 'Save Trip'}
     </Button>
   );

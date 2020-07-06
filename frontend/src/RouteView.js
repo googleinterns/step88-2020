@@ -19,6 +19,22 @@ function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
+  const [optimizedOrder, setOptimizedOrder] = useState(null);
+
+  function optimize() {
+    if (!optimizedOrder) {
+      // call distance matrix API
+      // create dictionary
+      // setOptimizedOrder();
+    }
+    setPlaces(optimizedOrder);
+    setIsOptimized(true);
+  }
+
+  function save() {
+    setIsSaved(true);
+    // save to back end
+  }
 
   return (
     <Container>
@@ -31,7 +47,7 @@ function RouteView() {
             <Route places={places} setPlaces={setPlaces} />
           </Row>
           <Row>
-            <OptimizeButton isOptimized={isOptimized} optimize={setIsOptimized} />
+            <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
           </Row>
         </Col>
         <Col>
@@ -39,7 +55,7 @@ function RouteView() {
             <Map mode="directions" places={places} centerLocation={places[0]} />
           </Row>
           <Row>
-            <SaveButton isSaved={isSaved} setIsSaved={setIsSaved} />
+            <SaveButton isSaved={isSaved} save={save} />
           </Row>
         </Col>
       </Row>
