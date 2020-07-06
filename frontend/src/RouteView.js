@@ -59,9 +59,13 @@ function RouteView() {
             }
 
             // call TSP approximation algorithm
-            fetch('/optimize')
+            fetch('/optimize', {
+              method: 'POST',
+              body: JSON.stringify({"distanceDict": distanceDict, "attractions": places}),
+            })
               .then((response) => response.text())
               .then((json) => {
+                console.log(json);
                 // setOptimizedOrder(places);
                 // setPlaces(optimizedOrder);
                 setIsOptimized(true);
