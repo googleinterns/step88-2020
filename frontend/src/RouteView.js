@@ -26,11 +26,12 @@ function RouteView() {
 
   function optimize() {
     if (!optimizedOrder) {
-      // call distance matrix API
       const attractions = [];
       for (const place of MOCK_DATA) {
         attractions.push(place.name);
       }
+
+      // call distance matrix API
       loadGoogleMapsApi({ key: MAPS_API_KEY }).then((googleMaps) => {
         const service = new googleMaps.DistanceMatrixService();
         service.getDistanceMatrix(
@@ -73,7 +74,7 @@ function RouteView() {
 
   function save() {
     setIsSaved(true);
-    // save to back end
+    // save to back end database
   }
 
   return (
