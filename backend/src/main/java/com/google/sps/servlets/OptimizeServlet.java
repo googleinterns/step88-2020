@@ -25,6 +25,7 @@ import com.google.sps.OptimizationAlgorithm;
 import com.google.sps.Vertex;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -53,18 +54,19 @@ public class OptimizeServlet extends HttpServlet {
       DistanceMatrix result = req.origins(attractionNames).destinations(attractionNames).await();
 
       // construct graph
-      ArrayList<Vertex> graph = new ArrayList<>();
+      HashMap<Vertex, ArrayList<Edge>> graph = new HashMap<>();
       for (int i = 0; i < attractions.size(); i++) {
         Vertex v = new Vertex(attractions.get(i));
+        ArrayList<Edge> edges = new ArrayList<>();
         for (int j = 0; j < attractions.size(); j++) {
           if (i != j) {
             long distance = result.rows[i].elements[j].distance.inMeters;
             Vertex u = new Vertex(attractions.get(j));
             Edge e = new Edge(v, u, distance);
-            v.addAdjacentEdge(e);
+            edges.add(e);
           }
         }
-        graph.add(v);
+        graph.put(v, edges);
       }
 
       // call TSP approximation algorithm

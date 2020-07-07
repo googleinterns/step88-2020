@@ -18,19 +18,9 @@ import java.util.ArrayList;
 
 public class Vertex {
   private Attraction attraction;
-  private ArrayList<Edge> adjacentEdges;
 
   public Vertex(Attraction attraction) {
     this.attraction = attraction;
-    this.adjacentEdges = new ArrayList<>();
-  }
-
-  public void addAdjacentEdge(Edge e) {
-    this.adjacentEdges.add(e);
-  }
-
-  public ArrayList<Edge> getAdjacentEdges() {
-    return this.adjacentEdges;
   }
 
   public Attraction getAttraction() {
@@ -39,6 +29,6 @@ public class Vertex {
 
   @Override
   public String toString() {
-    return String.format("Attraction: %s\n Adjacent Paths: %s\n", this.attraction.getName(), this.adjacentEdges);
+    return String.format("Attraction: %s\n", this.attraction.getName());
   }
 }

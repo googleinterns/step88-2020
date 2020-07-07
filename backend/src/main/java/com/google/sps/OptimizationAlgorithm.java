@@ -15,12 +15,13 @@
 package com.google.sps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class OptimizationAlgorithm {
 
-  private ArrayList<Vertex> graph;
+  private HashMap<Vertex, ArrayList<Edge>> graph;
 
-  public OptimizationAlgorithm(ArrayList<Vertex> graph) {
+  public OptimizationAlgorithm(HashMap<Vertex, ArrayList<Edge>> graph) {
     this.graph = graph;
   }
 
@@ -28,7 +29,7 @@ public final class OptimizationAlgorithm {
     System.out.println(graph);
 
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
-    for (Vertex v : graph) {
+    for (Vertex v : graph.keySet()) {
       optimizedOrder.add(v.getAttraction());
     }
     return optimizedOrder;
