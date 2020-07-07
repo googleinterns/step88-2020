@@ -15,30 +15,31 @@
 package com.google.sps;
 
 public class Edge {
-  private Vertex start;
-  private Vertex end;
+  private Vertex u;
+  private Vertex v;
   private long distance;
 
-  public Edge(Vertex start, Vertex end, long distance) {
-    this.start = start;
-    this.end = end;
+  public Edge(Vertex u, Vertex v, long distance) {
+    this.u = u;
+    this.v = v;
     this.distance = distance;
-  }
-
-  public Vertex getStart() {
-    return this.start;
-  }
-
-  public Vertex getEnd() {
-    return this.end;
   }
 
   public long getDistance() {
     return this.distance;
   }
 
+  /**
+   * Given one endpoint of this edge, return the other endpoint
+   * @param w one vertex endpoint of this edge
+   * @return the vertex at the other endpoint this edge
+   */
+  public Vertex getOtherEndpoint(Vertex w) {
+    return w.equals(u) ? v : u;
+  }
+
   @Override
   public String toString() {
-    return String.format("(Start: %s, End: %s, Distance: %d)", this.start.getAttraction(), this.end.getAttraction(), this.distance);
+    return String.format("(u: %s, v: %s, Distance: %d)", this.u.getAttraction(), this.v.getAttraction(), this.distance);
   }
 }

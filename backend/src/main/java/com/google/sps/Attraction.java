@@ -29,6 +29,10 @@ public class Attraction {
     this.lng = lng;
   }
 
+  public Attraction(String name) {
+    this.name = name;
+  }
+
   public String getName() {
     return this.name;
   }

@@ -25,6 +25,10 @@ public final class OptimizationAlgorithm {
     this.graph = graph;
   }
 
+  /**
+    * Call optimize(source) after determining a source vertex from which to run MST algorithm.
+    * @return list of attractions in optimal visiting order  
+    */
   public ArrayList<Attraction> optimize() {
     System.out.println(graph);
 
@@ -35,12 +39,23 @@ public final class OptimizationAlgorithm {
     return optimizedOrder;
   }
 
-  private void mst() {
-    return;
+  /**
+   * Run TSP approximation algorithm.
+   * @param source the source vertex from which to run MST algorithm
+   * @return list of attractions in optimal visiting order  
+   */
+  public ArrayList<Attraction> optimize(Vertex source) {
+    return null;
   }
 
-  private void dfs() {
-    return;
+  // Visible for testing
+  HashMap<Vertex, ArrayList<Edge>> mst(Vertex source) {
+    return null;
+  }
+
+  // Visible for testing
+  ArrayList<Vertex> dfs(Vertex source, HashMap<Vertex, ArrayList<Edge>> graph) {
+    return null;
   }
 
 }

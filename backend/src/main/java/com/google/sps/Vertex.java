@@ -28,6 +28,14 @@ public class Vertex {
   }
 
   @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof Vertex)) { 
+      return false; 
+    }
+    return this.attraction.equals(((Vertex) other).getAttraction());
+  }
+
+  @Override
   public String toString() {
     return String.format("Attraction: %s\n", this.attraction.getName());
   }
