@@ -1,6 +1,28 @@
+.blue {
+  color: #4285f4;
+}
+
 .form {
   display: flex;
   justify-content: center;
+}
+
+.green {
+  color: #34a853;
+}
+
+.grey {
+  color: #6c757d;
+}
+
+.red {
+  color: #ea4335;
+}
+
+.searchBar {
+  margin-right: 5px;
+  max-width: 400px;
+  width: 40vw !important;
 }
 
 .searchContainer {
@@ -8,6 +30,15 @@
   margin: 15px auto;
 }
 
+.text {
+  font-size: 3.5rem;
+}
+
 .whereTo {
+  margin-bottom: 5px;
   text-align: center;
+}
+
+.yellow {
+  color: #fbbc05;
 }

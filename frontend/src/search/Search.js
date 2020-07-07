@@ -17,7 +17,14 @@ function Search() {
   return (
     <div className={styles.searchContainer}>
       <div className={styles.whereTo}>
-        <h1>Where to?</h1>
+        <h1 className={styles.text}>
+          <span className={styles.blue}>W</span>
+          <span className={styles.red}>h</span>
+          <span className={styles.yellow}>e</span>
+          <span className={styles.green}>r</span>
+          <span className={styles.blue}>e</span>
+          <span className={styles.grey}> to?</span>
+        </h1>
       </div>
       <Form
         inline
@@ -30,7 +37,6 @@ function Search() {
       >
         <FormControl
           type="text"
-          className="mr-sm-2 "
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
