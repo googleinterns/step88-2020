@@ -19,42 +19,42 @@ import java.util.HashMap;
 
 public final class OptimizationAlgorithm {
 
-  private HashMap<Vertex, ArrayList<Edge>> graph;
+  private HashMap<Attraction, ArrayList<Edge>> graph;
 
-  public OptimizationAlgorithm(HashMap<Vertex, ArrayList<Edge>> graph) {
+  public OptimizationAlgorithm(HashMap<Attraction, ArrayList<Edge>> graph) {
     this.graph = graph;
   }
 
   /**
-    * Call optimize(source) after determining a source vertex from which to run MST algorithm.
+    * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
     * @return list of attractions in optimal visiting order  
     */
   public ArrayList<Attraction> optimize() {
     System.out.println(graph);
 
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
-    for (Vertex v : graph.keySet()) {
-      optimizedOrder.add(v.getAttraction());
+    for (Attraction a : graph.keySet()) {
+      optimizedOrder.add(a);
     }
     return optimizedOrder;
   }
 
   /**
    * Run TSP approximation algorithm.
-   * @param source the source vertex from which to run MST algorithm
+   * @param source the source Attraction from which to run MST algorithm
    * @return list of attractions in optimal visiting order  
    */
-  public ArrayList<Attraction> optimize(Vertex source) {
+  public ArrayList<Attraction> optimize(Attraction source) {
     return null;
   }
 
   // Visible for testing
-  HashMap<Vertex, ArrayList<Edge>> mst(Vertex source) {
+  HashMap<Attraction, ArrayList<Edge>> mst(Attraction source) {
     return null;
   }
 
   // Visible for testing
-  ArrayList<Vertex> dfs(Vertex source, HashMap<Vertex, ArrayList<Edge>> graph) {
+  ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 

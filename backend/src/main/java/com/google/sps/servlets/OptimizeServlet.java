@@ -22,7 +22,6 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
 import com.google.sps.OptimizationAlgorithm;
-import com.google.sps.Vertex;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,14 +54,14 @@ public class OptimizeServlet extends HttpServlet {
       DistanceMatrix result = req.origins(attractionNames).destinations(attractionNames).await();
 
       // construct graph
-      HashMap<Vertex, ArrayList<Edge>> graph = new HashMap<>();
+      HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
       for (int i = 0; i < attractions.size(); i++) {
-        Vertex v = new Vertex(attractions.get(i));
+        Attraction v = attractions.get(i);
         ArrayList<Edge> edges = new ArrayList<>();
         for (int j = 0; j < attractions.size(); j++) {
           if (i != j) {
             long distance = result.rows[i].elements[j].distance.inMeters;
-            Vertex u = new Vertex(attractions.get(j));
+            Attraction u = attractions.get(j);
             Edge e = new Edge(v, u, distance);
             edges.add(e);
           }
