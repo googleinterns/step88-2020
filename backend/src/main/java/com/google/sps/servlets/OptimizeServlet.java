@@ -35,7 +35,7 @@ import org.apache.commons.io.IOUtils;
 @WebServlet("/optimize")
 public class OptimizeServlet extends HttpServlet {
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException { 
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
@@ -43,13 +43,13 @@ public class OptimizeServlet extends HttpServlet {
 
     try {
       // call Distance Matrix API
-      GeoApiContext context = 
+      GeoApiContext context =
           new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
       String[] attractionNames = new String[attractions.size()];
       for (int i = 0; i < attractions.size(); i++) {
         attractionNames[i] = attractions.get(i).getName();
       }
-      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
+      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
       DistanceMatrix result = req.origins(attractionNames).destinations(attractionNames).await();
 
       // construct graph
@@ -65,7 +65,7 @@ public class OptimizeServlet extends HttpServlet {
           }
         }
         graph.add(v);
-      } 
+      }
 
       // call TSP approximation algorithm
       OptimizationAlgorithm TSP = new OptimizationAlgorithm(graph);

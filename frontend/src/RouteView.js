@@ -27,14 +27,14 @@ function RouteView() {
         method: 'POST',
         body: JSON.stringify({ attractions: places }),
       })
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((json) => {
-          // setOptimizedOrder(places);
-          // setPlaces(optimizedOrder);
           console.log(json);
-          setIsOptimized(true);
+          setOptimizedOrder(json);
         });
     }
+    // setPlaces(optimizedOrder);
+    setIsOptimized(true);
   }
 
   function save() {
