@@ -40,7 +40,7 @@ public class OptimizeServlet extends HttpServlet {
 
       for (int i = 0; i < origins.length; i++) {
         for (int j = 0; j < destinations.length; j++) {
-          int distance = result.rows[i].elements[j].distance.inMeters;
+          long distance = result.rows[i].elements[j].distance.inMeters;
         }
       } 
     } catch (Exception e) {
