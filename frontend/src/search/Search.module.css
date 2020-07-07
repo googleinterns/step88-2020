@@ -19,10 +19,10 @@
   color: #ea4335;
 }
 
-.searchBar {
+.searchBar:global(.form-control) { 
   margin-right: 5px;
   max-width: 400px;
-  width: 40vw !important;
+  width: 40vw;
 }
 
 .searchContainer {
