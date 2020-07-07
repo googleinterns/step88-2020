@@ -14,27 +14,31 @@
 
 package com.google.sps;
 
-public class Attraction {
-  private String name;
-  private String description;
-  private String image;
-  private double lat;
-  private double lng;
+import java.util.ArrayList;
 
-  public Attraction(String name, String description, String image, double lat, double lng) {
-    this.name = name;
-    this.description = description;
-    this.image = image;
-    this.lat = lat;
-    this.lng = lng;
+public class Vertex {
+  private Attraction attraction;
+  private ArrayList<Edge> adjacentEdges;
+
+  public Vertex(Attraction attraction) {
+    this.attraction = attraction;
+    this.adjacentEdges = new ArrayList<>();
   }
 
-  public String getName() {
-    return this.name;
+  public void addAdjacentEdge(Edge e) {
+    this.adjacentEdges.add(e);
+  }
+
+  public ArrayList<Edge> getAdjacentEdges() {
+    return this.adjacentEdges;
+  }
+
+  public Attraction getAttraction() {
+    return this.attraction;
   }
 
   @Override
   public String toString() {
-    return this.name;
+    return String.format("Attraction: %s\n Adjacent Paths: %s\n", this.attraction.getName(), this.adjacentEdges);
   }
 }

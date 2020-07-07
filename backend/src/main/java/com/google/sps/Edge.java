@@ -14,27 +14,31 @@
 
 package com.google.sps;
 
-public class Attraction {
-  private String name;
-  private String description;
-  private String image;
-  private double lat;
-  private double lng;
+public class Edge {
+  private Vertex start;
+  private Vertex end;
+  private long distance;
 
-  public Attraction(String name, String description, String image, double lat, double lng) {
-    this.name = name;
-    this.description = description;
-    this.image = image;
-    this.lat = lat;
-    this.lng = lng;
+  public Edge(Vertex start, Vertex end, long distance) {
+    this.start = start;
+    this.end = end;
+    this.distance = distance;
   }
 
-  public String getName() {
-    return this.name;
+  public Vertex getStart() {
+    return this.start;
+  }
+
+  public Vertex getEnd() {
+    return this.end;
+  }
+
+  public long getDistance() {
+    return this.distance;
   }
 
   @Override
   public String toString() {
-    return this.name;
+    return String.format("(Start: %s, End: %s, Distance: %d)", this.start.getAttraction(), this.end.getAttraction(), this.distance);
   }
 }

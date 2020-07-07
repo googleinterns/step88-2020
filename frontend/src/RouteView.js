@@ -25,12 +25,13 @@ function RouteView() {
     if (!optimizedOrder) {
       fetch('/optimize', {
         method: 'POST',
-        body: JSON.stringify(places),
+        body: JSON.stringify({ attractions: places }),
       })
         .then((response) => response.text())
         .then((json) => {
           // setOptimizedOrder(places);
           // setPlaces(optimizedOrder);
+          console.log(json);
           setIsOptimized(true);
         });
     }

@@ -15,30 +15,31 @@
 package com.google.sps;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public final class OptimizationAlgorithm {
 
-  private ArrayList<Attraction> attractions;
-  private HashMap<String, Integer> distanceDict;
+  private ArrayList<Vertex> graph;
 
-  public OptimizationAlgorithm(ArrayList<Attraction> attractions, HashMap<String, Integer> distanceDict) {
-    this.attractions = attractions;
-    this.distanceDict = distanceDict;
+  public OptimizationAlgorithm(ArrayList<Vertex> graph) {
+    this.graph = graph;
   }
 
   public ArrayList<Attraction> optimize() {
-    System.out.println(distanceDict.get("Luxembourg Palace,Eiffel Tower"));
-    System.out.println(attractions.get(0).name);
-    return attractions;
+    System.out.println(graph);
+
+    ArrayList<Attraction> optimizedOrder = new ArrayList<>();
+    for (Vertex v : graph) {
+      optimizedOrder.add(v.getAttraction());
+    }
+    return optimizedOrder;
   }
 
-  // private void mst() {
+  private void mst() {
+    return;
+  }
 
-  // }
-
-  // private void dfs() {
-
-  // }
+  private void dfs() {
+    return;
+  }
 
 }
