@@ -37,6 +37,7 @@ function Search() {
       >
         <FormControl
           type="text"
+          className={styles.searchBar}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
