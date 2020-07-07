@@ -23,12 +23,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/api/v1/data")
-public class DataServlet extends HttpServlet {
+@WebServlet("/auth")
+public class AuthServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     UserService userService = UserServiceFactory.getUserService();
+    System.out.println("Yo");
     
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
