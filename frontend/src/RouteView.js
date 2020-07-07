@@ -28,12 +28,9 @@ function RouteView() {
         body: JSON.stringify({ attractions: places }),
       })
         .then((response) => response.json())
-        .then((json) => {
-          console.log(json);
-          setOptimizedOrder(json);
-        });
+        .then(setOptimizedOrder);
     }
-    // setPlaces(optimizedOrder);
+    // setPlaces to the optimizedOrder 
     setIsOptimized(true);
   }
 

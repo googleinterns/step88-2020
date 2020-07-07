@@ -35,6 +35,9 @@ import org.apache.commons.io.IOUtils;
 /** Servlet that returns the optimized route between list of attractions */
 @WebServlet("/optimize")
 public class OptimizeServlet extends HttpServlet {
+  private static final GeoApiContext context =
+          new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String body = IOUtils.toString(request.getReader());
@@ -44,8 +47,6 @@ public class OptimizeServlet extends HttpServlet {
 
     try {
       // call Distance Matrix API
-      GeoApiContext context =
-          new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
       String[] attractionNames = new String[attractions.size()];
       for (int i = 0; i < attractions.size(); i++) {
         attractionNames[i] = attractions.get(i).getName();
@@ -70,8 +71,8 @@ public class OptimizeServlet extends HttpServlet {
       }
 
       // call TSP approximation algorithm
-      OptimizationAlgorithm TSP = new OptimizationAlgorithm(graph);
-      ArrayList<Attraction> optimizedOrder = TSP.optimize();
+      OptimizationAlgorithm tsp = new OptimizationAlgorithm(graph);
+      ArrayList<Attraction> optimizedOrder = tsp.optimize();
 
       String optimizedOrderJSON = g.toJson(optimizedOrder);
       response.setContentType("json;");
