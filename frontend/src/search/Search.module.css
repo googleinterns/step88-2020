@@ -19,7 +19,7 @@
   color: #ea4335;
 }
 
-.searchBar:global(.form-control) { 
+.searchBar:global(.form-control) {
   margin-right: 5px;
   max-width: 400px;
   width: 40vw;
