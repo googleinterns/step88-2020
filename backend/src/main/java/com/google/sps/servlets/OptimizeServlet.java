@@ -43,7 +43,8 @@ public class OptimizeServlet extends HttpServlet {
 
     try {
       // call Distance Matrix API
-      GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
+      GeoApiContext context = 
+          new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
       String[] attractionNames = new String[attractions.size()];
       for (int i = 0; i < attractions.size(); i++) {
         attractionNames[i] = attractions.get(i).getName();
