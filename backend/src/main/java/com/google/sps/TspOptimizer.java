@@ -60,10 +60,6 @@ public final class TspOptimizer {
 
     while (fringe.size() > 0) {
       Edge e = fringe.poll();
-      System.out.println("fringe");
-      System.out.println(fringe);
-      System.out.println("curr edge");
-      System.out.println(e);
       Attraction[] endpoints = e.getEndpoints();
 
       // determine the visited and unvisited endpoints of Edge e
@@ -79,8 +75,6 @@ public final class TspOptimizer {
         neighbor = endpoints[0];
       }
 
-      System.out.println("curr: " + curr + " neighbor: " + neighbor);
-
       // construct mst
       visited.add(neighbor);
       ArrayList<Edge> edges = mst.getOrDefault(curr, new ArrayList<>());
@@ -92,7 +86,6 @@ public final class TspOptimizer {
 
       // add adjacent edges to fringe if it has an unvisited endpoint
       for (Edge adjacentEdge : graph.get(neighbor)) {
-        System.out.println("adj e: " + adjacentEdge);
         if (!visited.contains(adjacentEdge.getOtherEndpoint(neighbor))) {
           fringe.add(adjacentEdge);
         }
