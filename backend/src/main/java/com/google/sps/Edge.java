@@ -42,7 +42,6 @@ public class Edge {
 
   public Attraction[] getEndpoints() {
     return new Attraction[] {u, v};
-
   }
 
   public static Comparator<Edge> comparator = new Comparator<Edge>() {
@@ -58,7 +57,8 @@ public class Edge {
       return false;
     }
     Edge e = (Edge) other;
-    boolean hasSameEndpoints = this.u.equals(e.getOtherEndpoint(this.v)) && this.v.equals(e.getOtherEndpoint(this.u));
+    boolean hasSameEndpoints =
+        this.u.equals(e.getOtherEndpoint(this.v)) && this.v.equals(e.getOtherEndpoint(this.u));
     return this.distance == e.getDistance() && hasSameEndpoints;
   }
 

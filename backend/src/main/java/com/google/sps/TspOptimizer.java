@@ -21,9 +21,9 @@ import java.util.PriorityQueue;
 
 public final class TspOptimizer {
   /**
-    * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
-    * @return list of attractions in optimal visiting order  
-    */
+   * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
+   * @return list of attractions in optimal visiting order
+   */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
     for (Attraction a : graph.keySet()) {
@@ -35,9 +35,10 @@ public final class TspOptimizer {
   /**
    * Run TSP approximation algorithm.
    * @param source the source Attraction from which to run MST algorithm
-   * @return list of attractions in optimal visiting order  
+   * @return list of attractions in optimal visiting order
    */
-  public static ArrayList<Attraction> optimize(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
+  public static ArrayList<Attraction> optimize(
+      Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
@@ -47,7 +48,8 @@ public final class TspOptimizer {
    * @param graph the graph of which to find the mst
    * @return the mst of graph
    */
-  static HashMap<Attraction, ArrayList<Edge>> getMst(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
+  static HashMap<Attraction, ArrayList<Edge>> getMst(
+      Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     PriorityQueue<Edge> fringe = new PriorityQueue<Edge>(Edge.comparator);
     HashSet<Attraction> visited = new HashSet<>();
     HashMap<Attraction, ArrayList<Edge>> mst = new HashMap<>();
@@ -58,6 +60,10 @@ public final class TspOptimizer {
 
     while (fringe.size() > 0) {
       Edge e = fringe.poll();
+      System.out.println("fringe");
+      System.out.println(fringe);
+      System.out.println("curr edge");
+      System.out.println(e);
       Attraction[] endpoints = e.getEndpoints();
 
       // determine the visited and unvisited endpoints of Edge e
@@ -73,6 +79,8 @@ public final class TspOptimizer {
         neighbor = endpoints[0];
       }
 
+      System.out.println("curr: " + curr + " neighbor: " + neighbor);
+
       // construct mst
       visited.add(neighbor);
       ArrayList<Edge> edges = mst.getOrDefault(curr, new ArrayList<>());
@@ -81,7 +89,10 @@ public final class TspOptimizer {
       edges = mst.getOrDefault(neighbor, new ArrayList<>());
       edges.add(e);
       mst.put(neighbor, edges);
+
+      // add adjacent edges to fringe if it has an unvisited endpoint
       for (Edge adjacentEdge : graph.get(neighbor)) {
+        System.out.println("adj e: " + adjacentEdge);
         if (!visited.contains(adjacentEdge.getOtherEndpoint(neighbor))) {
           fringe.add(adjacentEdge);
         }
@@ -95,5 +106,4 @@ public final class TspOptimizer {
   static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
-
 }
