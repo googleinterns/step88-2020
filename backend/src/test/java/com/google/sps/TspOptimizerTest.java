@@ -111,9 +111,9 @@ public final class TspOptimizerTest {
   @Test
   @Ignore
   public void optimize_TRIANGLE_deleteEdgeForOptimalPath() {
-    // Use triangle graph. DFS traversal of MST is not the optimal path, optimal path 
-    // requires deletion of heaviest edge in cycle.
-    // Algorithm should return a path with the two shortest edges A--B--C.
+    // Use triangle graph. DFS traversal of MST is not the optimal path, optimal path requires
+    // deletion of heaviest edge in cycle. Algorithm should return a path with the two shortest
+    // edges A--B--C.
 
     ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C));
     ArrayList<Attraction> actual = TspOptimizer.optimize(B, TRIANGLE);
@@ -135,7 +135,7 @@ public final class TspOptimizerTest {
   @Ignore
   public void optimize_K4_possiblyFindSuboptimalApproximation() {
     // Create complete graph with 4 vertices. DFS traversal of MST is not the optimal path.
-    // Algorithm should return a path 6/5 times length of optimal path C--D--B--A 
+    // Algorithm should return a path 6/5 times length of optimal path C--D--B--A
     // or the optimal path A--B--C--D.
 
     ArrayList<Attraction> expectedOptimal = new ArrayList<>(Arrays.asList(A, B, C, D));
