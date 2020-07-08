@@ -26,7 +26,6 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class TspOptimizerTest {
-
   // Mock attractions, used as vertices in the graph
   private static final Attraction A = new Attraction("A");
   private static final Attraction B = new Attraction("B");
@@ -40,7 +39,7 @@ public final class TspOptimizerTest {
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE = create_TRIANGLE();
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE_MST = create_TRIANGLE_MST();
 
-  // Complete graph with 4 vertices that has a single optimal solution 
+  // Complete graph with 4 vertices that has a single optimal solution
   private static final HashMap<Attraction, ArrayList<Edge>> K4 = create_K4();
   private static final HashMap<Attraction, ArrayList<Edge>> K4_MST = create_K4_MST();
 
@@ -76,7 +75,8 @@ public final class TspOptimizerTest {
     checkGraphEquals(K4_MST, actual);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void dfs_TRIANGLE() {
     // Generate the MST of the TRIANGLE graph
 
@@ -86,7 +86,8 @@ public final class TspOptimizerTest {
     Assert.assertTrue(expected1.equals(actual) || expected2.equals(actual));
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void optimize_TRIANGLE_pickRandomSourceAttraction() {
     // Use triangle graph. Choose a random Attraction as source. 
     // Algorithm should return a path with the two shortest edges A--B--C.
@@ -96,7 +97,8 @@ public final class TspOptimizerTest {
     Assert.assertEquals(expected, actual);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void optimize_TRIANGLE_DFSOptimalPath() {
     // Use triangle graph. DFS traversal of MST is the optimal path.
     // Algorithm should return a path with the two shortest edges A--B--C.
@@ -106,7 +108,8 @@ public final class TspOptimizerTest {
     Assert.assertEquals(expected, actual);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void optimize_TRIANGLE_deleteEdgeForOptimalPath() {
     // Use triangle graph. DFS traversal of MST is not the optimal path, optimal path requires deletion of heaviest edge in cycle.
     // Algorithm should return a path with the two shortest edges A--B--C.
@@ -116,7 +119,8 @@ public final class TspOptimizerTest {
     Assert.assertEquals(expected, actual);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void optimize_K4_findDFSOptimalPath() {
     // Create complete graph with 4 vertices. DFS traversal of MST is the optimal path.
     // Algorithm should return a path with three shortest edges A--B--C--D.
@@ -126,7 +130,8 @@ public final class TspOptimizerTest {
     Assert.assertEquals(expected, actual);
   }
 
-  @Test @Ignore
+  @Test
+  @Ignore
   public void optimize_K4_possiblyFindSuboptimalApproximation() {
     // Create complete graph with 4 vertices. DFS traversal of MST is not the optimal path.
     // Algorithm should return a path 6/5 times length of optimal path C--D--B--A or the optimal path A--B--C--D.
@@ -137,7 +142,8 @@ public final class TspOptimizerTest {
     Assert.assertTrue(expectedOptimal.equals(actual) || expectedSuboptimal.equals(actual));
   }
 
-  private void checkGraphEquals(HashMap<Attraction, ArrayList<Edge>> expected, HashMap<Attraction, ArrayList<Edge>> actual) {
+  private void checkGraphEquals(
+      HashMap<Attraction, ArrayList<Edge>> expected, HashMap<Attraction, ArrayList<Edge>> actual) {
     for (Attraction a : expected.keySet()) {
       ArrayList<Edge> expectedEdges = expected.get(a);
       ArrayList<Edge> actualEdges = actual.get(a);
@@ -166,7 +172,7 @@ public final class TspOptimizerTest {
     graph.put(C, new ArrayList<Edge>(Arrays.asList(ac)));
     return graph;
   }
-  
+
   private static HashMap<Attraction, ArrayList<Edge>> create_K4() {
     HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
     Edge ab = new Edge(A, B, 1);
