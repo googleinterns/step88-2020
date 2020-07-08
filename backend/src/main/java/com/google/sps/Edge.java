@@ -40,12 +40,27 @@ public class Edge {
     return w.equals(u) ? v : u;
   }
 
+  public Attraction[] getEndpoints() {
+    return new Attraction[] {u, v};
+
+  }
+
   public static Comparator<Edge> comparator = new Comparator<Edge>() {
     @Override
     public int compare(Edge a, Edge b) {
       return Long.compare(a.getDistance(), b.getDistance());
     }
   };
+
+  @Override
+  public boolean equals(Object other) {
+    if (!(other instanceof Edge)) {
+      return false;
+    }
+    Edge e = (Edge) other;
+    boolean hasSameEndpoints = this.u.equals(e.getOtherEndpoint(this.v)) && this.v.equals(e.getOtherEndpoint(this.u));
+    return this.distance == e.getDistance() && hasSameEndpoints;
+  }
 
   @Override
   public String toString() {
