@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -21,16 +21,21 @@ function RouteView() {
   const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
 
-  function optimize() {
+  useEffect(() => {
+    if (isOptimized) {
+      setPlaces(optimizedOrder);
+    }
+  }, [isOptimized, optimizedOrder])
+
+  async function optimize() {
     if (!optimizedOrder) {
-      fetch('/optimize', {
+      const response = await fetch('/optimize', {
         method: 'POST',
         body: JSON.stringify({ attractions: places }),
       })
-        .then((response) => response.json())
-        .then(setOptimizedOrder);
+      const json = await response.json();
+      setOptimizedOrder(json);
     }
-    // setPlaces to the optimizedOrder
     setIsOptimized(true);
   }
 
