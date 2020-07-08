@@ -5,8 +5,6 @@ import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
 
-import testImg from './attraction/Attraction.png';
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -19,7 +17,7 @@ function App() {
             <SearchView loggedIn={loggedIn} />
           </Route>
           <Route path="/explore">
-            <ExploreView images={[testImg, testImg, testImg]} />
+            <ExploreView />
           </Route>
           <Route path="/route">
             <RouteView />
