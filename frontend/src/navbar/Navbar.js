@@ -21,7 +21,6 @@ function Navbar({ authState, setAuthState }) {
         <Nav.Item>
           <Nav.Link
             disabled={!authState.ready}
-            //onClick={() => onLoginChange(authState.loggedIn)}
             href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
             className={styles.rightLink}
           >
