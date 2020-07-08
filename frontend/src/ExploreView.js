@@ -93,7 +93,7 @@ function Explore() {
         places={[]}
         destinations={''}
         mode={'pins'}
-        centerLocation={{lat:0, lng:0}}
+        centerLocation={{ lat: 0, lng: 0 }}
       />
     </div>
   );

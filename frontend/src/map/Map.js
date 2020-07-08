@@ -1,5 +1,8 @@
 import React from 'react';
-import { Map as GoogleMap, GoogleApiWrapper as useGoogleMapsApi } from 'google-maps-react';
+import {
+  Map as GoogleMap,
+  GoogleApiWrapper as useGoogleMapsApi,
+} from 'google-maps-react';
 import styles from './Map.module.css';
 
 /**
@@ -44,7 +47,13 @@ function Map({ destinations, mode, centerLocation, google, onReady, view }) {
   };
 
   if (mode === 'pins') {
-    return <GoogleMap className={styles.mapContainer} google={google} onReady={onPinsReady} />;
+    return (
+      <GoogleMap
+        className={styles.mapContainer}
+        google={google}
+        onReady={onPinsReady}
+      />
+    );
   }
 
   // Note: This can also be done using the Maps API instead of the embeded API.
@@ -60,4 +69,7 @@ function Map({ destinations, mode, centerLocation, google, onReady, view }) {
   );
 }
 
-export default useGoogleMapsApi({ apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg', libraries: ['places'] })(Map);;
+export default useGoogleMapsApi({
+  apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg',
+  libraries: ['places'],
+})(Map);
