@@ -25,7 +25,6 @@ public final class TspOptimizer {
     * @return list of attractions in optimal visiting order  
     */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
-    System.out.println(graph);
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
     for (Attraction a : graph.keySet()) {
       optimizedOrder.add(a);
@@ -42,7 +41,12 @@ public final class TspOptimizer {
     return null;
   }
 
-  // Visible for testing
+  /**
+   * Runs Prim's algorithm to return the minimum spanning tree of the given graph.
+   * @param source the vertex to start at when running Prim's
+   * @param graph the graph of which to find the mst
+   * @return the mst of graph
+   */
   static HashMap<Attraction, ArrayList<Edge>> getMst(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     PriorityQueue<Edge> fringe = new PriorityQueue<Edge>(Edge.comparator);
     HashSet<Attraction> visited = new HashSet<>();
@@ -55,6 +59,8 @@ public final class TspOptimizer {
     while (fringe.size() > 0) {
       Edge e = fringe.poll();
       Attraction[] endpoints = e.getEndpoints();
+
+      // determine the visited and unvisited endpoints of Edge e
       Attraction curr;
       Attraction neighbor;
       if (visited.contains(endpoints[0]) && visited.contains(endpoints[1])) {
@@ -66,18 +72,18 @@ public final class TspOptimizer {
         curr = endpoints[1];
         neighbor = endpoints[0];
       }
-      if (!visited.contains(neighbor)) {
-        visited.add(neighbor);
-        ArrayList<Edge> edges = mst.getOrDefault(curr, new ArrayList<>());
-        edges.add(e);
-        mst.put(curr, edges);
-        edges = mst.getOrDefault(neighbor, new ArrayList<>());
-        edges.add(e);
-        mst.put(neighbor, edges);
-        for (Edge adjacentEdge : graph.get(neighbor)) {
-          if (!visited.contains(adjacentEdge.getOtherEndpoint(neighbor))) {
-            fringe.add(adjacentEdge);
-          }
+
+      // construct mst
+      visited.add(neighbor);
+      ArrayList<Edge> edges = mst.getOrDefault(curr, new ArrayList<>());
+      edges.add(e);
+      mst.put(curr, edges);
+      edges = mst.getOrDefault(neighbor, new ArrayList<>());
+      edges.add(e);
+      mst.put(neighbor, edges);
+      for (Edge adjacentEdge : graph.get(neighbor)) {
+        if (!visited.contains(adjacentEdge.getOtherEndpoint(neighbor))) {
+          fringe.add(adjacentEdge);
         }
       }
     }

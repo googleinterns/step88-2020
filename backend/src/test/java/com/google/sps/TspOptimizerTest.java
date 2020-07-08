@@ -49,7 +49,6 @@ public final class TspOptimizerTest {
     // Generate the MST of the TRIANGLE graph
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, TRIANGLE);
-    System.out.println(TRIANGLE_MST_A.equals(actual));
     Assert.assertEquals(TRIANGLE_MST_A, actual);
   }
 
