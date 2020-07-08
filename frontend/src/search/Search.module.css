@@ -2,11 +2,6 @@
   color: #4285f4;
 }
 
-.form {
-  display: flex;
-  justify-content: center;
-}
-
 .green {
   color: #34a853;
 }
@@ -17,6 +12,15 @@
 
 .red {
   color: #ea4335;
+}
+
+.yellow {
+  color: #fbbc05;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
 }
 
 .searchBar:global(.form-control) {
@@ -37,8 +41,4 @@
 .whereTo {
   margin-bottom: 5px;
   text-align: center;
-}
-
-.yellow {
-  color: #fbbc05;
 }
