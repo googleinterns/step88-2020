@@ -4,19 +4,24 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
-import { getLoginStatus } from './authService.js';
 
 import testImg from './attraction/Attraction.png';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(getLoginStatus);
+  const [authState, setAuthState] = useState({ ready: false });
+
+  fetch('/api/v1/auth')
+    .then((response) => response.json())
+    .then(({ loggedIn, loginUrl, logoutUrl }) =>
+      setAuthState({ ...authState, ready: true, loggedIn, loginUrl, logoutUrl })
+    );
 
   return (
     <Router>
-      <Navbar loggedIn={loggedIn} onLoginChange={setLoggedIn} />
+      <Navbar authState={authState} setAuthState={setAuthState} />
       <Switch>
         <Route exact path="/">
-          <SearchView loggedIn={loggedIn} />
+          <SearchView loggedIn={authState.loggedIn} />
         </Route>
         <Route path="/explore">
           <ExploreView images={[testImg, testImg, testImg]} />

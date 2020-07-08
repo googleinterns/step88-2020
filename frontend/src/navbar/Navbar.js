@@ -2,16 +2,11 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import styles from './Navbar.module.css';
-import { getLoginStatus, getUrl} from '../authService.js';
 
 /**
  * Creates Navbar component with login button.
  */
-function Navbar({loggedIn, onLoginChange}) {
-
-  console.log(loggedIn);
-  console.log(getUrl());
-
+function Navbar({ authState, setAuthState }) {
   return (
     <Switch>
       <Nav className={styles.container}>
@@ -25,11 +20,12 @@ function Navbar({loggedIn, onLoginChange}) {
         </Nav.Item>
         <Nav.Item>
           <Nav.Link
-            onClick={() => onLoginChange(getLoginStatus)}
-            href="/"
+            disabled={!authState.ready}
+            //onClick={() => onLoginChange(authState.loggedIn)}
+            href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
             className={styles.rightLink}
           >
-            {loggedIn ? 'Sign Out' : 'Sign In'}
+            {authState.loggedIn ? 'Sign Out' : 'Sign In'}
           </Nav.Link>
         </Nav.Item>
       </Nav>
