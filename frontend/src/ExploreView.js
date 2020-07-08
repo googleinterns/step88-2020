@@ -10,6 +10,7 @@ import { MOCK_DATA } from './route/mockData.js';
  * Explore view with selectable attraction images and map
  */
 function Explore() {
+  const [coordinates, setCoordinates] = useState({});
   const [isOptimized, setIsOptimized] = useState(false);
   const [photosData, setPhotosData] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -27,7 +28,7 @@ function Explore() {
         const lat = getLat(results[0]);
         const lng = getLng(results[0]);
         const coordinates = new google.maps.LatLng(lat, lng);
-
+        setCoordinates({lat: coordinates.lat(), lng: coordinates.lng()});
         placesService.nearbySearch(
           {
             location: coordinates,
@@ -62,7 +63,6 @@ function Explore() {
       setSearchText(query.search);
     }
   };
-
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -93,7 +93,7 @@ function Explore() {
         places={[]}
         destinations={''}
         mode={'pins'}
-        centerLocation={{ lat: 0, lng: 0 }}
+        centerLocation={{ lat: coordinates.lat, lng: coordinates.lng }}
       />
     </div>
   );
