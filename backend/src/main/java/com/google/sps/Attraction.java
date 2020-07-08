@@ -38,6 +38,11 @@ public class Attraction {
   }
 
   @Override
+  public boolean equals(Object other) {
+    return other instanceof Attraction && this.name.equals(((Attraction) other).getName());
+  }
+
+  @Override
   public String toString() {
     return this.name;
   }
