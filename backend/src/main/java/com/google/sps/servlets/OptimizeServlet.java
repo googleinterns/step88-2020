@@ -44,40 +44,41 @@ public class OptimizeServlet extends HttpServlet {
     JSON json = g.fromJson(body, JSON.class);
     ArrayList<Attraction> attractions = json.attractions;
 
-    try {
-      // call Distance Matrix API
-      String[] attractionNames = new String[attractions.size()];
-      for (int i = 0; i < attractions.size(); i++) {
-        attractionNames[i] = attractions.get(i).getName();
-      }
-      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-      DistanceMatrix result = req.origins(attractionNames).destinations(attractionNames).await();
+    // call Distance Matrix API
+    String[] attractionNames = attractions.stream().map(Attraction::getName).toArray(String[]::new);
+    DistanceMatrix matrix = createDistanceMatrix(attractionNames);
 
-      // construct graph
-      HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
-      for (int i = 0; i < attractions.size(); i++) {
-        Attraction v = attractions.get(i);
-        ArrayList<Edge> edges = new ArrayList<>();
-        for (int j = 0; j < attractions.size(); j++) {
-          if (i != j) {
-            long distance = result.rows[i].elements[j].distance.inMeters;
-            Attraction u = attractions.get(j);
-            Edge e = new Edge(v, u, distance);
-            edges.add(e);
-          }
+    // construct graph
+    HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
+    for (int i = 0; i < attractions.size(); i++) {
+      Attraction v = attractions.get(i);
+      ArrayList<Edge> edges = new ArrayList<>();
+      for (int j = 0; j < attractions.size(); j++) {
+        if (i != j) {
+          long distance = matrix.rows[i].elements[j].distance.inMeters;
+          Attraction u = attractions.get(j);
+          Edge e = new Edge(v, u, distance);
+          edges.add(e);
         }
-        graph.put(v, edges);
       }
+      graph.put(v, edges);
+    }
 
-      // call TSP approximation algorithm
-      OptimizationAlgorithm tsp = new OptimizationAlgorithm(graph);
-      ArrayList<Attraction> optimizedOrder = tsp.optimize();
+    // call TSP approximation algorithm
+    OptimizationAlgorithm tsp = new OptimizationAlgorithm(graph);
+    ArrayList<Attraction> optimizedOrder = tsp.optimize();
 
-      String optimizedOrderJSON = g.toJson(optimizedOrder);
-      response.setContentType("json;");
-      response.getWriter().println(optimizedOrderJSON);
+    String optimizedOrderJSON = g.toJson(optimizedOrder);
+    response.setContentType("json;");
+    response.getWriter().println(optimizedOrderJSON);
+  }
+
+  private DistanceMatrix createDistanceMatrix(String[] attractions) {
+    try {
+      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+      return req.origins(attractions).destinations(attractions).await();
     } catch (Exception e) {
-      System.out.println(e);
+      return null;
     }
   }
 
