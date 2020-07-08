@@ -38,7 +38,7 @@ public final class TspOptimizerTest {
   // Straight forward triangle graph
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE = create_TRIANGLE();
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE_MST = create_TRIANGLE_MST();
-
+  
   // Complete graph with 4 vertices that has a single optimal solution
   private static final HashMap<Attraction, ArrayList<Edge>> K4 = create_K4();
   private static final HashMap<Attraction, ArrayList<Edge>> K4_MST = create_K4_MST();
