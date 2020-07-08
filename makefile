@@ -16,7 +16,7 @@ node_modules:
 pretty: node_modules
 	$(PRETTIER) --write 'frontend/src/**/*.css'
 	$(PRETTIER) --write 'frontend/src/**/*.js'
-	find backend/src/main -iname *.java | xargs $(CLANG_FORMAT) -i
+	find backend/src -iname *.java | xargs $(CLANG_FORMAT) -i
 
 validate: node_modules
 	$(ESLINT) 'frontend/src/**/*.js'
