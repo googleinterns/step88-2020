@@ -10,9 +10,11 @@ import styles from './SavedTrips.module.css';
  */
 function SavedTrip({ name, id }) {
   return (
-    <ListGroup.Item action href={`/route?id=${id}`} className={styles.listItem}>
-      {name}
-      <div>
+    <div className={styles.tripContainer}>
+      <ListGroup.Item action href={`/route?id=${id}`} className={styles.listItem}>
+        {name}
+      </ListGroup.Item>
+      <div className={styles.iconContainer}>
         <a href="/explore" title="Edit" className={styles.icon}>
           <FontAwesomeIcon icon={faPencilAlt} />
         </a>
@@ -20,7 +22,7 @@ function SavedTrip({ name, id }) {
           <FontAwesomeIcon icon={faShare} />
         </a>
       </div>
-    </ListGroup.Item>
+    </div>
   );
 }
 

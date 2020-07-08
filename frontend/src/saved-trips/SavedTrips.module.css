@@ -9,7 +9,17 @@
   opacity: 0.5;
 }
 
+.iconContainer {
+  position: absolute;
+  right: 1%;
+  top: 26.2%;
+}
+
 .listItem {
   display: flex;
   justify-content: space-between;
+}
+
+.tripContainer {
+  position: relative;
 }
