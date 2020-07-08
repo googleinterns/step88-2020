@@ -90,8 +90,10 @@ function Explore() {
       <Map
         className={styles.mapContainer}
         onReady={onMapReady}
+        places={[]}
         destinations={''}
         mode={'pins'}
+        centerLocation={{lat:0, lng:0}}
       />
     </div>
   );
