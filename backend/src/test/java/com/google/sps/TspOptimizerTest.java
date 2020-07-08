@@ -75,7 +75,7 @@ public final class TspOptimizerTest {
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(C, K4);
     checkGraphEquals(K4_MST, actual);
   }
-
+  
   @Test @Ignore
   public void dfs_TRIANGLE() {
     // Generate the MST of the TRIANGLE graph
