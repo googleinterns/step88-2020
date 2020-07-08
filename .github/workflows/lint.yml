@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Maven compile backend
+      run: cd backend; mvn package
     - name: install node dependencies
       if: always()
       run: make node_modules

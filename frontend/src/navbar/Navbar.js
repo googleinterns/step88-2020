@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import styles from './Navbar.module.css';
 

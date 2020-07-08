@@ -19,6 +19,8 @@ function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
+  // TODO: Remove temporarily disabled linter.
+  // eslint-disable-next-line no-unused-vars
   const [optimizedOrder, setOptimizedOrder] = useState(null);
 
   function optimize() {
