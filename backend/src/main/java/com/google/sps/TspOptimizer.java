@@ -42,7 +42,7 @@ public final class TspOptimizer {
   }
 
   // Visible for testing
-  static HashMap<Attraction, ArrayList<Edge>> mst(Attraction source) {
+  static HashMap<Attraction, ArrayList<Edge>> mst(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
