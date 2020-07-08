@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -19,23 +19,24 @@ function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
-  // TODO: Remove temporarily disabled linter.
-  // eslint-disable-next-line no-unused-vars
   const [optimizedOrder, setOptimizedOrder] = useState(null);
 
-  function optimize() {
-    if (!optimizedOrder) {
-      fetch('/optimize', {
-        method: 'POST',
-        body: JSON.stringify(places),
-      })
-        .then((response) => response.text())
-        .then((json) => {
-          // setOptimizedOrder(places);
-          // setPlaces(optimizedOrder);
-          setIsOptimized(true);
-        });
+  useEffect(() => {
+    if (isOptimized) {
+      setPlaces(optimizedOrder);
     }
+  }, [isOptimized, optimizedOrder]);
+
+  async function optimize() {
+    if (!optimizedOrder) {
+      const response = await fetch('/optimize', {
+        method: 'POST',
+        body: JSON.stringify({ attractions: places }),
+      });
+      const json = await response.json();
+      setOptimizedOrder(json);
+    }
+    setIsOptimized(true);
   }
 
   function save() {
