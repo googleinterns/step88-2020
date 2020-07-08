@@ -25,17 +25,22 @@ function RouteView() {
 
   function optimize() {
     if (!optimizedOrder) {
-      // call distance matrix API
-      // create dictionary
-      // setOptimizedOrder();
+      fetch('/optimize', {
+        method: 'POST',
+        body: JSON.stringify(places),
+      })
+        .then((response) => response.text())
+        .then((json) => {
+          // setOptimizedOrder(places);
+          // setPlaces(optimizedOrder);
+          setIsOptimized(true);
+        });
     }
-    setPlaces(optimizedOrder);
-    setIsOptimized(true);
   }
 
   function save() {
     setIsSaved(true);
-    // save to back end
+    // save to back end database
   }
 
   return (
