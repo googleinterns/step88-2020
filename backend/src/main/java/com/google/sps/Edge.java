@@ -14,6 +14,8 @@
 
 package com.google.sps;
 
+import java.util.Comparator;
+
 public class Edge {
   private Attraction u;
   private Attraction v;
@@ -37,6 +39,13 @@ public class Edge {
   public Attraction getOtherEndpoint(Attraction w) {
     return w.equals(u) ? v : u;
   }
+
+  public static Comparator<Edge> comparator = new Comparator<Edge>() {
+    @Override
+    public int compare(Edge a, Edge b) {
+      return Long.compare(a.getDistance(), b.getDistance());
+    }
+  };
 
   @Override
   public String toString() {

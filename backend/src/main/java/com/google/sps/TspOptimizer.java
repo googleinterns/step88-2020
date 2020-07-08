@@ -16,6 +16,7 @@ package com.google.sps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public final class TspOptimizer {
   /**
@@ -23,11 +24,17 @@ public final class TspOptimizer {
     * @return list of attractions in optimal visiting order  
     */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
+    PriorityQueue<Edge> pq = new PriorityQueue<Edge>(Edge.comparator);
     System.out.println(graph);
 
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
     for (Attraction a : graph.keySet()) {
       optimizedOrder.add(a);
+      pq.addAll(graph.get(a));
+    }
+    System.out.println("printing pq");
+    while (pq.size() > 0) {
+      System.out.println(pq.poll());
     }
     return optimizedOrder;
   }
