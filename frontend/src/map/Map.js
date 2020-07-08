@@ -60,7 +60,6 @@ function Map({ destinations, mode, centerLocation, google, onReady }) {
     );
   }
 
-
   const placeNames = places.map((place) =>
     encodeURIComponent(place.name).replace(/%20/g, '+')
   );
