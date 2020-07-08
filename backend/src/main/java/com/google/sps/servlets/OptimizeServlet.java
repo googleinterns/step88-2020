@@ -21,7 +21,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.DistanceMatrix;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
-import com.google.sps.OptimizationAlgorithm;
+import com.google.sps.TspOptimizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,8 +65,7 @@ public class OptimizeServlet extends HttpServlet {
     }
 
     // call TSP approximation algorithm
-    OptimizationAlgorithm tsp = new OptimizationAlgorithm(graph);
-    ArrayList<Attraction> optimizedOrder = tsp.optimize();
+    ArrayList<Attraction> optimizedOrder = TspOptimizer.optimize(graph);
 
     String optimizedOrderJSON = g.toJson(optimizedOrder);
     response.setContentType("json;");

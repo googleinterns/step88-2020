@@ -17,19 +17,12 @@ package com.google.sps;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public final class OptimizationAlgorithm {
-
-  private HashMap<Attraction, ArrayList<Edge>> graph;
-
-  public OptimizationAlgorithm(HashMap<Attraction, ArrayList<Edge>> graph) {
-    this.graph = graph;
-  }
-
+public final class TspOptimizer {
   /**
     * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
     * @return list of attractions in optimal visiting order  
     */
-  public ArrayList<Attraction> optimize() {
+  public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
     System.out.println(graph);
 
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
@@ -44,17 +37,17 @@ public final class OptimizationAlgorithm {
    * @param source the source Attraction from which to run MST algorithm
    * @return list of attractions in optimal visiting order  
    */
-  public ArrayList<Attraction> optimize(Attraction source) {
+  public static ArrayList<Attraction> optimize(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
   // Visible for testing
-  HashMap<Attraction, ArrayList<Edge>> mst(Attraction source) {
+  static HashMap<Attraction, ArrayList<Edge>> mst(Attraction source) {
     return null;
   }
 
   // Visible for testing
-  ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
+  static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
