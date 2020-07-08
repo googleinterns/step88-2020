@@ -8,7 +8,9 @@ import SavedTrip from './SavedTrip.js';
  * @param {string[]} trips - a list of the names of the trips
  */
 function SavedTrips({ trips }) {
-  const tripList = trips.map((trip, index) => <SavedTrip key={index} name={trip} />);
+  const tripList = trips.map((trip, index) => (
+    <SavedTrip key={index} id={index} name={trip} />
+  ));
 
   return (
     <div className={styles.container}>
