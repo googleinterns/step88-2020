@@ -49,12 +49,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the TRIANGLE graph starting at vertex A
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, TRIANGLE);
-    for (Attraction a : TRIANGLE_MST.keySet()) {
-      ArrayList<Edge> expectedEdges = TRIANGLE_MST.get(a);
-      ArrayList<Edge> actualEdges = actual.get(a);
-      Collections.sort(actualEdges, Edge.comparator);
-      Assert.assertEquals(expectedEdges, actualEdges);
-    }
+    checkGraphEquals(TRIANGLE_MST, actual);
   }
 
   @Test
@@ -62,12 +57,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the TRIANGLE graph starting at vertex B
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(B, TRIANGLE);
-    for (Attraction a : TRIANGLE_MST.keySet()) {
-      ArrayList<Edge> expectedEdges = TRIANGLE_MST.get(a);
-      ArrayList<Edge> actualEdges = actual.get(a);
-      Collections.sort(actualEdges, Edge.comparator);
-      Assert.assertEquals(expectedEdges, actualEdges);
-    }
+    checkGraphEquals(TRIANGLE_MST, actual);
   }
 
   @Test
@@ -75,12 +65,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the K4 graph starting at vertex A
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, K4);
-    for (Attraction a : K4_MST.keySet()) {
-      ArrayList<Edge> expectedEdges = K4_MST.get(a);
-      ArrayList<Edge> actualEdges = actual.get(a);
-      Collections.sort(actualEdges, Edge.comparator);
-      Assert.assertEquals(expectedEdges, actualEdges);
-    }
+    checkGraphEquals(K4_MST, actual);
   }
 
   @Test
@@ -88,12 +73,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the K4 graph starting at vertex C
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(C, K4);
-    for (Attraction a : K4_MST.keySet()) {
-      ArrayList<Edge> expectedEdges = K4_MST.get(a);
-      ArrayList<Edge> actualEdges = actual.get(a);
-      Collections.sort(actualEdges, Edge.comparator);
-      Assert.assertEquals(expectedEdges, actualEdges);
-    }
+    checkGraphEquals(K4_MST, actual);
   }
 
   @Test @Ignore
@@ -155,6 +135,15 @@ public final class TspOptimizerTest {
     ArrayList<Attraction> expectedSuboptimal = new ArrayList<>(Arrays.asList(C, D, B, A));
     ArrayList<Attraction> actual = TspOptimizer.optimize(C, K4);
     Assert.assertTrue(expectedOptimal.equals(actual) || expectedSuboptimal.equals(actual));
+  }
+
+  private void checkGraphEquals(HashMap<Attraction, ArrayList<Edge>> expected, HashMap<Attraction, ArrayList<Edge>> actual) {
+    for (Attraction a : expected.keySet()) {
+      ArrayList<Edge> expectedEdges = expected.get(a);
+      ArrayList<Edge> actualEdges = actual.get(a);
+      Collections.sort(actualEdges, Edge.comparator);
+      Assert.assertEquals(expectedEdges, actualEdges);
+    }
   }
 
   private static HashMap<Attraction, ArrayList<Edge>> create_TRIANGLE() {
