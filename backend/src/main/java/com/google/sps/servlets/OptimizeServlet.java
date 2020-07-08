@@ -45,8 +45,8 @@ public class OptimizeServlet extends HttpServlet {
     ArrayList<Attraction> attractions = json.attractions;
 
     // call Distance Matrix API
-    String[] attractionNames = 
-        attractions.stream().map(Attraction::getName).toArray(String[]::new);
+    String[] attractionNames =
+        attractions.stream().map(Attraction::getName).toArray(String[] ::new);
     DistanceMatrix matrix = createDistanceMatrix(attractionNames);
 
     // construct graph
