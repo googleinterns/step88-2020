@@ -4,11 +4,12 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
+import { getLoginStatus } from './authService.js';
 
 import testImg from './attraction/Attraction.png';
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(getLoginStatus);
 
   return (
     <Router>

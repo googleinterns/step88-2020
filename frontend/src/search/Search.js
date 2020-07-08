@@ -13,49 +13,32 @@ import { useHistory } from 'react-router-dom';
 function Search() {
   const [query, setQuery] = useState('');
   const history = useHistory();
-  const [text, setText] = useState('');
-
-  function handleClick() {
-    fetch("/auth")
-      .then((response) => response.text())
-      .then(setText);
-  }
-
 
   return (
-    <>
-      <div>
-        <Button onClick={handleClick} variant="secondary">Click Me!</Button>
-        <div>
-          {text}
-        </div>
-        <a href="/_ah/login?continue=%2F"> Login </a>
+    <div className={styles.searchContainer}>
+      <div className={styles.whereTo}>
+        <h1>Where to?</h1>
       </div>
-      <div className={styles.searchContainer}>
-        <div className={styles.whereTo}>
-          <h1>Where to?</h1>
-        </div>
-        <Form
-          inline
-          className={styles.form}
-          onSubmit={() => {
-            if (query !== '') {
-              history.push(`/explore?search=${query}`);
-            }
-          }}
-        >
-          <FormControl
-            type="text"
-            className="mr-sm-2 "
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <Button variant="secondary" type="submit">
-            <FontAwesomeIcon icon={faSearch} className="optimized-icon" />
-          </Button>
-        </Form>
-      </div>
-    </>
+      <Form
+        inline
+        className={styles.form}
+        onSubmit={() => {
+          if (query !== '') {
+            history.push(`/explore?search=${query}`);
+          }
+        }}
+      >
+        <FormControl
+          type="text"
+          className="mr-sm-2 "
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <Button variant="secondary" type="submit">
+          <FontAwesomeIcon icon={faSearch} className="optimized-icon" />
+        </Button>
+      </Form>
+    </div>
   );
 }
 

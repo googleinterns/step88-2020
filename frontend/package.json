@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "proxy": "http://localhost:8080",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
@@ -12,6 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
     "google-maps-react": "^2.0.6",
+    "http-proxy-middleware": "^1.0.4",
     "load-google-maps-api": "^2.0.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
