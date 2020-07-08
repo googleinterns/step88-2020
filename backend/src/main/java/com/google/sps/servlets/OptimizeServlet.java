@@ -35,7 +35,7 @@ import org.apache.commons.io.IOUtils;
 @WebServlet("/optimize")
 public class OptimizeServlet extends HttpServlet {
   private static final GeoApiContext context =
-          new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
+      new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -45,7 +45,8 @@ public class OptimizeServlet extends HttpServlet {
     ArrayList<Attraction> attractions = json.attractions;
 
     // call Distance Matrix API
-    String[] attractionNames = attractions.stream().map(Attraction::getName).toArray(String[]::new);
+    String[] attractionNames = 
+        attractions.stream().map(Attraction::getName).toArray(String[]::new);
     DistanceMatrix matrix = createDistanceMatrix(attractionNames);
 
     // construct graph
