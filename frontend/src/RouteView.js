@@ -25,14 +25,14 @@ function RouteView() {
     if (isOptimized) {
       setPlaces(optimizedOrder);
     }
-  }, [isOptimized, optimizedOrder])
+  }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
     if (!optimizedOrder) {
       const response = await fetch('/optimize', {
         method: 'POST',
         body: JSON.stringify({ attractions: places }),
-      })
+      });
       const json = await response.json();
       setOptimizedOrder(json);
     }

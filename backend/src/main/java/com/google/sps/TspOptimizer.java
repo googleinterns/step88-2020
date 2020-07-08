@@ -19,12 +19,10 @@ import java.util.HashMap;
 
 public final class TspOptimizer {
   /**
-    * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
-    * @return list of attractions in optimal visiting order  
-    */
+   * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
+   * @return list of attractions in optimal visiting order
+   */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
-    System.out.println(graph);
-
     ArrayList<Attraction> optimizedOrder = new ArrayList<>();
     for (Attraction a : graph.keySet()) {
       optimizedOrder.add(a);
@@ -35,14 +33,16 @@ public final class TspOptimizer {
   /**
    * Run TSP approximation algorithm.
    * @param source the source Attraction from which to run MST algorithm
-   * @return list of attractions in optimal visiting order  
+   * @return list of attractions in optimal visiting order
    */
-  public static ArrayList<Attraction> optimize(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
+  public static ArrayList<Attraction> optimize(
+      Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
   // Visible for testing
-  static HashMap<Attraction, ArrayList<Edge>> mst(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
+  static HashMap<Attraction, ArrayList<Edge>> mst(
+      Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
 
@@ -50,5 +50,4 @@ public final class TspOptimizer {
   static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return null;
   }
-
 }
