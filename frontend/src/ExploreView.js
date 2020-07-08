@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Map from './map/Map';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 
+import { MOCK_DATA } from './route/mockData.js';
+
 /**
  * Explore view with selectable attraction images and map
  */
@@ -60,7 +62,6 @@ function Explore() {
       setSearchText(query.search);
     }
   };
-
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>

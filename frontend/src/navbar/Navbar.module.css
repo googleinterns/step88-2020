@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  width: 100%;
+}
+
+.leftLink {
+  flex: 1 0 auto;
+}
+
+.rightLink {
+  flex: 0 1 auto;
+}

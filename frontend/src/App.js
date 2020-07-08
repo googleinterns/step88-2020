@@ -9,7 +9,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
-    <>
+    <Router>
       <Navbar loggedIn={loggedIn} onLoginChange={setLoggedIn} />
       <Router>
         <Switch>

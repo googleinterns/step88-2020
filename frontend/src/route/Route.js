@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LocationCard from './LocationCard.js';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
@@ -6,10 +6,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
  * Return locations listed in order of the user's planned route.
  * Route list is customizable via drag and drop (docs: https://github.com/atlassian/react-beautiful-dnd)
  */
-function Route({ places: initialPlaces }) {
-  // map data into list of location cards each representing a place the use selected
-  const [places, setPlaces] = useState(initialPlaces);
-
+function Route({ places, setPlaces }) {
   // referece: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
   function handleOnDragEnd({ destination, source, draggableId }) {
     // no change in list ordering due after drag
@@ -39,7 +36,7 @@ function Route({ places: initialPlaces }) {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {places.map((place, index) => (
               <LocationCard
-                location={place.location}
+                location={place.name}
                 description={place.description}
                 image={place.image}
                 index={index}
