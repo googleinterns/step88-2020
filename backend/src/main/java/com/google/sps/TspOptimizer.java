@@ -25,11 +25,8 @@ public final class TspOptimizer {
    * @return list of attractions in optimal visiting order
    */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
-    ArrayList<Attraction> optimizedOrder = new ArrayList<>();
-    for (Attraction a : graph.keySet()) {
-      optimizedOrder.add(a);
-    }
-    return optimizedOrder;
+    Attraction source = graph.keySet().iterator().next();
+    return optimize(source, graph);
   }
 
   /**
@@ -39,7 +36,38 @@ public final class TspOptimizer {
    */
   public static ArrayList<Attraction> optimize(
       Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
-    return null;
+    HashMap<Attraction, ArrayList<Edge>> mst = getMst(source, graph);
+    ArrayList<Attraction> dfsOrder = dfs(source, mst);
+    return getOptimalOrdering(dfsOrder, mst);
+  }
+
+  /**
+   * Remove the heaviest edge from the dfs ordering to produce an optimized ordering
+   * @param attractions list of attractions in dfs ordering
+   * @param graph the mst that contains the attractions and that was dfs traversed
+   * @return arraylist containing the attractions in optimized order
+   */
+  private static ArrayList<Attraction> getOptimalOrdering(ArrayList<Attraction> attractions, HashMap<Attraction, ArrayList<Edge>> graph) {
+    // determine heaviest edge
+    long maxDistance = 0;
+    Edge maxEdge = null;
+    int startIndex = 0;
+    for (int i = 0; i < attractions.size(); i++) {
+      Attraction curr = attractions.get(i);
+      int nextIndex = (i + 1) % attractions.size();
+      Attraction next = attractions.get(nextIndex);
+      for (Edge e : graph.get(curr)) {
+        if (e.getOtherEndpoint(curr).equals(next)) {
+          maxDistance = Math.max(e.getDistance(), maxDistance);
+          startIndex = e.getDistance() == maxDistance ? nextIndex : startIndex;
+        }
+      }
+    }
+
+    // create optimized ordering
+    ArrayList<Attraction> optimizedOrder = new ArrayList<>(attractions.subList(startIndex, attractions.size()));
+    optimizedOrder.addAll(attractions.subList(0, startIndex));
+    return optimizedOrder;
   }
 
   /**
