@@ -16,6 +16,7 @@ function App() {
       .then(({ loggedIn, loginUrl, logoutUrl }) =>
         setAuthState({ ...authState, ready: true, loggedIn, loginUrl, logoutUrl })
       );
+    // eslint-disable-next-line
   }, [authState.loggedIn]);
 
   return (
