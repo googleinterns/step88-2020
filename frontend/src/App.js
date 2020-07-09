@@ -14,7 +14,7 @@ function App() {
     fetch('/api/v1/auth')
       .then((response) => response.json())
       .then(({ loggedIn, loginUrl, logoutUrl }) =>
-        setAuthState({ready: true, loggedIn, loginUrl, logoutUrl })
+        setAuthState({ ready: true, loggedIn, loginUrl, logoutUrl })
       );
   }, []);
 
