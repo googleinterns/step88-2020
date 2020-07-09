@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Map from './map/Map';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 
-import { MOCK_DATA } from './route/mockData.js';
-
 /**
  * Explore view with selectable attraction images and map
  */
@@ -23,12 +21,17 @@ function Explore() {
   const query = getQueryParameters(urlParameters.search);
   const history = useHistory();
 
+  useEffect(() => {
+    setToggleSelect([]);
+  }, [destinations]);
+
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         const latlng = results[0].geometry.location;
         const coordinates = new google.maps.LatLng(latlng.lat(), latlng.lng());
         setCenterLocation({lat: coordinates.lat(), lng: coordinates.lng()});
+        console.log(coordinates);
         placesService.nearbySearch(
           {
             location: coordinates,
@@ -73,8 +76,9 @@ function Explore() {
               className={`${styles.attraction} ${
                 photoData.selected ? styles.selectedImage : ''
               }`}
-              src={photoData.photoReference}
+              src={photoData.photoUrl}
               alt=""
+              key={photoData.id}
             />
           ))}
         </div>
@@ -90,10 +94,9 @@ function Explore() {
       <Map
         className={styles.mapContainer}
         onReady={onMapReady}
-        places={destinations}
-        destinations={destinations}
-        mode={'pins'}
-        centerLocation={{ lat: centerLocation.lat, lng: centerLocation.lng }}
+        attractions={destinations}
+        mode={"pins"}
+        centerLocation={centerLocation}
       />
     </div>
   );
@@ -141,13 +144,13 @@ function Explore() {
    */
   function toggleSelection(targetPhoto, photosData) {
     for (const photoIndex in photosData) {
-      if (photosData[photoIndex].photoReference === targetPhoto.photoReference) {
+      if (photosData[photoIndex].photoUrl === targetPhoto.photoUrl) {
         photosData[photoIndex].selected = !photosData[photoIndex].selected;
         setPhotosData(photosData);
         let destinationsCopy = destinations;
 
         if (isPhotoInDestination(targetPhoto,destinations)) {
-            const destIndex = destinations.findIndex(destination => destination.photoReference === targetPhoto.photoReference);
+            const destIndex = destinations.findIndex(destination => destination.photoUrl === targetPhoto.photoUrl);
             setDestinations(destinationsCopy.splice(destIndex, 1));
         }
         else {
@@ -167,7 +170,7 @@ function Explore() {
    */
   function isPhotoInDestination(targetPhoto,destinations) {
     for (const destination of destinations) {
-      if (destination.photoReference == targetPhoto.photoReference) {
+      if (destination.photoUrl == targetPhoto.photoUrl) {
         return true;
       }
     }
@@ -194,9 +197,10 @@ function Explore() {
     for (const attraction of attractions) {
       try {
         const attractionName = attraction.name;
-        const photoReference = attraction.photos[0].getUrl();
+        const photoUrl = attraction.photos[0].getUrl();
         const latlng = attraction.geometry.location;
-        const photoData = createAttraction(attractionName, latlng, photoReference);
+        const id = attraction.id;
+        const photoData = createAttraction(attractionName, id, latlng, photoUrl);
         photosData.push(photoData);
       } catch {
         continue;
@@ -210,17 +214,18 @@ function Explore() {
    * @param {string} attractionName attraction name
    * @param {number} lat latitude
    * @param {number} lng longitude
-   * @param {string} photoReference photo reference
+   * @param {string} photoUrl photo url
    * @return {object} object containing the attraction data
    */
-  function createAttraction(attractionName, latlng, photoReference) {
+  function createAttraction(attractionName, id, latlng, photoUrl) {
     return {
       attractionName: attractionName,
       coordinates: {
         lat: latlng.lat(),
         lng: latlng.lng(),
       },
-      photoReference: photoReference,
+      id: id,
+      photoUrl: photoUrl, //photoUrl
       routeIndex: 0,
       selected: false,
     };
