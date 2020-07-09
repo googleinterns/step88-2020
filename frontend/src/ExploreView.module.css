@@ -27,7 +27,8 @@
 }
 
 .selectedImage {
-  border: solid black;
+  border: solid green;
+  border-width: 10px;
 }
 
 .mapContainer {

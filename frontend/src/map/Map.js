@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   Map as GoogleMap,
-  GoogleApiWrapper as useGoogleMapsApi, Marker
+  GoogleApiWrapper as useGoogleMapsApi,
 } from 'google-maps-react';
 import styles from './Map.module.css';
-
+import { MOCK_DATA } from '../route/mockData.js';
 const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
@@ -17,20 +17,21 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 // TODO: Remove temporarily disabled linter.
 // eslint-disable-next-line no-unused-vars
 function Map({ attractions, mode, centerLocation, google, onReady, view }) {
-
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
-    console.log(attractions);
-    for (const place of attractions) {
-      const location = { lat: place.coordinates.lat, lng: place.coordinates.lng };
-      console.log(location);
+    for (const attraction of attractions) {
+      const location = {
+        lat: attraction.coordinates.lat,
+        lng: attraction.coordinates.lng,
+      };
+
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
-            <h4>${place.attractionName}</h4>
-            <div>Short description of place if desired</div>
+            <h4>${attraction.attractionName}</h4>
+            <div>Short description of attraction if desired</div>
             <div>
-              <img src="${place.photoUrl}" alt="${place.attractionName} Image" />
+              <img src="${attraction.photoUrl}" alt="${attraction.attractionName} Image" />
             </div>
           </div>
         `,
@@ -38,7 +39,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       const marker = new google.maps.Marker({
         position: location,
         map,
-        title: place.attractionName,
+        title: attraction.attractionName,
       });
       marker.addListener('click', () => {
         infowindow.open(map, marker);
@@ -53,11 +54,18 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
-        zoom={12}
+        zoom={14}
       />
-
     );
   }
+  attractions = MOCK_DATA;
+  const attractionNames = attractions.map((attraction) =>
+    encodeURIComponent(attraction.attractionName).replace(/%20/g, '+')
+  );
+  const origin = attractionNames[0];
+  const destination = attractionNames[attractionNames.length - 1];
+  const waypoints = attractionNames.slice(1, attractionNames.length - 1);
+  const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   // Note: This can also be done using the Maps API instead of the embeded API.
   return (
@@ -65,7 +73,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       <iframe
         className={styles.map}
         title="trip-map"
-        src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg&origin=Eiffel+Tower&destination=Museum+d'Orsay&waypoints=Louvre|Arc+De+Triomphe"
+        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
         allowFullScreen
       ></iframe>
     </div>
