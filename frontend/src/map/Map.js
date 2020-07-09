@@ -14,15 +14,15 @@ import styles from './Map.module.css';
 // TODO: Remove temporarily disabled linter.
 // eslint-disable-next-line no-unused-vars
 function Map({ destinations, mode, centerLocation, google, onReady, view }) {
-  const mockData = [
-    { lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower' },
-    { lat: 48.860611, lng: 2.337698, name: 'Louvre' },
-    { lat: 48.85991, lng: 2.326364, name: "Musee D'Orsay" },
-  ];
+  // const mockData = [
+  //   { lat: 48.858405, lng: 2.294449, name: 'Eiffel Tower' },
+  //   { lat: 48.860611, lng: 2.337698, name: 'Louvre' },
+  //   { lat: 48.85991, lng: 2.326364, name: "Musee D'Orsay" },
+  // ];
 
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
-    for (const place of mockData) {
+    for (const place of destinations) {
       const location = { lat: place.lat, lng: place.lng };
       const infowindow = new google.maps.InfoWindow({
         content: `
