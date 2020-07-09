@@ -17,33 +17,18 @@ function Navbar({ authState, setAuthState }) {
           <Route path="/route">
             <Nav.Link href="/explore">Back to Edit</Nav.Link>
           </Route>
-<<<<<<< HEAD
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link
-            disabled={!authState.ready}
-            href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
-            className={styles.rightLink}
-          >
-            {authState.loggedIn ? 'Sign Out' : 'Sign In'}
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-    </Switch>
-=======
         </Switch>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          onClick={() => onLoginChange(!loggedIn)}
-          href=""
+          disabled={!authState.ready}
+          href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
           className={styles.rightLink}
         >
-          {loggedIn ? 'Sign Out' : 'Sign In'}
+          {authState.loggedIn ? 'Sign Out' : 'Sign In'}
         </Nav.Link>
       </Nav.Item>
     </Nav>
->>>>>>> master
   );
 }
 
