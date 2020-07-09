@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Map as GoogleMap,
-  GoogleApiWrapper as useGoogleMapsApi,
+  GoogleApiWrapper,
 } from 'google-maps-react';
 import styles from './Map.module.css';
 import { MOCK_DATA } from '../route/mockData.js';
@@ -78,7 +78,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   );
 }
 
-export default useGoogleMapsApi({
+export default GoogleApiWrapper({
   apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg',
   libraries: ['places'],
 })(Map);
