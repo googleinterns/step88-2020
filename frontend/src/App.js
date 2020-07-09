@@ -14,10 +14,9 @@ function App() {
     fetch('/api/v1/auth')
       .then((response) => response.json())
       .then(({ loggedIn, loginUrl, logoutUrl }) =>
-        setAuthState({ ...authState, ready: true, loggedIn, loginUrl, logoutUrl })
+        setAuthState({ ready: true, loggedIn, loginUrl, logoutUrl })
       );
-    // eslint-disable-next-line
-  }, [authState.loggedIn]);
+  }, []);
 
   return (
     <Router>
