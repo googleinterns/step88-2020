@@ -14,6 +14,9 @@
 
 package com.google.sps;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,8 +26,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 
 @RunWith(JUnit4.class)
 public final class TspOptimizerTest {
@@ -151,7 +152,9 @@ public final class TspOptimizerTest {
     ArrayList<Attraction> expectedSuboptimal1 = new ArrayList<>(Arrays.asList(C, D, B, A));
     ArrayList<Attraction> expectedSuboptimal2 = new ArrayList<>(Arrays.asList(A, B, D, C));
     ArrayList<Attraction> actual = TspOptimizer.optimize(C, K4);
-    assertThat(Arrays.asList(expectedOptimal1, expectedOptimal2, expectedSuboptimal1, expectedSuboptimal2), hasItem(actual));
+    assertThat(
+        Arrays.asList(expectedOptimal1, expectedOptimal2, expectedSuboptimal1, expectedSuboptimal2),
+        hasItem(actual));
   }
 
   private void assertGraphEquals(
