@@ -14,8 +14,7 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
-// TODO: Remove temporarily disabled linter.
-// eslint-disable-next-line no-unused-vars
+
 function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
@@ -67,7 +66,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const waypoints = attractionNames.slice(1, attractionNames.length - 1);
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
-  // Note: This can also be done using the Maps API instead of the embeded API.
   return (
     <div className={styles.mapContainer}>
       <iframe

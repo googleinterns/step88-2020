@@ -99,7 +99,7 @@ function Explore() {
 
   /**
    * Creates route url and navigates to /route?trip=
-   * @param {object} allAttractions photo data object to be found
+   * @param {object} allAttractions list of all attractions
    * @param {string} searchText search text
    * @param {string} tripId trip id
    * @param {string} tripName trip name
@@ -134,24 +134,24 @@ function Explore() {
   /**
    * Add/Remove coordinates from the map
    * Add/Remove border color and style
-   * @param {object} targetPhoto photo data object to be found
-   * @param {object[]} allAttractions array of photo objects
+   * @param {object} targetAttraction attraction to be found
+   * @param {object[]} allAttractions array of all attractions
    */
-  function toggleSelection(targetPhoto, allAttractions) {
-    for (const photoIndex in allAttractions) {
-      if (allAttractions[photoIndex].photoUrl === targetPhoto.photoUrl) {
-        allAttractions[photoIndex].selected = !allAttractions[photoIndex].selected;
+  function toggleSelection(targetAttraction, allAttractions) {
+    for (const attrIndex in allAttractions) {
+      if (allAttractions[attrIndex].photoUrl === targetAttraction.photoUrl) {
+        allAttractions[attrIndex].selected = !allAttractions[attrIndex].selected;
         setallAttractions(allAttractions);
         let selectedAttractionsCopy = Array.from(selectedAttractions);
 
-        if (isPhotoInSelectedAttractions(targetPhoto, selectedAttractions)) {
+        if (isAttractionInSelectedAttractions(targetAttraction, selectedAttractions)) {
           const attrIndex = selectedAttractions.findIndex(
-            (attraction) => attraction.photoUrl === targetPhoto.photoUrl
+            (attraction) => attraction.photoUrl === targetAttraction.photoUrl
           );
           selectedAttractionsCopy.splice(attrIndex, 1);
           setselectedAttractions(selectedAttractionsCopy);
         } else {
-          selectedAttractionsCopy.push(targetPhoto);
+          selectedAttractionsCopy.push(targetAttraction);
           setselectedAttractions(selectedAttractionsCopy);
         }
       }
@@ -160,11 +160,11 @@ function Explore() {
 
   /**
    * Extract the url parameters and convert to dictionary
-   * @param {string} targetAttraction photo to find
+   * @param {string} targetAttraction attraction to find
    * @param {object[]} selectedAttractions array of attraction objects
    * @return {boolean} true if found, false if not
    */
-  function isPhotoInSelectedAttractions(targetAttraction, selectedAttractions) {
+  function isAttractionInSelectedAttractions(targetAttraction, selectedAttractions) {
     for (const attraction of selectedAttractions) {
       if (attraction.photoUrl === targetAttraction.photoUrl) {
         return true;
@@ -185,8 +185,8 @@ function Explore() {
 
   /**
    * Get the photo url of each attraction object
-   * @param {object} attractions attraction object
-   * @return {object[]} array of photo objects
+   * @param {object[]} attractions array of objects from Places Request
+   * @return {object[]} array of attractions
    */
   function getallAttractions(attractions) {
     const allAttractions = [];
