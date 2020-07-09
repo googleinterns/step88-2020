@@ -23,6 +23,7 @@ public final class TspOptimizer {
   /**
    * Call optimize(source, graph) after determining a source Attraction from which to run MST
    * algorithm.
+   * @param graph the graph on which to find an optimal path between all attractions
    * @return list of attractions in optimal visiting order
    */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
@@ -33,6 +34,7 @@ public final class TspOptimizer {
   /**
    * Run TSP approximation algorithm.
    * @param source the source Attraction from which to run MST algorithm
+   * @param graph the graph on which to find an optimal path between all attractions
    * @return list of attractions in optimal visiting order
    */
   public static ArrayList<Attraction> optimize(
@@ -129,6 +131,7 @@ public final class TspOptimizer {
    * Return list of attractions in pre-order DFS traversal order.
    * @param source the vertex on which to start DFS
    * @param graph the MST on which to run DFS
+   * @return list of attractions in DFS order
    */
   static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return dfsHelper(source, graph, new HashSet<>());
@@ -139,6 +142,7 @@ public final class TspOptimizer {
    * @param curr the vertex that is currently being visited in the DFS traversal
    * @param graph the MST on which to run DFS
    * @param visited set of visited vertices
+   * @return list of arractions in DFS order
    */
   private static ArrayList<Attraction> dfsHelper(
       Attraction curr, HashMap<Attraction, ArrayList<Edge>> graph, HashSet<Attraction> visited) {
