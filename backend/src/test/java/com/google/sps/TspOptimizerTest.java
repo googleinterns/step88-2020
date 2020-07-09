@@ -16,6 +16,7 @@ package com.google.sps;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -36,31 +37,47 @@ public final class TspOptimizerTest {
 
   // Straight forward triangle graph
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE = create_TRIANGLE();
-
-  // MST of TRIANGLE with source Attraction A
-  private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE_MST_A =
-      create_TRIANGLE_MST_A();
-
+  private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE_MST = create_TRIANGLE_MST();
+  
   // Complete graph with 4 vertices that has a single optimal solution
   private static final HashMap<Attraction, ArrayList<Edge>> K4 = create_K4();
+  private static final HashMap<Attraction, ArrayList<Edge>> K4_MST = create_K4_MST();
 
   @Test
-  @Ignore
-  public void mst_TRIANGLE() {
-    // Generate the MST of the TRIANGLE graph
+  public void mst_TRIANGLE_A() {
+    // Generate the MST of the TRIANGLE graph starting at vertex A
+    HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, TRIANGLE);
+    checkGraphEquals(TRIANGLE_MST, actual);
+  }
 
-    HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.mst(A, TRIANGLE);
-    Assert.assertEquals(TRIANGLE_MST_A, actual);
+  @Test
+  public void mst_TRIANGLE_B() {
+    // Generate the MST of the TRIANGLE graph starting at vertex B
+    HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(B, TRIANGLE);
+    checkGraphEquals(TRIANGLE_MST, actual);
+  }
+
+  @Test
+  public void mst_K4_A() {
+    // Generate the MST of the K4 graph starting at vertex A
+    HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, K4);
+    checkGraphEquals(K4_MST, actual);
+  }
+
+  @Test
+  public void mst_K4_C() {
+    // Generate the MST of the K4 graph starting at vertex C
+    HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(C, K4);
+    checkGraphEquals(K4_MST, actual);
   }
 
   @Test
   @Ignore
   public void dfs_TRIANGLE() {
     // Generate the MST of the TRIANGLE graph
-
     ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(A, B, C));
     ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(A, C, B));
-    ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST_A);
+    ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
     Assert.assertTrue(expected1.equals(actual) || expected2.equals(actual));
   }
 
@@ -113,8 +130,8 @@ public final class TspOptimizerTest {
   @Ignore
   public void optimize_K4_possiblyFindSuboptimalApproximation() {
     // Create complete graph with 4 vertices. DFS traversal of MST is not the optimal path.
-    // Algorithm should return a path 6/5 times length of optimal path C--D--B--A or the optimal
-    // path A--B--C--D.
+    // Algorithm should return a path 6/5 times length of optimal path C--D--B--A
+    // or the optimal path A--B--C--D.
 
     ArrayList<Attraction> expectedOptimal = new ArrayList<>(Arrays.asList(A, B, C, D));
     ArrayList<Attraction> expectedSuboptimal = new ArrayList<>(Arrays.asList(C, D, B, A));
@@ -122,22 +139,34 @@ public final class TspOptimizerTest {
     Assert.assertTrue(expectedOptimal.equals(actual) || expectedSuboptimal.equals(actual));
   }
 
+  private void checkGraphEquals(
+      HashMap<Attraction, ArrayList<Edge>> expected, HashMap<Attraction, ArrayList<Edge>> actual) {
+    for (Attraction a : expected.keySet()) {
+      ArrayList<Edge> expectedEdges = expected.get(a);
+      ArrayList<Edge> actualEdges = actual.get(a);
+      Collections.sort(actualEdges, Edge.comparator);
+      Assert.assertEquals(expectedEdges, actualEdges);
+    }
+  }
+
   private static HashMap<Attraction, ArrayList<Edge>> create_TRIANGLE() {
     HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
     Edge ab = new Edge(A, B, 1);
-    Edge ac = new Edge(A, C, 3);
-    Edge bc = new Edge(B, C, 2);
+    Edge ac = new Edge(A, C, 2);
+    Edge bc = new Edge(B, C, 3);
     graph.put(A, new ArrayList<Edge>(Arrays.asList(ab, ac)));
     graph.put(B, new ArrayList<Edge>(Arrays.asList(ab, bc)));
     graph.put(C, new ArrayList<Edge>(Arrays.asList(bc, ac)));
     return graph;
   }
 
-  private static HashMap<Attraction, ArrayList<Edge>> create_TRIANGLE_MST_A() {
+  private static HashMap<Attraction, ArrayList<Edge>> create_TRIANGLE_MST() {
     HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
     Edge ab = new Edge(A, B, 1);
-    Edge ac = new Edge(A, C, 3);
+    Edge ac = new Edge(A, C, 2);
     graph.put(A, new ArrayList<Edge>(Arrays.asList(ab, ac)));
+    graph.put(B, new ArrayList<Edge>(Arrays.asList(ab)));
+    graph.put(C, new ArrayList<Edge>(Arrays.asList(ac)));
     return graph;
   }
 
@@ -146,13 +175,25 @@ public final class TspOptimizerTest {
     Edge ab = new Edge(A, B, 1);
     Edge ac = new Edge(A, C, 4);
     Edge ad = new Edge(A, D, 4);
-    Edge bc = new Edge(A, C, 2);
-    Edge bd = new Edge(A, D, 3);
+    Edge bc = new Edge(B, C, 2);
+    Edge bd = new Edge(B, D, 3);
     Edge cd = new Edge(C, D, 2);
     graph.put(A, new ArrayList<Edge>(Arrays.asList(ab, ac, ad)));
     graph.put(B, new ArrayList<Edge>(Arrays.asList(ab, bc, bd)));
     graph.put(C, new ArrayList<Edge>(Arrays.asList(ac, bc, cd)));
     graph.put(D, new ArrayList<Edge>(Arrays.asList(ad, bd, cd)));
+    return graph;
+  }
+
+  private static HashMap<Attraction, ArrayList<Edge>> create_K4_MST() {
+    HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
+    Edge ab = new Edge(A, B, 1);
+    Edge bc = new Edge(B, C, 2);
+    Edge cd = new Edge(C, D, 2);
+    graph.put(A, new ArrayList<Edge>(Arrays.asList(ab)));
+    graph.put(B, new ArrayList<Edge>(Arrays.asList(ab, bc)));
+    graph.put(C, new ArrayList<Edge>(Arrays.asList(bc, cd)));
+    graph.put(D, new ArrayList<Edge>(Arrays.asList(cd)));
     return graph;
   }
 }

@@ -16,6 +16,8 @@ package com.google.sps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.PriorityQueue;
 
 public final class TspOptimizer {
   /**
@@ -40,10 +42,57 @@ public final class TspOptimizer {
     return null;
   }
 
-  // Visible for testing
-  static HashMap<Attraction, ArrayList<Edge>> mst(
+  /**
+   * Runs Prim's algorithm to return the minimum spanning tree of the given graph.
+   * @param source the vertex to start at when running Prim's
+   * @param graph the graph of which to find the mst
+   * @return the mst of graph
+   */
+  static HashMap<Attraction, ArrayList<Edge>> getMst(
       Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
-    return null;
+    PriorityQueue<Edge> fringe = new PriorityQueue<Edge>(Edge.comparator);
+    HashSet<Attraction> visited = new HashSet<>();
+    HashMap<Attraction, ArrayList<Edge>> mst = new HashMap<>();
+
+    ArrayList<Edge> adjacentEdges = graph.get(source);
+    fringe.addAll(adjacentEdges);
+    visited.add(source);
+
+    while (fringe.size() > 0) {
+      Edge e = fringe.poll();
+      Attraction[] endpoints = e.getEndpoints();
+
+      // determine the visited and unvisited endpoints of Edge e
+      Attraction curr;
+      Attraction neighbor;
+      if (visited.contains(endpoints[0]) && visited.contains(endpoints[1])) {
+        continue;
+      } else if (visited.contains(endpoints[0])) {
+        curr = endpoints[0];
+        neighbor = endpoints[1];
+      } else {
+        curr = endpoints[1];
+        neighbor = endpoints[0];
+      }
+
+      // construct mst
+      visited.add(neighbor);
+      ArrayList<Edge> edges = mst.getOrDefault(curr, new ArrayList<>());
+      edges.add(e);
+      mst.put(curr, edges);
+      edges = mst.getOrDefault(neighbor, new ArrayList<>());
+      edges.add(e);
+      mst.put(neighbor, edges);
+
+      // add adjacent edges to fringe if it has an unvisited endpoint
+      for (Edge adjacentEdge : graph.get(neighbor)) {
+        if (!visited.contains(adjacentEdge.getOtherEndpoint(neighbor))) {
+          fringe.add(adjacentEdge);
+        }
+      }
+    }
+
+    return mst;
   }
 
   // Visible for testing
