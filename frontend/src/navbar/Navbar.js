@@ -6,7 +6,7 @@ import styles from './Navbar.module.css';
 /**
  * Creates Navbar component with login button.
  */
-function Navbar({ loggedIn, onLoginChange }) {
+function Navbar({ authState }) {
   return (
     <Nav className={styles.container}>
       <Nav.Item className={styles.leftLink}>
@@ -21,11 +21,11 @@ function Navbar({ loggedIn, onLoginChange }) {
       </Nav.Item>
       <Nav.Item>
         <Nav.Link
-          onClick={() => onLoginChange(!loggedIn)}
-          href=""
+          disabled={!authState.ready}
+          href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
           className={styles.rightLink}
         >
-          {loggedIn ? 'Sign Out' : 'Sign In'}
+          {authState.loggedIn ? 'Sign Out' : 'Sign In'}
         </Nav.Link>
       </Nav.Item>
     </Nav>

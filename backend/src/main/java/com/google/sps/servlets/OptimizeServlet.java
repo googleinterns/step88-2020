@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 
 /** Servlet that returns the optimized route between list of attractions */
-@WebServlet("/optimize")
+@WebServlet("/api/v1/optimize")
 public class OptimizeServlet extends HttpServlet {
   private static final GeoApiContext context =
       new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
