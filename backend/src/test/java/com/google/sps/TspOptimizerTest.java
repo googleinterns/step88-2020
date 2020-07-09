@@ -46,7 +46,6 @@ public final class TspOptimizerTest {
   @Test
   public void mst_TRIANGLE_A() {
     // Generate the MST of the TRIANGLE graph starting at vertex A
-
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, TRIANGLE);
     checkGraphEquals(TRIANGLE_MST, actual);
   }
@@ -54,7 +53,6 @@ public final class TspOptimizerTest {
   @Test
   public void mst_TRIANGLE_B() {
     // Generate the MST of the TRIANGLE graph starting at vertex B
-
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(B, TRIANGLE);
     checkGraphEquals(TRIANGLE_MST, actual);
   }
@@ -62,7 +60,6 @@ public final class TspOptimizerTest {
   @Test
   public void mst_K4_A() {
     // Generate the MST of the K4 graph starting at vertex A
-
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, K4);
     checkGraphEquals(K4_MST, actual);
   }
@@ -70,7 +67,6 @@ public final class TspOptimizerTest {
   @Test
   public void mst_K4_C() {
     // Generate the MST of the K4 graph starting at vertex C
-
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(C, K4);
     checkGraphEquals(K4_MST, actual);
   }
@@ -78,7 +74,6 @@ public final class TspOptimizerTest {
   @Test
   public void dfs_TRIANGLE_MST() {
     // Generate the dfs ordering of TRIANGLE_MST graph
-
     ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(A, B, C));
     ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(A, C, B));
     ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
