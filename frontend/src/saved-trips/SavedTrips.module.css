@@ -9,7 +9,21 @@
   opacity: 0.5;
 }
 
+.iconContainer {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  z-index: 1;
+}
+
 .listItem {
   display: flex;
   justify-content: space-between;
+}
+
+.tripContainer {
+  position: relative;
 }
