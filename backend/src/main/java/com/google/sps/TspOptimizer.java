@@ -21,7 +21,7 @@ import java.util.PriorityQueue;
 
 public final class TspOptimizer {
   /**
-   * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
+   * Call optimize(source, graph) after determining a source Attraction from which to run MST algorithm.
    * @return list of attractions in optimal visiting order
    */
   public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
@@ -38,7 +38,7 @@ public final class TspOptimizer {
       Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     HashMap<Attraction, ArrayList<Edge>> mst = getMst(source, graph);
     ArrayList<Attraction> dfsOrder = dfs(source, mst);
-    return getOptimalOrdering(dfsOrder, mst);
+    return getOptimalOrdering(dfsOrder, graph);
   }
 
   /**
@@ -50,7 +50,6 @@ public final class TspOptimizer {
   private static ArrayList<Attraction> getOptimalOrdering(ArrayList<Attraction> attractions, HashMap<Attraction, ArrayList<Edge>> graph) {
     // determine heaviest edge
     long maxDistance = 0;
-    Edge maxEdge = null;
     int startIndex = 0;
     for (int i = 0; i < attractions.size(); i++) {
       Attraction curr = attractions.get(i);

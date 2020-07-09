@@ -23,6 +23,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 
 @RunWith(JUnit4.class)
 public final class TspOptimizerTest {
@@ -48,7 +50,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the TRIANGLE graph starting at vertex A
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, TRIANGLE);
-    checkGraphEquals(TRIANGLE_MST, actual);
+    assertGraphEquals(TRIANGLE_MST, actual);
   }
 
   @Test
@@ -56,7 +58,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the TRIANGLE graph starting at vertex B
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(B, TRIANGLE);
-    checkGraphEquals(TRIANGLE_MST, actual);
+    assertGraphEquals(TRIANGLE_MST, actual);
   }
 
   @Test
@@ -64,7 +66,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the K4 graph starting at vertex A
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(A, K4);
-    checkGraphEquals(K4_MST, actual);
+    assertGraphEquals(K4_MST, actual);
   }
 
   @Test
@@ -72,7 +74,7 @@ public final class TspOptimizerTest {
     // Generate the MST of the K4 graph starting at vertex C
 
     HashMap<Attraction, ArrayList<Edge>> actual = TspOptimizer.getMst(C, K4);
-    checkGraphEquals(K4_MST, actual);
+    assertGraphEquals(K4_MST, actual);
   }
 
   @Test
@@ -82,11 +84,11 @@ public final class TspOptimizerTest {
     ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(A, B, C));
     ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(A, C, B));
     ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
-    Assert.assertTrue(expected1.equals(actual) || expected2.equals(actual));
+    assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
   }
 
   @Test
-  public void K4_TRIANGLE_MST() {
+  public void dfs_K4_MST() {
     // Generate the dfs ordering of K4_MST graph.
     // Start at vertex A so there is a unique DFS traversal.
 
@@ -96,41 +98,39 @@ public final class TspOptimizerTest {
   }
 
   @Test
-  @Ignore
   public void optimize_TRIANGLE_pickRandomSourceAttraction() {
     // Use triangle graph. Choose a random Attraction as source.
-    // Algorithm should return a path with the two shortest edges A--B--C.
+    // Algorithm should return a path with the two shortest edges B--A--C or C--A--B.
 
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C));
+    ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(B, A, C));
+    ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(C, A, B));
     ArrayList<Attraction> actual = TspOptimizer.optimize(TRIANGLE);
-    Assert.assertEquals(expected, actual);
+    assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
   }
 
   @Test
-  @Ignore
   public void optimize_TRIANGLE_DFSOptimalPath() {
     // Use triangle graph. DFS traversal of MST is the optimal path.
-    // Algorithm should return a path with the two shortest edges A--B--C.
+    // Algorithm should return a path with the two shortest edges B--A--C.
 
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(A, TRIANGLE);
-    Assert.assertEquals(expected, actual);
-  }
-
-  @Test
-  @Ignore
-  public void optimize_TRIANGLE_deleteEdgeForOptimalPath() {
-    // Use triangle graph. DFS traversal of MST is not the optimal path, optimal path requires
-    // deletion of heaviest edge in cycle. Algorithm should return a path with the two shortest
-    // edges A--B--C.
-
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C));
+    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(B, A, C));
     ArrayList<Attraction> actual = TspOptimizer.optimize(B, TRIANGLE);
     Assert.assertEquals(expected, actual);
   }
 
   @Test
-  @Ignore
+  public void optimize_TRIANGLE_deleteEdgeForOptimalPath() {
+    // Use triangle graph. DFS traversal of MST is not the optimal path, optimal path requires
+    // deletion of heaviest edge in cycle. Algorithm should return a path with the two shortest
+    // edges B--A--C or C--A--B.
+
+    ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(B, A, C));
+    ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(C, A, B));
+    ArrayList<Attraction> actual = TspOptimizer.optimize(A, TRIANGLE);
+    assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
+  }
+
+  @Test
   public void optimize_K4_findDFSOptimalPath() {
     // Create complete graph with 4 vertices. DFS traversal of MST is the optimal path.
     // Algorithm should return a path with three shortest edges A--B--C--D.
@@ -141,19 +141,20 @@ public final class TspOptimizerTest {
   }
 
   @Test
-  @Ignore
   public void optimize_K4_possiblyFindSuboptimalApproximation() {
     // Create complete graph with 4 vertices. DFS traversal of MST is not the optimal path.
     // Algorithm should return a path 6/5 times length of optimal path C--D--B--A
     // or the optimal path A--B--C--D.
 
-    ArrayList<Attraction> expectedOptimal = new ArrayList<>(Arrays.asList(A, B, C, D));
-    ArrayList<Attraction> expectedSuboptimal = new ArrayList<>(Arrays.asList(C, D, B, A));
+    ArrayList<Attraction> expectedOptimal1 = new ArrayList<>(Arrays.asList(A, B, C, D));
+    ArrayList<Attraction> expectedOptimal2 = new ArrayList<>(Arrays.asList(D, C, B, A));
+    ArrayList<Attraction> expectedSuboptimal1 = new ArrayList<>(Arrays.asList(C, D, B, A));
+    ArrayList<Attraction> expectedSuboptimal2 = new ArrayList<>(Arrays.asList(A, B, D, C));
     ArrayList<Attraction> actual = TspOptimizer.optimize(C, K4);
-    Assert.assertTrue(expectedOptimal.equals(actual) || expectedSuboptimal.equals(actual));
+    assertThat(Arrays.asList(expectedOptimal1, expectedOptimal2, expectedSuboptimal1, expectedSuboptimal2), hasItem(actual));
   }
 
-  private void checkGraphEquals(
+  private void assertGraphEquals(
       HashMap<Attraction, ArrayList<Edge>> expected, HashMap<Attraction, ArrayList<Edge>> actual) {
     for (Attraction a : expected.keySet()) {
       ArrayList<Edge> expectedEdges = expected.get(a);
