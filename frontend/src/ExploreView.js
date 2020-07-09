@@ -99,7 +99,7 @@ function Explore() {
 
   /**
    * Creates route url and navigates to /route?trip=
-   * @param {object} allAttractions list of all attractions
+   * @param {object[]} allAttractions list of all attractions
    * @param {string} searchText search text
    * @param {string} tripId trip id
    * @param {string} tripName trip name
@@ -160,7 +160,7 @@ function Explore() {
 
   /**
    * Extract the url parameters and convert to dictionary
-   * @param {string} targetAttraction attraction to find
+   * @param {object[]} targetAttraction attraction to find
    * @param {object[]} selectedAttractions array of attraction objects
    * @return {boolean} true if found, false if not
    */
@@ -186,7 +186,7 @@ function Explore() {
   /**
    * Get the photo url of each attraction object
    * @param {object[]} attractions array of objects from Places Request
-   * @return {object[]} array of attractions
+   * @return {object[]} array of all attractions
    */
   function getallAttractions(attractions) {
     const allAttractions = [];
