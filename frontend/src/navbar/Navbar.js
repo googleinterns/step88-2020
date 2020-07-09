@@ -6,7 +6,7 @@ import styles from './Navbar.module.css';
 /**
  * Creates Navbar component with login button.
  */
-function Navbar({ authState, setAuthState }) {
+function Navbar({ authState }) {
   return (
     <Nav className={styles.container}>
       <Nav.Item className={styles.leftLink}>

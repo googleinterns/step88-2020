@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
@@ -10,15 +10,17 @@ import testImg from './attraction/Attraction.png';
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
 
-  fetch('/api/v1/auth')
-    .then((response) => response.json())
-    .then(({ loggedIn, loginUrl, logoutUrl }) =>
-      setAuthState({ ...authState, ready: true, loggedIn, loginUrl, logoutUrl })
-    );
+  useEffect(() => {
+    fetch('/api/v1/auth')
+      .then((response) => response.json())
+      .then(({ loggedIn, loginUrl, logoutUrl }) =>
+        setAuthState({ ...authState, ready: true, loggedIn, loginUrl, logoutUrl })
+      );
+  }, [authState.loggedIn]);
 
   return (
     <Router>
-      <Navbar authState={authState} setAuthState={setAuthState} />
+      <Navbar authState={authState} />
       <Switch>
         <Route exact path="/">
           <SearchView loggedIn={authState.loggedIn} />
