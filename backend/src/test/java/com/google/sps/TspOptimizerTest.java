@@ -86,7 +86,7 @@ public final class TspOptimizerTest {
   }
 
   @Test
-  public void K4_TRIANGLE_MST() {
+  public void dfs_K4_MST() {
     // Generate the dfs ordering of K4_MST graph.
     // Start at vertex A so there is a unique DFS traversal.
 
