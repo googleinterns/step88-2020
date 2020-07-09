@@ -95,8 +95,32 @@ public final class TspOptimizer {
     return mst;
   }
 
-  // Visible for testing
+  /**
+   * Return list of attractions in pre-order DFS traversal order.
+   * @param source the vertex on which to start DFS
+   * @param graph the MST on which to run DFS
+   */
   static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
-    return null;
+    return dfsHelper(source, graph, new HashSet<>());
+  }
+
+  /**
+   * Helper function for dfs.
+   * @param curr the vertex that is currently being visited in the DFS traversal
+   * @param graph the MST on which to run DFS
+   * @param visited set of visited vertices
+   */
+  private static ArrayList<Attraction> dfsHelper(
+      Attraction curr, HashMap<Attraction, ArrayList<Edge>> graph, HashSet<Attraction> visited) {
+    ArrayList<Attraction> dfsOrdering = new ArrayList<>();
+    dfsOrdering.add(curr);
+    visited.add(curr);
+    for (Edge e : graph.get(curr)) {
+      Attraction neighbor = e.getOtherEndpoint(curr);
+      if (!visited.contains(neighbor)) {
+        dfsOrdering.addAll(dfsHelper(neighbor, graph, visited));
+      }
+    }
+    return dfsOrdering;
   }
 }

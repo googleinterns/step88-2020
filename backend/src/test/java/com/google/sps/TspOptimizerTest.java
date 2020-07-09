@@ -38,7 +38,7 @@ public final class TspOptimizerTest {
   // Straight forward triangle graph
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE = create_TRIANGLE();
   private static final HashMap<Attraction, ArrayList<Edge>> TRIANGLE_MST = create_TRIANGLE_MST();
-  
+
   // Complete graph with 4 vertices that has a single optimal solution
   private static final HashMap<Attraction, ArrayList<Edge>> K4 = create_K4();
   private static final HashMap<Attraction, ArrayList<Edge>> K4_MST = create_K4_MST();
@@ -72,13 +72,22 @@ public final class TspOptimizerTest {
   }
 
   @Test
-  @Ignore
-  public void dfs_TRIANGLE() {
-    // Generate the MST of the TRIANGLE graph
+  public void dfs_TRIANGLE_MST() {
+    // Generate the dfs ordering of TRIANGLE_MST graph
     ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(A, B, C));
     ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(A, C, B));
     ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
     Assert.assertTrue(expected1.equals(actual) || expected2.equals(actual));
+  }
+
+  @Test
+  public void dfs_K4_MST() {
+    // Generate the dfs ordering of K4_MST graph.
+    // Start at vertex A so there is a unique DFS traversal.
+
+    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C, D));
+    ArrayList<Attraction> actual = TspOptimizer.dfs(A, K4_MST);
+    Assert.assertEquals(expected, actual);
   }
 
   @Test
