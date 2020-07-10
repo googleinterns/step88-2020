@@ -102,7 +102,11 @@ function RouteView() {
         </Col>
         <Col>
           <Row>
-            <Map mode="directions" attractions={attractions} centerLocation={tripObject.centerLocation} />
+            <Map
+              mode="directions"
+              attractions={attractions}
+              centerLocation={tripObject.centerLocation}
+            />
           </Row>
           <Row>
             <SaveButton isSaved={isSaved} save={save} />

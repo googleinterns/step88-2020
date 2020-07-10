@@ -1,7 +1,6 @@
 import React from 'react';
 import { Map as GoogleMap, GoogleApiWrapper } from 'google-maps-react';
 import styles from './Map.module.css';
-import { MOCK_DATA } from '../route/mockData.js';
 const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
