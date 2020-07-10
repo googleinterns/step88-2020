@@ -7,7 +7,40 @@
   flex-direction: column;
 }
 
+.attractionImages {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 900px;
+  max-width: 1000px;
+  overflow-y: auto;
+}
+
+.attraction {
+  height: 300px;
+  margin: 10px;
+  width: 300px;
+}
+
+.attraction:hover,
+.routeButton:hover {
+  opacity: 0.5;
+}
+
+.selectedImage {
+  border: solid green;
+  border-width: 10px;
+}
+
 .mapContainer {
   margin-right: 100px;
   margin-top: 30px;
+}
+
+.routeButton {
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  margin: 20px auto;
+  width: 300px;
 }
