@@ -1,12 +1,12 @@
-.loggedOut {
-  visibility: hidden;
+.loggedIn {
   position: absolute;
   right: 16px;
   top: 8px;
 }
 
-.loggedIn {
+.loggedOut {
   position: absolute;
   right: 16px;
   top: 8px;
+  visibility: hidden;
 }
