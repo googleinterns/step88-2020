@@ -15,10 +15,10 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
-import com.google.maps.errors.ApiException;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
@@ -51,7 +51,7 @@ public class OptimizeServlet extends HttpServlet {
         attractions.stream().map(Attraction::getName).toArray(String[] ::new);
     DistanceMatrix matrix;
     try {
-        matrix = createDistanceMatrix(attractionNames);
+      matrix = createDistanceMatrix(attractionNames);
     } catch (Exception e) {
       response.sendError(500, e.getMessage());
       return;
@@ -81,7 +81,8 @@ public class OptimizeServlet extends HttpServlet {
     response.getWriter().println(optimizedOrderJSON);
   }
 
-  private DistanceMatrix createDistanceMatrix(String[] attractions) throws ApiException, InterruptedException, IOException {
+  private DistanceMatrix createDistanceMatrix(String[] attractions)
+      throws ApiException, InterruptedException, IOException {
     DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
     return req.origins(attractions).destinations(attractions).await();
   }
