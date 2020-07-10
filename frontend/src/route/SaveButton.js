@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import styles from './SaveButton.module.css';
 
 /**
  * Render button to save trip. If trip is saved, rendered disabled button with "Saved" text.
@@ -9,7 +10,12 @@ import Button from 'react-bootstrap/Button';
  */
 function SaveButton({ isSaved, save, isLoggedIn }) {
   return (
-    <Button variant="primary" onClick={save} disabled={isSaved}>
+    <Button
+      variant="primary"
+      onClick={save}
+      disabled={isSaved}
+      className={isLoggedIn ? styles.loggedIn : styles.loggedOut}
+    >
       {isSaved ? 'Saved' : 'Save Trip'}
     </Button>
   );

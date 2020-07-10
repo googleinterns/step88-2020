@@ -1,0 +1,9 @@
+.loggedOut {
+  color: red;
+}
+
+.loggedIn {
+  position: absolute;
+  right: 16px;
+  top: 8px;
+}

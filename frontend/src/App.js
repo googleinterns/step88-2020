@@ -29,7 +29,7 @@ function App() {
           <ExploreView images={[testImg, testImg, testImg]} />
         </Route>
         <Route path="/route">
-          <RouteView />
+          <RouteView loggedIn={authState.loggedIn} />
         </Route>
       </Switch>
     </Router>
