@@ -16,8 +16,8 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
     onReady(google, map);
     for (const attraction of attractions) {
       const location = {
-        lat: attraction.coordinates.lat,
-        lng: attraction.coordinates.lng,
+        lat: attraction.lat,
+        lng: attraction.lng,
       };
 
       const infowindow = new google.maps.InfoWindow({
@@ -54,7 +54,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
     );
   }
   const attractionCoordinates = attractions.map((attraction) =>
-    encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
+    encodeURIComponent(`${attraction.lat},${attraction.lng}`)
   );
   const origin = attractionCoordinates[0];
   const destination = attractionCoordinates[attractionCoordinates.length - 1];

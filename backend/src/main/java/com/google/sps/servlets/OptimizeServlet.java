@@ -44,7 +44,10 @@ public class OptimizeServlet extends HttpServlet {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
-    List<Attraction> attractions = json.attractions;
+    System.out.println(body);
+    System.out.println(json.selectedAttractions);
+    List<Attraction> attractions = json.selectedAttractions;
+    System.out.println(attractions);
 
     // call Distance Matrix API
     String[] attractionNames =
@@ -88,10 +91,10 @@ public class OptimizeServlet extends HttpServlet {
   }
 
   private class JSON {
-    private List<Attraction> attractions;
+    private List<Attraction> selectedAttractions;
 
-    private JSON(List<Attraction> attractions) {
-      this.attractions = attractions;
+    private JSON(List<Attraction> selectedAttractions) {
+      this.selectedAttractions = selectedAttractions;
     }
   }
 }
