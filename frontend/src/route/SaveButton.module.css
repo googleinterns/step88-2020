@@ -1,5 +1,8 @@
 .loggedOut {
-  color: red;
+  visibility: hidden;
+  position: absolute;
+  right: 16px;
+  top: 8px;
 }
 
 .loggedIn {
