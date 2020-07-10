@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,8 +11,6 @@ import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
 import SaveButton from './route/SaveButton.js';
 import TripName from './trip-name/TripName.js';
-
-import { MOCK_DATA } from './route/mockData.js';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -66,6 +65,16 @@ function RouteView() {
     setIsSaved(false);
   }
 
+  /**
+   * Creates url and navigates to /explore?trip=
+   * @param {object} history used to route dom with react
+   */
+  function handleRouting(history) {
+    tripObject.selectedAttractions = attractions;
+    const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
+    history.push(`/explore${url}`);
+  }
+
   return (
     <Container>
       <Row>
@@ -81,7 +90,14 @@ function RouteView() {
             />
           </Row>
           <Row>
-            <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+            <Container>
+              <Col>
+                <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+              </Col>
+              <Col>
+                <Button onClick={() => handleRouting(history)}>Edit Attractions</Button>
+              </Col>
+            </Container>
           </Row>
         </Col>
         <Col>

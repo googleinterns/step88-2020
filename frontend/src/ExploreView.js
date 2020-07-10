@@ -81,7 +81,7 @@ function Explore() {
         <Button
           className={styles.routeButton}
           onClick={() =>
-            handleRouteRouting(history)
+            handleRouting(history)
           }
         >
           Show Route
@@ -102,7 +102,7 @@ function Explore() {
    * Creates route url and navigates to /route?trip=
    * @param {object} history used to route dom with react
    */
-  function handleRouteRouting(history) {
+  function handleRouting(history) {
     tripObject.selectedAttractions = selectedAttractions;
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
