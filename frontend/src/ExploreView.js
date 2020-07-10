@@ -23,7 +23,7 @@ function Explore() {
     }
   );
   //console.log(tripObject);
-  Object.prototype.hasOwnProperty.call(query, 'trip') ? console.log(JSON.parse(decodeURIComponent(query.trip))) :console.log("No trip in query");
+  // Object.prototype.hasOwnProperty.call(query, 'trip') ? console.log(JSON.parse(decodeURIComponent(query.trip))) :console.log("No trip in query");
   const [selectedAttractions, setSelectedAttractions] = useState(tripObject.selectedAttractions);
   const [allAttractions, setAllAttractions] = useState([]);
   const history = useHistory();
@@ -63,7 +63,9 @@ function Explore() {
       handleTextSearch
     );
   };
-  //console.log(allAttractions);
+
+  console.log("all attractions")
+  console.log(allAttractions);
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -159,13 +161,14 @@ function Explore() {
    */
   function getAllAttractions(attractions) {
     const newAllAttractions = [];
+    console.log("selected")
     console.log(selectedAttractions);
     for (const attraction of attractions) {
       if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
         const attractionName = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
-        console.log(photoUrl);
+        // console.log(photoUrl);
 
         const isSelected = selectedAttractions.some((newAttraction) => newAttraction.photoUrl === attraction.photoUrl);
         //console.log(isSelected);
@@ -189,6 +192,7 @@ function Explore() {
    * @return {object} object containing the attraction data
    */
   function createAttraction(attractionName, latLng, photoUrl, selected) {
+    console.log("creating attraction " + attractionName)
     return {
       attractionName,
       coordinates: {
