@@ -10,32 +10,35 @@ import { useLocation, useHistory } from 'react-router-dom';
 function Explore() {
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
-  const [searchText, setSearchText] = useState(query.search || '');
-
+  const searchText = query.search || '';
   const [tripObject, setTripObject] = useState(
-    Object.prototype.hasOwnProperty.call(query, 'trip') ?
-    JSON.parse(decodeURIComponent(query.trip)) : {
-      centerLocation: {},
-      selectedAttractions: [],
-      searchText: searchText,
-      tripId: '',
-      tripName: 'Trip Name',
-    }
+    Object.prototype.hasOwnProperty.call(query, 'trip')
+      ? JSON.parse(decodeURIComponent(query.trip))
+      : {
+          centerLocation: {},
+          selectedAttractions: [],
+          searchText: searchText,
+          tripId: '',
+          tripName: 'Trip Name',
+        }
   );
-  //console.log(tripObject);
-  Object.prototype.hasOwnProperty.call(query, 'trip') ? console.log(JSON.parse(decodeURIComponent(query.trip))) :console.log("No trip in query");
-  const [selectedAttractions, setSelectedAttractions] = useState(tripObject.selectedAttractions);
+
+  const [selectedAttractions, setSelectedAttractions] = useState(
+    tripObject.selectedAttractions
+  );
   const [allAttractions, setAllAttractions] = useState([]);
   const history = useHistory();
 
-  ////console.log(tripObject);
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const latLng = results[0].geometry.location;
         const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
         const newTripObject = JSON.parse(JSON.stringify(tripObject));
-        newTripObject.centerLocation = { lat: coordinates.lat(), lng: coordinates.lng() };
+        newTripObject.centerLocation = {
+          lat: coordinates.lat(),
+          lng: coordinates.lng(),
+        };
         setTripObject(newTripObject);
         placesService.nearbySearch(
           {
@@ -63,7 +66,7 @@ function Explore() {
       handleTextSearch
     );
   };
-  //console.log(allAttractions);
+
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -81,12 +84,7 @@ function Explore() {
             </div>
           ))}
         </div>
-        <Button
-          className={styles.routeButton}
-          onClick={() =>
-            handleRouting(history)
-          }
-        >
+        <Button className={styles.routeButton} onClick={() => handleRouting(history)}>
           Show Route
         </Button>
       </div>
@@ -109,14 +107,6 @@ function Explore() {
     tripObject.selectedAttractions = selectedAttractions;
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
-  }
-
-  /**
-   * Set trip data
-   * @param {object} tripObject trip object containing trip data
-   */
-  function setTripData(tripObject) {
-    setAllAttractions(tripObject.allAttractions);
   }
 
   /**
@@ -159,21 +149,20 @@ function Explore() {
    */
   function getAllAttractions(attractions) {
     const newAllAttractions = [];
-    console.log(selectedAttractions);
     for (const attraction of attractions) {
       if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
         const attractionName = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
-        console.log(photoUrl);
-
-        const isSelected = selectedAttractions.some((newAttraction) => newAttraction.photoUrl === attraction.photoUrl);
-        //console.log(isSelected);
-        const targetAttrIndexInSelected = selectedAttractions.findIndex(
-          (selectedAttraction) => selectedAttraction.photoUrl === attraction.photoUrl
+        const isSelected = selectedAttractions.some(
+          (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
         );
-        //console.log(targetAttrIndexInSelected);
-        const newAttraction = createAttraction(attractionName, latLng, photoUrl, isSelected);
+        const newAttraction = createAttraction(
+          attractionName,
+          latLng,
+          photoUrl,
+          isSelected
+        );
         newAllAttractions.push(newAttraction);
       }
     }
@@ -195,7 +184,7 @@ function Explore() {
         lat: latLng.lat(),
         lng: latLng.lng(),
       },
-      description: "Insert description here.",
+      description: 'Insert description here.',
       photoUrl,
       routeIndex: 0,
       selected,
