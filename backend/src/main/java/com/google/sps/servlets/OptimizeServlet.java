@@ -44,17 +44,14 @@ public class OptimizeServlet extends HttpServlet {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
-    System.out.println(body);
-    System.out.println(json.selectedAttractions);
     List<Attraction> attractions = json.selectedAttractions;
-    System.out.println(attractions);
 
     // call Distance Matrix API
-    String[] attractionNames =
-        attractions.stream().map(Attraction::getName).toArray(String[] ::new);
+    String[] attractionCoordinates =
+        attractions.stream().map(Attraction::getCoordinates).toArray(String[] ::new);
     DistanceMatrix matrix;
     try {
-      matrix = createDistanceMatrix(attractionNames);
+      matrix = createDistanceMatrix(attractionCoordinates);
     } catch (Exception e) {
       response.sendError(500, e.getMessage());
       return;

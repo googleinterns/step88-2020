@@ -17,16 +17,20 @@ package com.google.sps;
 public class Attraction {
   private String name;
   private String description;
-  private String image;
+  private String photoUrl;
   private double lat;
   private double lng;
+  private int routeIndex;
+  private boolean selected;
 
-  public Attraction(String name, String description, String image, double lat, double lng) {
+  public Attraction(String name, String description, String photoUrl, double lat, double lng, int routeIndex, boolean selected) {
     this.name = name;
     this.description = description;
-    this.image = image;
+    this.photoUrl = photoUrl;
     this.lat = lat;
     this.lng = lng;
+    this.routeIndex = routeIndex;
+    this.selected = selected;
   }
 
   public Attraction(String name) {
@@ -35,6 +39,10 @@ public class Attraction {
 
   public String getName() {
     return this.name;
+  }
+
+  public String getCoordinates() {
+    return String.format("%f,%f", this.lat, this.lng);
   }
 
   @Override
