@@ -8,7 +8,6 @@ import { useLocation, useHistory } from 'react-router-dom';
  * Explore view with selectable attraction images and map
  */
 function Explore() {
-  const [centerLocation, setCenterLocation] = useState({});
   const [selectedAttractions, setSelectedAttractions] = useState([]);
   const [allAttractions, setAllAttractions] = useState([]);
   const urlParameters = useLocation();
@@ -18,7 +17,7 @@ function Explore() {
   const [tripObject, setTripObject] = useState(
     Object.prototype.hasOwnProperty.call(query, 'trip') ?
     JSON.parse(decodeURIComponent(query.trip)) : {
-      centerLocation: centerLocation,
+      centerLocation: {},
       selectedAttractions: [],
       searchText: searchText,
       tripId: '',
@@ -31,8 +30,9 @@ function Explore() {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const latLng = results[0].geometry.location;
         const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
-        setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() })
-        tripObject.centerLocation = centerLocation;
+        const newTripObject = JSON.parse(JSON.stringify(tripObject));
+        newTripObject.centerLocation = { lat: coordinates.lat(), lng: coordinates.lng() };
+        setTripObject(newTripObject);
         placesService.nearbySearch(
           {
             location: coordinates,
@@ -60,12 +60,13 @@ function Explore() {
     );
 
   };
+  
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
         <div className={styles.attractionImages}>
-          {allAttractions.map((attraction) => (
-            <div className={styles.attractionContainer} key={attraction.id}>
+          {allAttractions.map((attraction, index) => (
+            <div className={styles.attractionContainer} key={index}>
               <img
                 onClick={() => toggleSelection(attraction)}
                 className={`${styles.attraction} ${
@@ -90,7 +91,7 @@ function Explore() {
         className={styles.mapContainer}
         onReady={onMapReady}
         attractions={selectedAttractions}
-        mode={'pins'}
+        mode="pins"
         centerLocation={tripObject.centerLocation}
         key={selectedAttractions}
       />
@@ -160,8 +161,7 @@ function Explore() {
         const attractionName = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
-        const id = attraction.id;
-        const newAttraction = createAttraction(attractionName, id, latLng, photoUrl);
+        const newAttraction = createAttraction(attractionName, latLng, photoUrl);
         allAttractions.push(newAttraction);
       }
     }
@@ -176,7 +176,7 @@ function Explore() {
    * @param {string} photoUrl photo url
    * @return {object} object containing the attraction data
    */
-  function createAttraction(attractionName, id, latLng, photoUrl) {
+  function createAttraction(attractionName, latLng, photoUrl) {
     return {
       attractionName,
       coordinates: {
@@ -184,7 +184,6 @@ function Explore() {
         lng: latLng.lng(),
       },
       description: "Insert description here.",
-      id,
       photoUrl,
       routeIndex: 0,
       selected: false,

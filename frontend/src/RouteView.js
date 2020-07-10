@@ -24,12 +24,8 @@ function RouteView() {
 
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
-  console.log(urlParameters);
-  console.log(query);
   const history = useHistory();
   const tripObject = JSON.parse(decodeURIComponent(query.trip));
-  console.log("trip obj: ")
-  console.log(tripObject)
   const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
 
   /**

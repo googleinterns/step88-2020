@@ -54,13 +54,12 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       />
     );
   }
-
-  const attractionNames = attractions.map((attraction) =>
-    encodeURIComponent(attraction.attractionName).replace(/%20/g, '+')
+  const attractionCoordinates = attractions.map((attraction) =>
+    encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
   );
-  const origin = attractionNames[0];
-  const destination = attractionNames[attractionNames.length - 1];
-  const waypoints = attractionNames.slice(1, attractionNames.length - 1);
+  const origin = attractionCoordinates[0];
+  const destination = attractionCoordinates[attractionCoordinates.length - 1];
+  const waypoints = attractionCoordinates.slice(1, attractionCoordinates.length - 1);
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
