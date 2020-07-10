@@ -17,29 +17,61 @@ package com.google.sps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public final class TspOptimizer {
   /**
-   * Call optimize(source) after determining a source Attraction from which to run MST algorithm.
+   * Call optimize(source, graph) after determining a source Attraction from which to run MST
+   * algorithm.
+   * @param graph the graph on which to find an optimal path between all attractions
    * @return list of attractions in optimal visiting order
    */
-  public static ArrayList<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
-    ArrayList<Attraction> optimizedOrder = new ArrayList<>();
-    for (Attraction a : graph.keySet()) {
-      optimizedOrder.add(a);
-    }
-    return optimizedOrder;
+  public static List<Attraction> optimize(HashMap<Attraction, ArrayList<Edge>> graph) {
+    Attraction source = graph.keySet().iterator().next();
+    return optimize(source, graph);
   }
 
   /**
    * Run TSP approximation algorithm.
    * @param source the source Attraction from which to run MST algorithm
+   * @param graph the graph on which to find an optimal path between all attractions
    * @return list of attractions in optimal visiting order
    */
-  public static ArrayList<Attraction> optimize(
+  public static List<Attraction> optimize(
       Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
-    return null;
+    HashMap<Attraction, ArrayList<Edge>> mst = getMst(source, graph);
+    ArrayList<Attraction> dfsOrder = dfs(source, mst);
+    return getOptimalOrdering(dfsOrder, graph);
+  }
+
+  /**
+   * Remove the heaviest edge from the dfs ordering to produce an optimized ordering
+   * @param attractions list of attractions in dfs ordering
+   * @param graph the mst that contains the attractions and that was dfs traversed
+   * @return arraylist containing the attractions in optimized order
+   */
+  private static List<Attraction> getOptimalOrdering(
+      List<Attraction> attractions, HashMap<Attraction, ArrayList<Edge>> graph) {
+    // determine heaviest edge
+    long maxDistance = 0;
+    int startIndex = 0;
+    for (int i = 0; i < attractions.size(); i++) {
+      Attraction curr = attractions.get(i);
+      int nextIndex = (i + 1) % attractions.size();
+      Attraction next = attractions.get(nextIndex);
+      for (Edge e : graph.get(curr)) {
+        if (e.getOtherEndpoint(curr).equals(next)) {
+          maxDistance = Math.max(e.getDistance(), maxDistance);
+          startIndex = e.getDistance() == maxDistance ? nextIndex : startIndex;
+        }
+      }
+    }
+
+    // create optimized ordering
+    List<Attraction> optimizedOrder = attractions.subList(startIndex, attractions.size());
+    optimizedOrder.addAll(attractions.subList(0, startIndex));
+    return optimizedOrder;
   }
 
   /**
@@ -99,6 +131,7 @@ public final class TspOptimizer {
    * Return list of attractions in pre-order DFS traversal order.
    * @param source the vertex on which to start DFS
    * @param graph the MST on which to run DFS
+   * @return list of attractions in DFS order
    */
   static ArrayList<Attraction> dfs(Attraction source, HashMap<Attraction, ArrayList<Edge>> graph) {
     return dfsHelper(source, graph, new HashSet<>());
@@ -109,6 +142,7 @@ public final class TspOptimizer {
    * @param curr the vertex that is currently being visited in the DFS traversal
    * @param graph the MST on which to run DFS
    * @param visited set of visited vertices
+   * @return list of arractions in DFS order
    */
   private static ArrayList<Attraction> dfsHelper(
       Attraction curr, HashMap<Attraction, ArrayList<Edge>> graph, HashSet<Attraction> visited) {
