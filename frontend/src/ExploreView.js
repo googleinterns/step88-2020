@@ -180,10 +180,8 @@ function Explore() {
   function createAttraction(attractionName, latLng, photoUrl, selected) {
     return {
       attractionName,
-      coordinates: {
-        lat: latLng.lat(),
-        lng: latLng.lng(),
-      },
+      lat: latLng.lat(),
+      lng: latLng.lng(),
       description: 'Insert description here.',
       photoUrl,
       routeIndex: 0,
