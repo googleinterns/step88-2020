@@ -18,6 +18,7 @@ function Explore() {
   const [tripObject, setTripObject] = useState(
     Object.prototype.hasOwnProperty.call(query, 'trip') ?
     JSON.parse(decodeURIComponent(query.trip)) : {
+      centerLocation: centerLocation,
       selectedAttractions: [],
       searchText: searchText,
       tripId: '',
@@ -30,7 +31,8 @@ function Explore() {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const latLng = results[0].geometry.location;
         const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
-        setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() });
+        setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() })
+        tripObject.centerLocation = centerLocation;
         placesService.nearbySearch(
           {
             location: coordinates,
@@ -89,7 +91,7 @@ function Explore() {
         onReady={onMapReady}
         attractions={selectedAttractions}
         mode={'pins'}
-        centerLocation={centerLocation}
+        centerLocation={tripObject.centerLocation}
         key={selectedAttractions}
       />
     </div>
@@ -181,6 +183,7 @@ function Explore() {
         lat: latLng.lat(),
         lng: latLng.lng(),
       },
+      description: "Insert description here.",
       id,
       photoUrl,
       routeIndex: 0,

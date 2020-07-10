@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -18,12 +19,32 @@ import { MOCK_DATA } from './route/mockData.js';
 function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [places, setPlaces] = useState(MOCK_DATA);
+  // const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
+
+  const urlParameters = useLocation();
+  const query = getQueryParameters(urlParameters.search);
+  console.log(urlParameters);
+  console.log(query);
+  const history = useHistory();
+  const tripObject = JSON.parse(decodeURIComponent(query.trip));
+  console.log("trip obj: ")
+  console.log(tripObject)
+  const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
+
+  /**
+   * Extract the url parameters and convert to dictionary
+   * @param {string} query url string
+   * @return {object} key value pair of url parameters
+   */
+  function getQueryParameters(query) {
+    const params = query.split('?')[1];
+    return Object.fromEntries(new URLSearchParams(params));
+  }
 
   useEffect(() => {
     if (isOptimized) {
-      setPlaces(optimizedOrder);
+      setAttractions(optimizedOrder);
     }
   }, [isOptimized, optimizedOrder]);
 
@@ -31,7 +52,7 @@ function RouteView() {
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
-        body: JSON.stringify({ attractions: places }),
+        body: JSON.stringify({ attractions: attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);
@@ -58,8 +79,8 @@ function RouteView() {
         <Col>
           <Row className={styles.routeListContainer}>
             <Route
-              places={places}
-              setPlaces={setPlaces}
+              places={attractions}
+              setPlaces={setAttractions}
               onManualPlaceChange={onManualPlaceChange}
             />
           </Row>
@@ -69,7 +90,7 @@ function RouteView() {
         </Col>
         <Col>
           <Row>
-            <Map mode="directions" places={places} centerLocation={places[0]} />
+            <Map mode="directions" attractions={attractions} centerLocation={tripObject.centerLocation} />
           </Row>
           <Row>
             <SaveButton isSaved={isSaved} save={save} />

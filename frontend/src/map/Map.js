@@ -54,7 +54,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       />
     );
   }
-  attractions = MOCK_DATA;
+
   const attractionNames = attractions.map((attraction) =>
     encodeURIComponent(attraction.attractionName).replace(/%20/g, '+')
   );
