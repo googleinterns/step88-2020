@@ -11,12 +11,19 @@ function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
   const [selectedAttractions, setSelectedAttractions] = useState([]);
   const [allAttractions, setAllAttractions] = useState([]);
-  const [searchText, setSearchText] = useState('');
-  const [tripId, setTripId] = useState('');
-  const [tripName, setTripName] = useState('');
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
+  const [searchText, setSearchText] = useState(query.search || '');
   const history = useHistory();
+  const [tripObject, setTripObject] = useState(
+    Object.prototype.hasOwnProperty.call(query, 'trip') ?
+    JSON.parse(decodeURIComponent(query.trip)) : {
+      selectedAttractions: [],
+      searchText: searchText,
+      tripId: '',
+      tripName: 'Trip Name',
+    }
+  );
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
@@ -45,19 +52,11 @@ function Explore() {
     const placesService = new google.maps.places.PlacesService(map);
     placesService.textSearch(
       {
-        query: query.search,
+        query: tripObject.searchText,
       },
       handleTextSearch
     );
 
-    if ('trip' in query) {
-      const decodedData = decodeURIComponent(query.trip);
-      const tripObject = JSON.parse(decodedData);
-      setTripData(tripObject);
-    }
-    if ('search' in query) {
-      setSearchText(query.search);
-    }
   };
   return (
     <div className={styles.exploreContainer}>
@@ -79,7 +78,7 @@ function Explore() {
         <Button
           className={styles.routeButton}
           onClick={() =>
-            handleRouteRouting(allAttractions, searchText, tripId, tripName, history)
+            handleRouteRouting(history)
           }
         >
           Show Route
@@ -98,24 +97,10 @@ function Explore() {
 
   /**
    * Creates route url and navigates to /route?trip=
-   * @param {object[]} allAttractions list of all attractions
-   * @param {string} searchText search text
-   * @param {string} tripId trip id
-   * @param {string} tripName trip name
    * @param {object} history used to route dom with react
    */
-  function handleRouteRouting(allAttractions, searchText, tripId, tripName, history) {
-    const tripObject = {
-      allAttractions: [],
-      searchText: searchText,
-      tripId: tripId,
-      tripName: tripName,
-    };
-    for (const attraction of allAttractions) {
-      if (attraction.selected) {
-        tripObject.allAttractions.push(attraction);
-      }
-    }
+  function handleRouteRouting(history) {
+    tripObject.selectedAttractions = selectedAttractions;
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
   }
@@ -125,8 +110,6 @@ function Explore() {
    * @param {object} tripObject trip object containing trip data
    */
   function setTripData(tripObject) {
-    setTripId(tripObject.tripId);
-    setTripName(tripObject.tripName);
     setAllAttractions(tripObject.allAttractions);
   }
 
