@@ -178,7 +178,6 @@ function Explore() {
    * @return {object} object containing the attraction data
    */
   function createAttraction(attractionName, latLng, photoUrl, selected) {
-    console.log("creating attraction " + attractionName)
     return {
       attractionName,
       coordinates: {
