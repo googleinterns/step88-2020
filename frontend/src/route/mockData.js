@@ -11,35 +11,35 @@ import testImg from './testImg.jpg';
  */
 export const /** !Array<Place> */ MOCK_DATA = [
     {
-      name: 'Eiffel Tower',
+      name: 'Eiffel Tower, Paris',
       description: 'Description of location if we want to include it here.',
       image: testImg,
       lat: 48.858405,
       lng: 2.294449,
     },
     {
-      name: 'Louvre',
+      name: 'Louvre, Paris',
       description: 'Description of location if we want to include it here.',
       image: testImg,
       lat: 48.860611,
       lng: 2.337698,
     },
     {
-      name: "Musee D'Orsay",
+      name: "Musee D'Orsay, Paris",
       description: 'Description of location if we want to include it here.',
       image: testImg,
       lat: 48.85991,
       lng: 2.326364,
     },
     {
-      name: 'Arc de Triomphe',
+      name: 'Arc de Triomphe, Paris',
       description: 'Description of location if we want to include it here.',
       image: testImg,
       lat: 48.873771,
       lng: 2.295049,
     },
     {
-      name: 'Luxembourg Palace',
+      name: 'Luxembourg Palace, Paris',
       description: 'Description of location if we want to include it here.',
       image: testImg,
       lat: 48.848203,

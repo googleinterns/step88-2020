@@ -10,8 +10,8 @@ import styles from './AttractionsPanel.module.css';
 function AttractionsPanel({ attractionUrls }) {
   return (
     <div className={styles.attractionsPanel}>
-      {attractionUrls.map((url) => (
-        <Attraction imageUrl={url} key={url} />
+      {attractionUrls.map((url, index) => (
+        <Attraction imageUrl={url} key={index} />
       ))}
     </div>
   );
