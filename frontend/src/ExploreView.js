@@ -9,8 +9,8 @@ import { useLocation, useHistory } from 'react-router-dom';
  */
 function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
-  const [selectedAttractions, setselectedAttractions] = useState([]);
-  const [allAttractions, setallAttractions] = useState([]);
+  const [selectedAttractions, setSelectedAttractions] = useState([]);
+  const [allAttractions, setAllAttractions] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [tripId, setTripId] = useState('');
   const [tripName, setTripName] = useState('');
@@ -21,8 +21,8 @@ function Explore() {
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const latlng = results[0].geometry.location;
-        const coordinates = new google.maps.LatLng(latlng.lat(), latlng.lng());
+        const latLng = results[0].geometry.location;
+        const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
         setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() });
         placesService.nearbySearch(
           {
@@ -36,9 +36,9 @@ function Explore() {
 
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const newallAttractions =
-          allAttractions.length === 0 ? getallAttractions(results) : allAttractions;
-        setallAttractions(newallAttractions);
+        const newAllAttractions =
+          allAttractions.length === 0 ? getAllAttractions(results) : allAttractions;
+        setAllAttractions(newAllAttractions);
       }
     };
 
@@ -51,8 +51,8 @@ function Explore() {
     );
 
     if ('trip' in query) {
-      var decodedData = decodeURIComponent(query.trip);
-      var tripObject = JSON.parse(decodedData);
+      const decodedData = decodeURIComponent(query.trip);
+      const tripObject = JSON.parse(decodedData);
       setTripData(tripObject);
     }
     if ('search' in query) {
@@ -66,13 +66,12 @@ function Explore() {
           {allAttractions.map((attraction) => (
             <div className={styles.attractionContainer} key={attraction.id}>
               <img
-                onClick={() => toggleSelection(attraction, allAttractions)}
+                onClick={() => toggleSelection(attraction)}
                 className={`${styles.attraction} ${
                   attraction.selected ? styles.selectedImage : ''
                 }`}
                 src={attraction.photoUrl}
                 alt=""
-                key={attraction.id}
               />
             </div>
           ))}
@@ -106,7 +105,7 @@ function Explore() {
    * @param {object} history used to route dom with react
    */
   function handleRouteRouting(allAttractions, searchText, tripId, tripName, history) {
-    let tripObject = {
+    const tripObject = {
       allAttractions: [],
       searchText: searchText,
       tripId: tripId,
@@ -117,7 +116,7 @@ function Explore() {
         tripObject.allAttractions.push(attraction);
       }
     }
-    var routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
+    const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
   }
 
@@ -128,49 +127,30 @@ function Explore() {
   function setTripData(tripObject) {
     setTripId(tripObject.tripId);
     setTripName(tripObject.tripName);
-    setallAttractions(tripObject.allAttractions);
+    setAllAttractions(tripObject.allAttractions);
   }
 
   /**
+   * changes selection property of attraction which causes the following
    * Add/Remove coordinates from the map
    * Add/Remove border color and style
    * @param {object} targetAttraction attraction to be found
-   * @param {object[]} allAttractions array of all attractions
    */
-  function toggleSelection(targetAttraction, allAttractions) {
-    for (const attrIndex in allAttractions) {
-      if (allAttractions[attrIndex].photoUrl === targetAttraction.photoUrl) {
-        allAttractions[attrIndex].selected = !allAttractions[attrIndex].selected;
-        setallAttractions(allAttractions);
-        let selectedAttractionsCopy = Array.from(selectedAttractions);
+  function toggleSelection(targetAttraction) {
+    const targetAttrIndexInSelected = selectedAttractions.findIndex(
+      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
+    );
 
-        if (isAttractionInSelectedAttractions(targetAttraction, selectedAttractions)) {
-          const attrIndex = selectedAttractions.findIndex(
-            (attraction) => attraction.photoUrl === targetAttraction.photoUrl
-          );
-          selectedAttractionsCopy.splice(attrIndex, 1);
-          setselectedAttractions(selectedAttractionsCopy);
-        } else {
-          selectedAttractionsCopy.push(targetAttraction);
-          setselectedAttractions(selectedAttractionsCopy);
-        }
-      }
-    }
-  }
+    targetAttraction.selected = !targetAttraction.selected;
+    const selectedAttractionsCopy = Array.from(selectedAttractions);
 
-  /**
-   * Extract the url parameters and convert to dictionary
-   * @param {object[]} targetAttraction attraction to find
-   * @param {object[]} selectedAttractions array of attraction objects
-   * @return {boolean} true if found, false if not
-   */
-  function isAttractionInSelectedAttractions(targetAttraction, selectedAttractions) {
-    for (const attraction of selectedAttractions) {
-      if (attraction.photoUrl === targetAttraction.photoUrl) {
-        return true;
-      }
+    if (targetAttrIndexInSelected === -1) {
+      /*not in selected*/ selectedAttractionsCopy.push(targetAttraction);
+      setSelectedAttractions(selectedAttractionsCopy);
+    } /*in selected*/ else {
+      selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
+      setSelectedAttractions(selectedAttractionsCopy);
     }
-    return false;
   }
 
   /**
@@ -188,18 +168,16 @@ function Explore() {
    * @param {object[]} attractions array of objects from Places Request
    * @return {object[]} array of all attractions
    */
-  function getallAttractions(attractions) {
+  function getAllAttractions(attractions) {
     const allAttractions = [];
     for (const attraction of attractions) {
-      try {
+      if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
         const attractionName = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
-        const latlng = attraction.geometry.location;
+        const latLng = attraction.geometry.location;
         const id = attraction.id;
-        const newAttraction = createAttraction(attractionName, id, latlng, photoUrl);
+        const newAttraction = createAttraction(attractionName, id, latLng, photoUrl);
         allAttractions.push(newAttraction);
-      } catch {
-        continue;
       }
     }
     return allAttractions;
@@ -213,12 +191,12 @@ function Explore() {
    * @param {string} photoUrl photo url
    * @return {object} object containing the attraction data
    */
-  function createAttraction(attractionName, id, latlng, photoUrl) {
+  function createAttraction(attractionName, id, latLng, photoUrl) {
     return {
       attractionName,
       coordinates: {
-        lat: latlng.lat(),
-        lng: latlng.lng(),
+        lat: latLng.lat(),
+        lng: latLng.lng(),
       },
       id,
       photoUrl,
