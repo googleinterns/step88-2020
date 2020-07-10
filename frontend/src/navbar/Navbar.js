@@ -20,26 +20,18 @@ function Navbar({ authState }) {
         </Switch>
       </Nav.Item>
       <Nav.Item>
-        <Switch>
-          <Route path="/route">
-            <Nav.Link
-              disabled={!authState.ready}
-              href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
-              className={styles.rightLink}
-            >
+        <Nav.Link
+          disabled={!authState.ready}
+          href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
+          className={styles.rightLink}
+        >
+          <Switch>
+            <Route path="/route">
               {authState.loggedIn ? '' : 'Sign in to save trips'}
-            </Nav.Link>
-          </Route>
-          <Route path="/">
-            <Nav.Link
-              disabled={!authState.ready}
-              href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
-              className={styles.rightLink}
-            >
-              {authState.loggedIn ? 'Sign Out' : 'Sign In'}
-            </Nav.Link>
-          </Route>
-        </Switch>
+            </Route>
+            <Route path="/">{authState.loggedIn ? 'Sign Out' : 'Sign In'}</Route>
+          </Switch>
+        </Nav.Link>
       </Nav.Item>
     </Nav>
   );
