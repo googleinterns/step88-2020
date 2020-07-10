@@ -25,6 +25,7 @@ import com.google.sps.TspOptimizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class OptimizeServlet extends HttpServlet {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
-    ArrayList<Attraction> attractions = json.attractions;
+    List<Attraction> attractions = json.attractions;
 
     // call Distance Matrix API
     String[] attractionNames =
@@ -66,7 +67,7 @@ public class OptimizeServlet extends HttpServlet {
     }
 
     // call TSP approximation algorithm
-    ArrayList<Attraction> optimizedOrder = TspOptimizer.optimize(graph);
+    List<Attraction> optimizedOrder = TspOptimizer.optimize(graph);
 
     String optimizedOrderJSON = g.toJson(optimizedOrder);
     response.setContentType("json;");
@@ -83,9 +84,9 @@ public class OptimizeServlet extends HttpServlet {
   }
 
   private class JSON {
-    private ArrayList<Attraction> attractions;
+    private List<Attraction> attractions;
 
-    private JSON(ArrayList<Attraction> attractions) {
+    private JSON(List<Attraction> attractions) {
       this.attractions = attractions;
     }
   }

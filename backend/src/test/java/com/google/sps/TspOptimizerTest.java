@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -82,9 +83,9 @@ public final class TspOptimizerTest {
   public void dfs_TRIANGLE_MST() {
     // Generate the dfs ordering of TRIANGLE_MST graph
 
-    ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(A, B, C));
-    ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(A, C, B));
-    ArrayList<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
+    List<Attraction> expected1 = Arrays.asList(A, B, C);
+    List<Attraction> expected2 = Arrays.asList(A, C, B);
+    List<Attraction> actual = TspOptimizer.dfs(A, TRIANGLE_MST);
     assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
   }
 
@@ -93,8 +94,8 @@ public final class TspOptimizerTest {
     // Generate the dfs ordering of K4_MST graph.
     // Start at vertex A so there is a unique DFS traversal.
 
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C, D));
-    ArrayList<Attraction> actual = TspOptimizer.dfs(A, K4_MST);
+    List<Attraction> expected = Arrays.asList(A, B, C, D);
+    List<Attraction> actual = TspOptimizer.dfs(A, K4_MST);
     Assert.assertEquals(expected, actual);
   }
 
@@ -103,9 +104,9 @@ public final class TspOptimizerTest {
     // Use triangle graph. Choose a random Attraction as source.
     // Algorithm should return a path with the two shortest edges B--A--C or C--A--B.
 
-    ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(B, A, C));
-    ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(C, A, B));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(TRIANGLE);
+    List<Attraction> expected1 = Arrays.asList(B, A, C);
+    List<Attraction> expected2 = Arrays.asList(C, A, B);
+    List<Attraction> actual = TspOptimizer.optimize(TRIANGLE);
     assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
   }
 
@@ -114,8 +115,8 @@ public final class TspOptimizerTest {
     // Use triangle graph. DFS traversal of MST is the optimal path.
     // Algorithm should return a path with the two shortest edges B--A--C.
 
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(B, A, C));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(B, TRIANGLE);
+    List<Attraction> expected = Arrays.asList(B, A, C);
+    List<Attraction> actual = TspOptimizer.optimize(B, TRIANGLE);
     Assert.assertEquals(expected, actual);
   }
 
@@ -125,9 +126,9 @@ public final class TspOptimizerTest {
     // deletion of heaviest edge in cycle. Algorithm should return a path with the two shortest
     // edges B--A--C or C--A--B.
 
-    ArrayList<Attraction> expected1 = new ArrayList<>(Arrays.asList(B, A, C));
-    ArrayList<Attraction> expected2 = new ArrayList<>(Arrays.asList(C, A, B));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(A, TRIANGLE);
+    List<Attraction> expected1 = Arrays.asList(B, A, C);
+    List<Attraction> expected2 = Arrays.asList(C, A, B);
+    List<Attraction> actual = TspOptimizer.optimize(A, TRIANGLE);
     assertThat(Arrays.asList(expected1, expected2), hasItem(actual));
   }
 
@@ -136,8 +137,8 @@ public final class TspOptimizerTest {
     // Create complete graph with 4 vertices. DFS traversal of MST is the optimal path.
     // Algorithm should return a path with three shortest edges A--B--C--D.
 
-    ArrayList<Attraction> expected = new ArrayList<>(Arrays.asList(A, B, C, D));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(A, K4);
+    List<Attraction> expected = Arrays.asList(A, B, C, D);
+    List<Attraction> actual = TspOptimizer.optimize(A, K4);
     Assert.assertEquals(expected, actual);
   }
 
@@ -147,11 +148,11 @@ public final class TspOptimizerTest {
     // Algorithm should return a path 6/5 times length of optimal path C--D--B--A
     // or the optimal path A--B--C--D.
 
-    ArrayList<Attraction> expectedOptimal1 = new ArrayList<>(Arrays.asList(A, B, C, D));
-    ArrayList<Attraction> expectedOptimal2 = new ArrayList<>(Arrays.asList(D, C, B, A));
-    ArrayList<Attraction> expectedSuboptimal1 = new ArrayList<>(Arrays.asList(C, D, B, A));
-    ArrayList<Attraction> expectedSuboptimal2 = new ArrayList<>(Arrays.asList(A, B, D, C));
-    ArrayList<Attraction> actual = TspOptimizer.optimize(C, K4);
+    List<Attraction> expectedOptimal1 = Arrays.asList(A, B, C, D);
+    List<Attraction> expectedOptimal2 = Arrays.asList(D, C, B, A);
+    List<Attraction> expectedSuboptimal1 = Arrays.asList(C, D, B, A);
+    List<Attraction> expectedSuboptimal2 = Arrays.asList(A, B, D, C);
+    List<Attraction> actual = TspOptimizer.optimize(C, K4);
     assertThat(
         Arrays.asList(expectedOptimal1, expectedOptimal2, expectedSuboptimal1, expectedSuboptimal2),
         hasItem(actual));
