@@ -6,13 +6,13 @@
 
 .locationCard,
 .locationImg {
-  height: 16rem;
+  height: 14rem;
   object-fit: cover;
 }
 
 .overlay {
   background-color: #303030;
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 .cardTxt {
