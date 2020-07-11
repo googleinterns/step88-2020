@@ -91,14 +91,8 @@ function RouteView() {
             />
           </Row>
           <Row>
-            <Container>
-              <Col>
-                <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-              </Col>
-              <Col>
-                <Button onClick={() => handleRouting(history)}>Edit Attractions</Button>
-              </Col>
-            </Container>
+            <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+            <Button onClick={() => handleRouting(history)}>Edit Attractions</Button>
           </Row>
         </Col>
         <Col>
