@@ -44,11 +44,11 @@ function RouteView() {
   }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
-    console.log(attractions)
+    console.log(attractions);
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
-        body: JSON.stringify({ "selectedAttractions": attractions }),
+        body: JSON.stringify({ selectedAttractions: attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);

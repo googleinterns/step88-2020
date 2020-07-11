@@ -23,7 +23,8 @@ public class Attraction {
   private int routeIndex;
   private boolean selected;
 
-  public Attraction(String name, String description, String photoUrl, double lat, double lng, int routeIndex, boolean selected) {
+  public Attraction(String name, String description, String photoUrl, double lat, double lng,
+      int routeIndex, boolean selected) {
     this.name = name;
     this.description = description;
     this.photoUrl = photoUrl;

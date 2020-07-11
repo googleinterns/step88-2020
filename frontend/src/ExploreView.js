@@ -157,12 +157,7 @@ function Explore() {
         const isSelected = selectedAttractions.some(
           (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
         );
-        const newAttraction = createAttraction(
-          name,
-          latLng,
-          photoUrl,
-          isSelected
-        );
+        const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
         newAllAttractions.push(newAttraction);
       }
     }
