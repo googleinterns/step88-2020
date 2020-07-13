@@ -44,7 +44,6 @@ function RouteView() {
   }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
-    console.log(attractions);
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
