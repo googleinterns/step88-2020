@@ -7,7 +7,7 @@ import styles from './RouteView.module.css';
 import Map from './map/Map.js';
 import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
-import SaveButton from './route/SaveButton.js';
+import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
 
 import { MOCK_DATA } from './route/mockData.js';
@@ -51,7 +51,7 @@ function RouteView({ loggedIn }) {
 
   return (
     <>
-      <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
+      {loggedIn ? <SaveShareButtons isSaved={isSaved} save={save} isLoggedIn={loggedIn} /> : <></>}
       <Container>
         <Row>
           <TripName />
