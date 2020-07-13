@@ -1,12 +1,5 @@
-.loggedIn {
+.button {
   position: absolute;
   right: 16px;
   top: 8px;
-}
-
-.loggedOut {
-  position: absolute;
-  right: 16px;
-  top: 8px;
-  visibility: hidden;
 }

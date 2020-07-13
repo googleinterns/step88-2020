@@ -10,14 +10,18 @@ import styles from './SaveButton.module.css';
  */
 function SaveButton({ isSaved, save, isLoggedIn }) {
   return (
-    <Button
-      variant="primary"
-      onClick={save}
-      disabled={isSaved}
-      className={isLoggedIn ? styles.loggedIn : styles.loggedOut}
-    >
-      {isSaved ? 'Saved' : 'Save Trip'}
-    </Button>
+    <>
+      {isLoggedIn && (
+        <Button
+          variant="primary"
+          onClick={save}
+          disabled={isSaved}
+          className={styles.button}
+        >
+          {isSaved ? 'Saved' : 'Save Trip'}
+        </Button>
+      )}
+    </>
   );
 }
 
