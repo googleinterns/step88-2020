@@ -5,14 +5,15 @@ import styles from './SaveShareButtons.module.css';
 /**
  * Render button to save trip. If trip is saved, rendered disabled button with "Saved" text.
  * @param {boolean|undefined} isSaved status of whether trip is saved.
- * @param {function} setIsSaved called to set saved status of trip
+ * @param {function} save called to set saved status of trip
+ * @param {function} share called to trigger modal to copy link to share trip 
  */
-function SaveShareButtons({ isSaved, save }) {
+function SaveShareButtons({ isSaved, save, share }) {
   return (
     <div className={styles.buttonsContainer}>
     <Button
         variant="secondary"
-        onClick={save}
+        onClick={share}
         disabled={isSaved}
         className={styles.button}
       >

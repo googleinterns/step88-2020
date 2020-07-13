@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 import styles from './RouteView.module.css';
 
 import Map from './map/Map.js';
@@ -20,6 +22,10 @@ function RouteView({ loggedIn }) {
   const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  
+  const handleShareClose = () => setShowShareModal(false);
+  const handleShareShow = () => setShowShareModal(true);
 
   useEffect(() => {
     if (isOptimized) {
@@ -51,7 +57,18 @@ function RouteView({ loggedIn }) {
 
   return (
     <>
-      {loggedIn ? <SaveShareButtons isSaved={isSaved} save={save} isLoggedIn={loggedIn} /> : <></>}
+      <Modal show={showShareModal} onHide={handleShareClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Share Trip</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Copy link to share trip.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleShareClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {!loggedIn ? <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} /> : <></>}
       <Container>
         <Row>
           <TripName />
