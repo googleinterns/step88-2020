@@ -65,7 +65,6 @@ function RouteView({ loggedIn }) {
     document.execCommand('copy');
   }
 
-
   return (
     <>
       <Modal show={showShareModal} onHide={handleShareClose}>
@@ -81,11 +80,11 @@ function RouteView({ loggedIn }) {
                 value={window.location.href}
                 className={styles.copyText}
               />
-                <FontAwesomeIcon
-                  icon={faClone}
-                  onClick={copyToClipboard}
-                  className={styles.copyBtn}
-                />
+              <FontAwesomeIcon
+                icon={faClone}
+                onClick={copyToClipboard}
+                className={styles.copyBtn}
+              />
             </Row>
             <Row className={styles.modalBtnContainer}>
               <Button
