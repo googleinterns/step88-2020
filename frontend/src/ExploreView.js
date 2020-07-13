@@ -3,6 +3,8 @@ import styles from './ExploreView.module.css';
 import Button from 'react-bootstrap/Button';
 import Map from './map/Map';
 import { useLocation, useHistory } from 'react-router-dom';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  * Explore view with selectable attraction images and map
@@ -75,6 +77,13 @@ function Explore() {
                 src={attraction.photoUrl}
                 alt=""
               />
+              {attraction.selected && (
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  className={styles.check}
+                  onClick={() => toggleSelection(attraction)}
+                />
+              )}
             </div>
           ))}
         </div>
