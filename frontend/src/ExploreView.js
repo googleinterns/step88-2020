@@ -10,11 +10,11 @@ import { useLocation, useHistory } from 'react-router-dom';
 function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
   const [initialAttractions, setInitialAttractions] = useState([]);
-  const [tripId, setTripId] = useState('');
-  const [tripName, setTripName] = useState('');
+  const [tripId] = useState('');
+  const [tripName] = useState('');
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
-  const [searchText, setSearchText] = useState(query.search || '');
+  const [searchText] = useState(query.search || '');
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -35,7 +35,9 @@ function Explore() {
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
-          initialAttractions.length === 0 ? getAllAttractions(results) : initialAttractions;
+          initialAttractions.length === 0
+            ? getAllAttractions(results)
+            : initialAttractions;
         setInitialAttractions(newAllAttractions);
       }
     };
@@ -73,7 +75,13 @@ function Explore() {
         <Button
           className={styles.routeButton}
           onClick={() =>
-            handleRouteRouting(initialAttractions, searchText, tripId, tripName, history)
+            handleRouteRouting(
+              initialAttractions,
+              searchText,
+              tripId,
+              tripName,
+              history
+            )
           }
         >
           Show Route
@@ -98,7 +106,13 @@ function Explore() {
    * @param {string} tripName trip name
    * @param {object} history used to route dom with react
    */
-  function handleRouteRouting(initialAttractions, searchText, tripId, tripName, history) {
+  function handleRouteRouting(
+    initialAttractions,
+    searchText,
+    tripId,
+    tripName,
+    history
+  ) {
     const tripObject = {
       allAttractions: [],
       searchText,
@@ -109,15 +123,6 @@ function Explore() {
     tripObject.allAttractions = selectedAttractions;
     const routeUrl = '/route?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(routeUrl);
-  }
-
-  /**
-   * @param {object} tripObject trip object containing trip data
-   */
-  function setTripData(tripObject) {
-    setTripId(tripObject.tripId);
-    setTripName(tripObject.tripName);
-    setInitialAttractions(tripObject.allAttractions);
   }
 
   /**
