@@ -60,7 +60,9 @@ function Explore() {
     }
   };
 
-  const selectedAttractions = allAttractions.filter((attraction) => attraction.selected);
+  const selectedAttractions = allAttractions.filter(
+    (attraction) => attraction.selected
+  );
 
   return (
     <div className={styles.exploreContainer}>
@@ -115,7 +117,9 @@ function Explore() {
       tripName: tripName,
     };
 
-    tripObject.allAttractions = allAttractions.filter((attraction) => attraction.selected);
+    tripObject.allAttractions = allAttractions.filter(
+      (attraction) => attraction.selected
+    );
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
   }
@@ -136,7 +140,7 @@ function Explore() {
    * Add/Remove border color and style
    * @param {object} targetAttraction attraction to be found
    */
-   function toggleSelection(targetAttraction) {
+  function toggleSelection(targetAttraction) {
     const newAttractions = allAttractions.map((attraction) => {
       if (attraction.id === targetAttraction.id) {
         attraction.selected = !attraction.selected;
