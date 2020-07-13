@@ -9,10 +9,7 @@ import { useLocation, useHistory } from 'react-router-dom';
  */
 function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
-  //const [selectedAttractions, setSelectedAttractions] = useState([]);
   const [allAttractions, setAllAttractions] = useState([]);
-  //const [searchText, setSearchText] = useState('');
-
   const [tripId, setTripId] = useState('');
   const [tripName, setTripName] = useState('');
   const urlParameters = useLocation();
