@@ -53,6 +53,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       />
     );
   }
+
   const attractionCoordinates = attractions.map((attraction) =>
     encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
   );

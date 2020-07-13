@@ -27,6 +27,7 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [allAttractions, setAllAttractions] = useState([]);
+
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -40,6 +41,7 @@ function Explore() {
           lng: coordinates.lng(),
         };
         setTripObject(newTripObject);
+
         placesService.nearbySearch(
           {
             location: coordinates,
