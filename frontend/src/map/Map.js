@@ -1,65 +1,64 @@
-import React, { useEffect, useRef } from 'react';
-import loadGoogleMapsApi from 'load-google-maps-api';
+import React from 'react';
+import { Map as GoogleMap, GoogleApiWrapper } from 'google-maps-react';
 import styles from './Map.module.css';
-
 const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
 /**
  * Makes a call to Map Embed API to display route between multiple locations.
- * @param {list} places list of locations to route between
+ * @param {list} attractions list of locations to route between
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
-function Map({ places, mode, centerLocation }) {
-  const mapRef = useRef(null);
 
-  useEffect(() => {
-    if (mode !== 'pins') {
-      return;
-    }
+function Map({ attractions, mode, centerLocation, google, onReady, view }) {
+  const onPinsReady = (mapProps, map) => {
+    onReady(google, map);
+    for (const attraction of attractions) {
+      const location = {
+        lat: attraction.coordinates.lat,
+        lng: attraction.coordinates.lng,
+      };
 
-    loadGoogleMapsApi({ key: MAPS_API_KEY }).then((googleMaps) => {
-      const map = new googleMaps.Map(mapRef.current, {
-        zoom: 12,
-        center: { lat: centerLocation.lat, lng: centerLocation.lng },
+      const infowindow = new google.maps.InfoWindow({
+        content: `
+          <div>
+            <h4>${attraction.attractionName}</h4>
+            <div>Short description of attraction if desired</div>
+            <div>
+              <img src="${attraction.photoUrl}" alt="${attraction.attractionName} Image" />
+            </div>
+          </div>
+        `,
       });
-
-      for (const place of places) {
-        const location = { lat: place.lat, lng: place.lng };
-        const infowindow = new googleMaps.InfoWindow({
-          content: `
-              <div>
-                <h4>${place.name}</h4>
-                <div>Short description of place if desired</div>
-                <div>
-                  <img src="" alt="${place.name} Image" />
-                </div>
-              </div>
-            `,
-        });
-        const marker = new googleMaps.Marker({
-          position: location,
-          map,
-          title: place.name,
-        });
-        marker.addListener('click', () => {
-          infowindow.open(map, marker);
-        });
-      }
-    });
-  });
+      const marker = new google.maps.Marker({
+        position: location,
+        map,
+        title: attraction.attractionName,
+      });
+      marker.addListener('click', () => {
+        infowindow.open(map, marker);
+      });
+    }
+  };
 
   if (mode === 'pins') {
-    return <div ref={mapRef} className={styles.mapContainer}></div>;
+    return (
+      <GoogleMap
+        className={styles.mapContainer}
+        google={google}
+        onReady={onPinsReady}
+        center={centerLocation}
+        zoom={14}
+      />
+    );
   }
-
-  const placeNames = places.map((place) =>
-    encodeURIComponent(place.name).replace(/%20/g, '+')
+  const attractionCoordinates = attractions.map((attraction) =>
+    encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
   );
-  const origin = placeNames[0];
-  const destination = placeNames[placeNames.length - 1];
-  const waypoints = placeNames.slice(1, placeNames.length - 1);
+  const origin = attractionCoordinates[0];
+  const destination = attractionCoordinates[attractionCoordinates.length - 1];
+  const waypoints = attractionCoordinates.slice(1, attractionCoordinates.length - 1);
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
@@ -74,4 +73,7 @@ function Map({ places, mode, centerLocation }) {
   );
 }
 
-export default Map;
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg',
+  libraries: ['places'],
+})(Map);
