@@ -9,13 +9,15 @@ import { useLocation, useHistory } from 'react-router-dom';
  */
 function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
-  const [selectedAttractions, setSelectedAttractions] = useState([]);
+  //const [selectedAttractions, setSelectedAttractions] = useState([]);
   const [allAttractions, setAllAttractions] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  //const [searchText, setSearchText] = useState('');
+
   const [tripId, setTripId] = useState('');
   const [tripName, setTripName] = useState('');
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
+  const [searchText, setSearchText] = useState(query.search || '');
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -51,14 +53,15 @@ function Explore() {
     );
 
     if ('trip' in query) {
-      const decodedData = decodeURIComponent(query.trip);
-      const tripObject = JSON.parse(decodedData);
-      setTripData(tripObject);
+      setTripData(JSON.parse(decodeURIComponent(query.trip)));
     }
     if ('search' in query) {
       setSearchText(query.search);
     }
   };
+
+  const selectedAttractions = allAttractions.filter((attraction) => attraction.selected);
+
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
@@ -111,11 +114,8 @@ function Explore() {
       tripId: tripId,
       tripName: tripName,
     };
-    for (const attraction of allAttractions) {
-      if (attraction.selected) {
-        tripObject.allAttractions.push(attraction);
-      }
-    }
+
+    tripObject.allAttractions = allAttractions.filter((attraction) => attraction.selected);
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
   }
@@ -136,21 +136,14 @@ function Explore() {
    * Add/Remove border color and style
    * @param {object} targetAttraction attraction to be found
    */
-  function toggleSelection(targetAttraction) {
-    const targetAttrIndexInSelected = selectedAttractions.findIndex(
-      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
-    );
-
-    targetAttraction.selected = !targetAttraction.selected;
-    const selectedAttractionsCopy = Array.from(selectedAttractions);
-
-    if (targetAttrIndexInSelected === -1) {
-      /*not in selected*/ selectedAttractionsCopy.push(targetAttraction);
-      setSelectedAttractions(selectedAttractionsCopy);
-    } /*in selected*/ else {
-      selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
-      setSelectedAttractions(selectedAttractionsCopy);
-    }
+   function toggleSelection(targetAttraction) {
+    const newAttractions = allAttractions.map((attraction) => {
+      if (attraction.id === targetAttraction.id) {
+        attraction.selected = !attraction.selected;
+      }
+      return attraction;
+    });
+    setAllAttractions(newAttractions);
   }
 
   /**
