@@ -32,8 +32,7 @@ function Explore() {
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const latLng = results[0].geometry.location;
-        const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
+        const coordinates = results[0].geometry.location;
         setTripObject({
           ...tripObject,
           centerLocation: {
@@ -117,13 +116,20 @@ function Explore() {
    * @param {object} targetAttraction attraction to be found
    */
   function toggleSelection(targetAttraction) {
-    const newAttractions = initialAttractions.map((attraction) => {
-      if (attraction.id === targetAttraction.id) {
-        attraction.selected = !attraction.selected;
-      }
-      return attraction;
-    });
-    setInitialAttractions(newAttractions);
+    const targetAttrIndexInSelected = selectedAttractions.findIndex(
+      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
+    );
+
+    targetAttraction.selected = !targetAttraction.selected;
+    const selectedAttractionsCopy = Array.from(selectedAttractions);
+
+    if (targetAttrIndexInSelected === -1) {
+      /*not in selected*/ selectedAttractionsCopy.push(targetAttraction);
+      setSelectedAttractions(selectedAttractionsCopy);
+    } /*in selected*/ else {
+      selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
+      setSelectedAttractions(selectedAttractionsCopy);
+    }
   }
 
   /**
