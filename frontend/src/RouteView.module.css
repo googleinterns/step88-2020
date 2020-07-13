@@ -2,3 +2,16 @@
   max-height: 80vh;
   overflow: auto;
 }
+
+.copyText {
+  
+}
+
+.copyBtn {
+  opacity: 0.6;
+}
+
+.copyBtn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}

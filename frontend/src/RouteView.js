@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
 import styles from './RouteView.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClone } from '@fortawesome/free-solid-svg-icons';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -24,6 +26,7 @@ function RouteView({ loggedIn }) {
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   
+  const textAreaRef = useRef(null);
   const handleShareClose = () => setShowShareModal(false);
   const handleShareShow = () => setShowShareModal(true);
 
@@ -55,6 +58,12 @@ function RouteView({ loggedIn }) {
     setIsSaved(false);
   }
 
+  function copyToClipboard(e) {
+    textAreaRef.current.select();
+    document.execCommand('copy');
+    e.target.focus();
+  };
+
   return (
     <>
       <Modal show={showShareModal} onHide={handleShareClose}>
@@ -62,6 +71,14 @@ function RouteView({ loggedIn }) {
           <Modal.Title>Share Trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>Copy link to share trip.</Modal.Body>
+        <Container>
+          <textarea
+            ref={textAreaRef}
+            value="Example copy for the textarea."
+            className={styles.copyText}
+          />
+          <FontAwesomeIcon icon={faClone} onClick={copyToClipboard} className={styles.copyBtn}/>
+        </Container>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleShareClose}>
             Close
