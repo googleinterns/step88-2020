@@ -53,7 +53,9 @@ function Explore() {
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
-          initialAttractions.length === 0 ? getAllAttractions(results) : initialAttractions;
+          initialAttractions.length === 0
+            ? getAllAttractions(results)
+            : initialAttractions;
         setInitialAttractions(newAllAttractions);
       }
     };
