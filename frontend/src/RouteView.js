@@ -15,7 +15,7 @@ import { MOCK_DATA } from './route/mockData.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
-function RouteView() {
+function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [places, setPlaces] = useState(MOCK_DATA);
@@ -50,33 +50,33 @@ function RouteView() {
   }
 
   return (
-    <Container>
-      <Row>
-        <TripName />
-      </Row>
-      <Row>
-        <Col>
-          <Row className={styles.routeListContainer}>
-            <Route
-              places={places}
-              setPlaces={setPlaces}
-              onManualPlaceChange={onManualPlaceChange}
-            />
-          </Row>
-          <Row>
-            <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Map mode="directions" places={places} centerLocation={places[0]} />
-          </Row>
-          <Row>
-            <SaveButton isSaved={isSaved} save={save} />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
+      <Container>
+        <Row>
+          <TripName />
+        </Row>
+        <Row>
+          <Col>
+            <Row className={styles.routeListContainer}>
+              <Route
+                places={places}
+                setPlaces={setPlaces}
+                onManualPlaceChange={onManualPlaceChange}
+              />
+            </Row>
+            <Row>
+              <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Map mode="directions" places={places} centerLocation={places[0]} />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 }
 
