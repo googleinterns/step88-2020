@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
@@ -25,6 +26,7 @@ import com.google.sps.TspOptimizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 
 /** Servlet that returns the optimized route between list of attractions */
-@WebServlet("/optimize")
+@WebServlet("/api/v1/optimize")
 public class OptimizeServlet extends HttpServlet {
   private static final GeoApiContext context =
       new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
@@ -42,12 +44,18 @@ public class OptimizeServlet extends HttpServlet {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
-    ArrayList<Attraction> attractions = json.attractions;
+    List<Attraction> attractions = json.attractions;
 
     // call Distance Matrix API
     String[] attractionNames =
         attractions.stream().map(Attraction::getName).toArray(String[] ::new);
-    DistanceMatrix matrix = createDistanceMatrix(attractionNames);
+    DistanceMatrix matrix;
+    try {
+      matrix = createDistanceMatrix(attractionNames);
+    } catch (Exception e) {
+      response.sendError(500, e.getMessage());
+      return;
+    }
 
     // construct graph
     HashMap<Attraction, ArrayList<Edge>> graph = new HashMap<>();
@@ -66,26 +74,23 @@ public class OptimizeServlet extends HttpServlet {
     }
 
     // call TSP approximation algorithm
-    ArrayList<Attraction> optimizedOrder = TspOptimizer.optimize(graph);
+    List<Attraction> optimizedOrder = TspOptimizer.optimize(graph);
 
     String optimizedOrderJSON = g.toJson(optimizedOrder);
     response.setContentType("json;");
     response.getWriter().println(optimizedOrderJSON);
   }
 
-  private DistanceMatrix createDistanceMatrix(String[] attractions) {
-    try {
-      DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-      return req.origins(attractions).destinations(attractions).await();
-    } catch (Exception e) {
-      return null;
-    }
+  private DistanceMatrix createDistanceMatrix(String[] attractions)
+      throws ApiException, InterruptedException, IOException {
+    DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+    return req.origins(attractions).destinations(attractions).await();
   }
 
   private class JSON {
-    private ArrayList<Attraction> attractions;
+    private List<Attraction> attractions;
 
-    private JSON(ArrayList<Attraction> attractions) {
+    private JSON(List<Attraction> attractions) {
       this.attractions = attractions;
     }
   }

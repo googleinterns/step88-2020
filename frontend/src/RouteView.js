@@ -29,7 +29,7 @@ function RouteView() {
 
   async function optimize() {
     if (!optimizedOrder) {
-      const response = await fetch('/optimize', {
+      const response = await fetch('/api/v1/optimize', {
         method: 'POST',
         body: JSON.stringify({ attractions: places }),
       });
@@ -44,6 +44,11 @@ function RouteView() {
     // save to back end database
   }
 
+  function onManualPlaceChange() {
+    setIsOptimized(false);
+    setIsSaved(false);
+  }
+
   return (
     <Container>
       <Row>
@@ -52,7 +57,11 @@ function RouteView() {
       <Row>
         <Col>
           <Row className={styles.routeListContainer}>
-            <Route places={places} setPlaces={setPlaces} />
+            <Route
+              places={places}
+              setPlaces={setPlaces}
+              onManualPlaceChange={onManualPlaceChange}
+            />
           </Row>
           <Row>
             <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
