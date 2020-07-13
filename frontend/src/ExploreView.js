@@ -109,9 +109,9 @@ function Explore() {
   function handleRouteRouting(allAttractions, searchText, tripId, tripName, history) {
     const tripObject = {
       allAttractions: [],
-      searchText: searchText,
-      tripId: tripId,
-      tripName: tripName,
+      searchText,
+      tripId,
+      tripName,
     };
 
     tripObject.allAttractions = allAttractions.filter(
