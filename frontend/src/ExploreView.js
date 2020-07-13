@@ -159,7 +159,7 @@ function Explore() {
   function getAllAttractions(attractions) {
     const allAttractions = [];
     for (const attraction of attractions) {
-      if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
+      if ('photos' in attraction) {
         const attractionName = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
