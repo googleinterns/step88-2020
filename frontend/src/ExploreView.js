@@ -26,7 +26,7 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [allAttractions, setAllAttractions] = useState([]);
+  const [initialAttractions, setInitialAttractions] = useState([]);
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -54,8 +54,8 @@ function Explore() {
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
-          allAttractions.length === 0 ? getAllAttractions(results) : allAttractions;
-        setAllAttractions(newAllAttractions);
+          initialAttractions.length === 0 ? getAllAttractions(results) : initialAttractions;
+        setInitialAttractions(newAllAttractions);
       }
     };
 
@@ -72,7 +72,7 @@ function Explore() {
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
         <div className={styles.attractionImages}>
-          {allAttractions.map((attraction, index) => (
+          {initialAttractions.map((attraction, index) => (
             <div className={styles.attractionContainer} key={index}>
               <img
                 onClick={() => toggleSelection(attraction)}
@@ -117,20 +117,13 @@ function Explore() {
    * @param {object} targetAttraction attraction to be found
    */
   function toggleSelection(targetAttraction) {
-    const targetAttrIndexInSelected = selectedAttractions.findIndex(
-      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
-    );
-
-    targetAttraction.selected = !targetAttraction.selected;
-    const selectedAttractionsCopy = Array.from(selectedAttractions);
-
-    if (targetAttrIndexInSelected === -1) {
-      /*not in selected*/ selectedAttractionsCopy.push(targetAttraction);
-      setSelectedAttractions(selectedAttractionsCopy);
-    } /*in selected*/ else {
-      selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
-      setSelectedAttractions(selectedAttractionsCopy);
-    }
+    const newAttractions = initialAttractions.map((attraction) => {
+      if (attraction.id === targetAttraction.id) {
+        attraction.selected = !attraction.selected;
+      }
+      return attraction;
+    });
+    setInitialAttractions(newAttractions);
   }
 
   /**

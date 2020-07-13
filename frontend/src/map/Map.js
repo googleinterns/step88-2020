@@ -15,11 +15,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
-      const location = {
-        lat: attraction.coordinates.lat,
-        lng: attraction.coordinates.lng,
-      };
-
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
@@ -32,7 +27,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         `,
       });
       const marker = new google.maps.Marker({
-        position: location,
+        position: attraction.coordinates,
         map,
         title: attraction.attractionName,
       });
