@@ -9,7 +9,7 @@ import { useLocation, useHistory } from 'react-router-dom';
  */
 function Explore() {
   const [centerLocation, setCenterLocation] = useState({});
-  const [allAttractions, setAllAttractions] = useState([]);
+  const [initialAttractions, setInitialAttractions] = useState([]);
   const [tripId, setTripId] = useState('');
   const [tripName, setTripName] = useState('');
   const urlParameters = useLocation();
@@ -20,8 +20,7 @@ function Explore() {
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const latLng = results[0].geometry.location;
-        const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
+        const coordinates = results[0].geometry.location;
         setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() });
         placesService.nearbySearch(
           {
@@ -36,8 +35,8 @@ function Explore() {
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
-          allAttractions.length === 0 ? getAllAttractions(results) : allAttractions;
-        setAllAttractions(newAllAttractions);
+          initialAttractions.length === 0 ? getAllAttractions(results) : initialAttractions;
+        setInitialAttractions(newAllAttractions);
       }
     };
 
@@ -48,16 +47,9 @@ function Explore() {
       },
       handleTextSearch
     );
-
-    if ('trip' in query) {
-      setTripData(JSON.parse(decodeURIComponent(query.trip)));
-    }
-    if ('search' in query) {
-      setSearchText(query.search);
-    }
   };
 
-  const selectedAttractions = allAttractions.filter(
+  const selectedAttractions = initialAttractions.filter(
     (attraction) => attraction.selected
   );
 
@@ -65,7 +57,7 @@ function Explore() {
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
         <div className={styles.attractionImages}>
-          {allAttractions.map((attraction) => (
+          {initialAttractions.map((attraction) => (
             <div className={styles.attractionContainer} key={attraction.id}>
               <img
                 onClick={() => toggleSelection(attraction)}
@@ -81,7 +73,7 @@ function Explore() {
         <Button
           className={styles.routeButton}
           onClick={() =>
-            handleRouteRouting(allAttractions, searchText, tripId, tripName, history)
+            handleRouteRouting(initialAttractions, searchText, tripId, tripName, history)
           }
         >
           Show Route
@@ -100,13 +92,13 @@ function Explore() {
 
   /**
    * Creates route url and navigates to /route?trip=
-   * @param {object[]} allAttractions list of all attractions
+   * @param {object[]} initialAttractions list of all attractions
    * @param {string} searchText search text
    * @param {string} tripId trip id
    * @param {string} tripName trip name
    * @param {object} history used to route dom with react
    */
-  function handleRouteRouting(allAttractions, searchText, tripId, tripName, history) {
+  function handleRouteRouting(initialAttractions, searchText, tripId, tripName, history) {
     const tripObject = {
       allAttractions: [],
       searchText,
@@ -114,21 +106,18 @@ function Explore() {
       tripName,
     };
 
-    tripObject.allAttractions = allAttractions.filter(
-      (attraction) => attraction.selected
-    );
-    const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-    history.push(`/route${routeUrl}`);
+    tripObject.allAttractions = selectedAttractions;
+    const routeUrl = '/route?trip=' + encodeURIComponent(JSON.stringify(tripObject));
+    history.push(routeUrl);
   }
 
   /**
-   * Set trip data
    * @param {object} tripObject trip object containing trip data
    */
   function setTripData(tripObject) {
     setTripId(tripObject.tripId);
     setTripName(tripObject.tripName);
-    setAllAttractions(tripObject.allAttractions);
+    setInitialAttractions(tripObject.allAttractions);
   }
 
   /**
@@ -138,13 +127,13 @@ function Explore() {
    * @param {object} targetAttraction attraction to be found
    */
   function toggleSelection(targetAttraction) {
-    const newAttractions = allAttractions.map((attraction) => {
+    const newAttractions = initialAttractions.map((attraction) => {
       if (attraction.id === targetAttraction.id) {
         attraction.selected = !attraction.selected;
       }
       return attraction;
     });
-    setAllAttractions(newAttractions);
+    setInitialAttractions(newAttractions);
   }
 
   /**

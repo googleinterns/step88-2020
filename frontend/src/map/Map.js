@@ -16,11 +16,6 @@ function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, v
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
-      const location = {
-        lat: attraction.coordinates.lat,
-        lng: attraction.coordinates.lng,
-      };
-
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
@@ -33,7 +28,7 @@ function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, v
         `,
       });
       const marker = new google.maps.Marker({
-        position: location,
+        position: attraction.coordinates,
         map,
         title: attraction.attractionName,
       });
@@ -54,7 +49,7 @@ function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, v
       />
     );
   }
-  attractions = MOCK_DATA;
+
   const attractionNames = attractions.map((attraction) =>
     encodeURIComponent(attraction.attractionName).replace(/%20/g, '+')
   );
