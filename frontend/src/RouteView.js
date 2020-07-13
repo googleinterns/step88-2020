@@ -11,14 +11,13 @@ import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
 import SaveButton from './route/SaveButton.js';
 import TripName from './trip-name/TripName.js';
-
+import { getQueryParameters } from './parameterUtils.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
 function RouteView() {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  // const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
 
   const urlParameters = useLocation();
@@ -26,16 +25,6 @@ function RouteView() {
   const history = useHistory();
   const tripObject = JSON.parse(decodeURIComponent(query.trip));
   const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
-
-  /**
-   * Extract the url parameters and convert to dictionary
-   * @param {string} query url string
-   * @return {object} key value pair of url parameters
-   */
-  function getQueryParameters(query) {
-    const params = query.split('?')[1];
-    return Object.fromEntries(new URLSearchParams(params));
-  }
 
   useEffect(() => {
     if (isOptimized) {
@@ -47,7 +36,7 @@ function RouteView() {
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
-        body: JSON.stringify({ attractions: attractions }),
+        body: JSON.stringify({ attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);
