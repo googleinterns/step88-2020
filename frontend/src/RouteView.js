@@ -25,7 +25,7 @@ function RouteView({ loggedIn }) {
   const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
-  
+
   const textAreaRef = useRef(null);
   const handleShareClose = () => setShowShareModal(false);
   const handleShareShow = () => setShowShareModal(true);
@@ -62,7 +62,7 @@ function RouteView({ loggedIn }) {
     textAreaRef.current.select();
     document.execCommand('copy');
     e.target.focus();
-  };
+  }
 
   return (
     <>
@@ -70,22 +70,38 @@ function RouteView({ loggedIn }) {
         <Modal.Header closeButton>
           <Modal.Title>Share Trip</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Copy link to share trip.</Modal.Body>
-        <Container>
-          <textarea
-            ref={textAreaRef}
-            value="Example copy for the textarea."
-            className={styles.copyText}
-          />
-          <FontAwesomeIcon icon={faClone} onClick={copyToClipboard} className={styles.copyBtn}/>
-        </Container>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleShareClose}>
-            Close
-          </Button>
-        </Modal.Footer>
+        <Modal.Body>
+          <Container>
+            <Row className={styles.copyContainer}>
+              <div className={styles.modalText}>Copy link to share trip.</div>
+              <input
+                ref={textAreaRef}
+                value="Example copy. Imagine this is a really really long link that is the url... Will be filled in once PR is merged"
+                className={styles.copyText}
+              />
+              <FontAwesomeIcon
+                icon={faClone}
+                onClick={copyToClipboard}
+                className={styles.copyBtn}
+              />
+            </Row>
+            <Row className={styles.modalBtnContainer}>
+              <Button
+                variant="primary"
+                onClick={handleShareClose}
+                className={styles.modalBtn}
+              >
+                Close
+              </Button>
+            </Row>
+          </Container>
+        </Modal.Body>
       </Modal>
-      {!loggedIn ? <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} /> : <></>}
+      {!loggedIn ? (
+        <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
+      ) : (
+        <></>
+      )}
       <Container>
         <Row>
           <TripName />
