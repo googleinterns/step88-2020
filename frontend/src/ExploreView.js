@@ -8,6 +8,7 @@ import { useLocation, useHistory } from 'react-router-dom';
  * Explore view with selectable attraction images and map
  */
 function Explore() {
+  const [calledAPI, setCalledAPI] = useState(false);
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
   const searchText = query.search || '';
@@ -22,7 +23,6 @@ function Explore() {
           tripName: 'Trip Name',
         }
   );
-
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
@@ -43,7 +43,7 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 500,
+            radius: 10000,
           },
           handleNearbySearch
         );
@@ -70,21 +70,30 @@ function Explore() {
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
-        <div className={styles.attractionImages}>
-          {allAttractions.map((attraction, index) => (
-            <div className={styles.attractionContainer} key={index}>
-              <img
-                onClick={() => toggleSelection(attraction)}
-                className={`${styles.attraction} ${
-                  attraction.selected ? styles.selectedImage : ''
-                }`}
-                src={attraction.photoUrl}
-                alt=""
-              />
-            </div>
-          ))}
-        </div>
-        <Button className={styles.routeButton} onClick={() => handleRouting(history)}>
+        {allAttractions.length === 0 && calledAPI ? (
+          'No Images Found'
+        ) : (
+          <div className={styles.attractionImagesContainer}>
+            {allAttractions.map((attraction, index) => (
+              <div className={styles.attractionContainer} key={index}>
+                <img
+                  onClick={() => toggleSelection(attraction)}
+                  className={`${styles.attraction} ${
+                    attraction.selected ? styles.selectedImage : ''
+                  }`}
+                  src={attraction.photoUrl}
+                  alt=""
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        <Button
+          className={styles.routeButton}
+          onClick={() => handleRouting(history)}
+          variant="primary"
+          disabled={selectedAttractions.length < 1}
+        >
           Show Route
         </Button>
       </div>
@@ -150,6 +159,9 @@ function Explore() {
   function getAllAttractions(attractions) {
     const newAllAttractions = [];
     for (const attraction of attractions) {
+      if (!Object.prototype.hasOwnProperty.call(attraction, 'photos')) {
+        continue;
+      }
       if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
         const name = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
@@ -161,6 +173,7 @@ function Explore() {
         newAllAttractions.push(newAttraction);
       }
     }
+    setCalledAPI(true);
     return newAllAttractions;
   }
 

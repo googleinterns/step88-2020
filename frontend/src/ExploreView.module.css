@@ -5,12 +5,13 @@
 .attractionsSection {
   display: flex;
   flex-direction: column;
+  width: 1000px;
 }
 
-.attractionImages {
+.attractionImagesContainer {
   display: flex;
   flex-wrap: wrap;
-  max-height: 900px;
+  height: 900px;
   max-width: 1000px;
   overflow-y: auto;
 }
@@ -21,8 +22,7 @@
   width: 300px;
 }
 
-.attraction:hover,
-.routeButton:hover {
+.attraction:hover {
   opacity: 0.5;
 }
 
