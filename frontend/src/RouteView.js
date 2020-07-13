@@ -4,6 +4,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Overlay from 'react-bootstrap/Overlay';
 import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
@@ -61,8 +63,8 @@ function RouteView({ loggedIn }) {
   function copyToClipboard(e) {
     textAreaRef.current.select();
     document.execCommand('copy');
-    e.target.focus();
   }
+
 
   return (
     <>
@@ -76,14 +78,14 @@ function RouteView({ loggedIn }) {
               <div className={styles.modalText}>Copy link to share trip.</div>
               <input
                 ref={textAreaRef}
-                value="Example copy. Imagine this is a really really long link that is the url... Will be filled in once PR is merged"
+                value={window.location.href}
                 className={styles.copyText}
               />
-              <FontAwesomeIcon
-                icon={faClone}
-                onClick={copyToClipboard}
-                className={styles.copyBtn}
-              />
+                <FontAwesomeIcon
+                  icon={faClone}
+                  onClick={copyToClipboard}
+                  className={styles.copyBtn}
+                />
             </Row>
             <Row className={styles.modalBtnContainer}>
               <Button
@@ -97,7 +99,7 @@ function RouteView({ loggedIn }) {
           </Container>
         </Modal.Body>
       </Modal>
-      {!loggedIn ? (
+      {loggedIn ? (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       ) : (
         <></>
