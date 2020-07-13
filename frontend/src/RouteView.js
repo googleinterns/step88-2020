@@ -4,8 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
-import Tooltip from 'react-bootstrap/Tooltip';
-import Overlay from 'react-bootstrap/Overlay';
 import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
