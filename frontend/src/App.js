@@ -4,6 +4,7 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
+import {createUser} from './UserCRUD.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
@@ -28,6 +29,10 @@ function App() {
         </Route>
         <Route path="/route">
           <RouteView />
+        </Route>
+        <Route path="/createuser">
+          <h1>Hello User</h1>
+        {createUser("email")}
         </Route>
       </Switch>
     </Router>
