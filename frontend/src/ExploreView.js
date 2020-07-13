@@ -166,10 +166,9 @@ function Explore() {
 
   /**
    * Get the photo url of each attraction object
-   * @param {string} name attraction name
-   * @param {number} lat latitude
-   * @param {number} lng longitude
-   * @param {string} photoUrl photo url
+   * @param {string} name name of attraction
+   * @param {object} latLng coordinates
+   * @param {string} photoUrl url of image
    * @return {object} object containing the attraction data
    */
   function createAttraction(name, latLng, photoUrl, selected) {
