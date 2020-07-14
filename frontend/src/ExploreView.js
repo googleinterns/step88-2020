@@ -3,7 +3,10 @@ import styles from './ExploreView.module.css';
 import Button from 'react-bootstrap/Button';
 import Map from './map/Map';
 import { useLocation, useHistory } from 'react-router-dom';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getQueryParameters } from './parameterUtils.js';
+
 /**
  * Explore view with selectable attraction images and map
  */
@@ -81,15 +84,21 @@ function Explore() {
             </div>
           ) : (
             initialAttractions.map((attraction, index) => (
-              <div className={styles.attractionContainer} key={index}>
+              <div className={styles.attractionContainer} onClick={() => toggleSelection(attraction)} key={index}>
                 <img
-                  onClick={() => toggleSelection(attraction)}
+                  
                   className={`${styles.attraction} ${
                     attraction.selected ? styles.selectedImage : ''
                   }`}
                   src={attraction.photoUrl}
                   alt=""
                 />
+                {attraction.selected && (
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={styles.check}
+                  />
+                )}
               </div>
             ))
           )}

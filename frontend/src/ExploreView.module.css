@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.attractionContainer {
+  position: relative;
+}
+
 .attractionsSection {
   display: flex;
   flex-direction: column;
@@ -20,15 +24,30 @@
   height: 300px;
   margin: 10px;
   width: 300px;
+  object-fit: cover;
 }
 
 .attraction:hover {
-  opacity: 0.5;
+  cursor: pointer;
+  /* opacity: 0.5; */
+}
+
+.check {
+  color: white;
+  font-size: 80px;
+  left: 120px;
+  opacity: 0.8;
+  position: absolute;
+  top: 120px;
 }
 
 .selectedImage {
-  border: solid green;
-  border-width: 10px;
+  background-color: #303030;
+  opacity: 0.55;
+}
+
+.selectedImage:hover {
+  opacity: 0.65;
 }
 
 .mapContainer {
