@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import Card from 'react-bootstrap/Card';
-import styles from './ExploreView.module.css';
-import Button from 'react-bootstrap/Button';
-import Map from './map/Map';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getQueryParameters } from './parameterUtils.js';
+
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import styles from './ExploreView.module.css';
+
+import Map from './map/Map';
 
 /**
  * Explore view with selectable attraction images and map
@@ -76,54 +81,59 @@ function Explore() {
   };
 
   return (
-    <div className={styles.exploreContainer}>
-      <div className={styles.attractionsSection}>
-        <div className={styles.attractionImagesContainer}>
-          {initialAttractions.length === 0 ? (
-            <div className={styles.fillerText}>
-              {loading ? 'Loading . . .' : 'No Images Found'}
-            </div>
-          ) : (
-            initialAttractions.map((attraction, index) => (
-              <Card
-                className={`${styles.attractionContainer} ${
-                  attraction.selected ? styles.selectedImage : ''
-                }`}
-                onClick={() => toggleSelection(attraction)}
-                key={index}
-              >
-                <Card.Img
-                  src={attraction.photoUrl}
-                  className={styles.attraction}
-                  alt="attraction image"
-                />
-                <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-                <Card.ImgOverlay>{attraction.selected && (
-                  <FontAwesomeIcon icon={faCheck} className={styles.check} />
-                )}</Card.ImgOverlay>
-              </Card>
-            ))
-          )}
-        </div>
-
-        <Button
-          className={styles.routeButton}
-          onClick={() => handleRouting(history)}
-          variant="primary"
-          disabled={selectedAttractions.length < 1}
-        >
-          Show Route
-        </Button>
-      </div>
-      <Map
-        className={styles.mapContainer}
-        onReady={onMapReady}
-        attractions={selectedAttractions}
-        mode="pins"
-        centerLocation={tripObject.centerLocation}
-        key={selectedAttractions}
-      />
-    </div>
+    <Container className={styles.exploreContainer}>
+      <Row>
+        <Col sm={6}>
+          <div className={styles.attractionImagesContainer}>
+            {initialAttractions.length === 0 ? (
+              <div className={styles.fillerText}>
+                {loading ? 'Loading . . .' : 'No Images Found'}
+              </div>
+            ) : (
+              initialAttractions.map((attraction, index) => (
+                <Card
+                  className={`${styles.attractionContainer} ${
+                    attraction.selected ? styles.selectedImage : ''
+                  }`}
+                  onClick={() => toggleSelection(attraction)}
+                  key={index}
+                >
+                  <Card.Img
+                    src={attraction.photoUrl}
+                    className={styles.attraction}
+                    alt="attraction image"
+                  />
+                  <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
+                  <Card.ImgOverlay>
+                    {attraction.selected && (
+                      <FontAwesomeIcon icon={faCheck} className={styles.check} />
+                    )}
+                  </Card.ImgOverlay>
+                </Card>
+              ))
+            )}
+          </div>
+          <Button
+            className={styles.routeButton}
+            onClick={() => handleRouting(history)}
+            variant="primary"
+            disabled={selectedAttractions.length < 1}
+          >
+            Show Route
+          </Button>
+        </Col>
+        <Col sm={6}>
+          <Map
+            className={styles.mapContainer}
+            onReady={onMapReady}
+            attractions={selectedAttractions}
+            mode="pins"
+            centerLocation={tripObject.centerLocation}
+            key={selectedAttractions}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 
   /**
