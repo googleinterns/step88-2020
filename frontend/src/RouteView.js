@@ -66,7 +66,7 @@ function RouteView({ loggedIn }) {
     textAreaRef.current.select();
     document.execCommand('copy');
   }
-  
+
   /**
    * Creates url and navigates to /explore?trip=
    * @param {object} history used to route dom with react
@@ -110,10 +110,8 @@ function RouteView({ loggedIn }) {
           </Container>
         </Modal.Body>
       </Modal>
-      {loggedIn ? (
+      {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
-      ) : (
-        <></>
       )}
       <Container>
         <Row>
