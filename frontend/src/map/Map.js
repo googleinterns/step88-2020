@@ -1,7 +1,6 @@
 import React from 'react';
 import { Map as GoogleMap, GoogleApiWrapper } from 'google-maps-react';
 import styles from './Map.module.css';
-import { MOCK_DATA } from '../route/mockData.js';
 const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
@@ -12,7 +11,7 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
 
-function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, view }) {
+function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
@@ -51,12 +50,12 @@ function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, v
     );
   }
 
-  const attractionNames = attractions.map((attraction) =>
-    encodeURIComponent(attraction.attractionName).replace(/%20/g, '+')
+  const attractionCoordinates = attractions.map((attraction) =>
+    encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
   );
-  const origin = attractionNames[0];
-  const destination = attractionNames[attractionNames.length - 1];
-  const waypoints = attractionNames.slice(1, attractionNames.length - 1);
+  const origin = attractionCoordinates[0];
+  const destination = attractionCoordinates[attractionCoordinates.length - 1];
+  const waypoints = attractionCoordinates.slice(1, attractionCoordinates.length - 1);
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (

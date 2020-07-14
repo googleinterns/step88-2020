@@ -37,9 +37,9 @@ function Route({ places, setPlaces, onManualPlaceChange }) {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {places.map((place, index) => (
               <LocationCard
-                location={place.name}
+                location={place.attractionName}
                 description={place.description}
-                image={place.image}
+                image={place.photoUrl}
                 index={index}
                 key={index}
               />
