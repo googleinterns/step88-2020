@@ -77,7 +77,7 @@ function Explore() {
         <div className={styles.attractionImagesContainer}>
           {initialAttractions.length === 0 ? (
             <div className={styles.fillerText}>
-              {loading ? 'Loading' : 'No Images Found'}
+              {loading ? 'Loading . . .' : 'No Images Found'}
             </div>
           ) : (
             initialAttractions.map((attraction, index) => (
@@ -154,7 +154,6 @@ function Explore() {
    * @return {object[]} array of all attractions
    */
   function getAllAttractions(attractions) {
-    console.log('getting all attractions');
     const newAllAttractions = [];
     for (const attraction of attractions) {
       if ('photos' in attraction) {
