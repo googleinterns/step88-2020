@@ -15,10 +15,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
-      const location = {
-        lat: attraction.lat,
-        lng: attraction.lng,
-      };
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
