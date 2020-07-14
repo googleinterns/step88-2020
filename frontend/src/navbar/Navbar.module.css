@@ -1,13 +1,6 @@
 .navbar {
   display: flex;
-  padding: 12px 32px;
+  justify-content: space-between;
+  padding: 12px 0px;
   width: 100%;
-}
-
-.leftLink {
-  flex: 1 0 auto;
-}
-
-.rightLink {
-  flex: 0 1 auto;
 }
