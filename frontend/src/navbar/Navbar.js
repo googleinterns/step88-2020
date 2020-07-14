@@ -9,7 +9,7 @@ import styles from './Navbar.module.css';
 function Navbar({ authState }) {
   return (
     <Nav className={styles.navbar}>
-      <Nav.Item className={styles.leftLink}>
+      <Nav.Item>
         <Switch>
           <Route path="/explore">
             <Nav.Link href="/">Back to Search</Nav.Link>
@@ -20,7 +20,6 @@ function Navbar({ authState }) {
         <Nav.Link
           disabled={!authState.ready}
           href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
-          className={styles.rightLink}
         >
           <Switch>
             <Route path="/route">
