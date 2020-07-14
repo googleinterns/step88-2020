@@ -18,10 +18,10 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
-            <h4 style="color:#383838;">${attraction.name}</h4>
-            <div style="margin-bottom:10px;">Short description of attraction if desired</div>
+            <h4 class=${styles.infowindowName}>${attraction.name}</h4>
+            <div class=${styles.infowindowDescription}>Short description of attraction if desired</div>
             <div>
-              <img style="height:200px;" src="${attraction.photoUrl}" alt="${attraction.name} Image" />
+              <img class=${styles.infowindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
           </div>
         `,
