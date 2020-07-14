@@ -143,18 +143,13 @@ function Explore() {
     const newAllAttractions = [];
     for (const attraction of attractions) {
       if ('photos' in attraction) {
-        const attractionName = attraction.name;
+        const name = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
         const isSelected = selectedAttractions.some(
           (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
         );
-        const newAttraction = createAttraction(
-          attractionName,
-          latLng,
-          photoUrl,
-          isSelected
-        );
+        const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
         newAllAttractions.push(newAttraction);
       }
     }
@@ -163,20 +158,18 @@ function Explore() {
 
   /**
    * Get the photo url of each attraction object
-   * @param {string} attractionName attraction name
-   * @param {object} latLng latitude
-   * @param {string} photoUrl photo url
+   * @param {string} name name of attraction
+   * @param {object} latLng coordinates
+   * @param {string} photoUrl url of image
    * @param {boolean} selected used for checking object selection
    * @return {object} object containing the attraction data
    */
-  function createAttraction(attractionName, latLng, photoUrl, selected) {
+  function createAttraction(name, latLng, photoUrl, selected) {
     return {
-      attractionName,
-      coordinates: {
-        lat: latLng.lat(),
-        lng: latLng.lng(),
-      },
+      name,
       description: 'Insert description here.',
+      lat: latLng.lat(),
+      lng: latLng.lng(),
       photoUrl,
       routeIndex: 0,
       selected,
