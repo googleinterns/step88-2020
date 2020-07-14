@@ -45,7 +45,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   if (mode === 'pins') {
     return (
       <GoogleMap
-        className={styles.mapContainer}
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
@@ -63,14 +62,12 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
-    <div className={styles.mapContainer}>
-      <iframe
-        className={styles.map}
-        title="trip-map"
-        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
-        allowFullScreen
-      ></iframe>
-    </div>
+    <iframe
+      className={styles.map}
+      title="trip-map"
+      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+      allowFullScreen
+    ></iframe>
   );
 }
 

@@ -1,9 +1,4 @@
-.mapContainer {
-  margin: 10px;
-}
-
-.map,
-.mapContainer {
+.map {
   border: 0;
   height: 80vh;
   width: 42rem;
