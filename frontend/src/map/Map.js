@@ -31,6 +31,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         map,
         title: attraction.attractionName,
       });
+      //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
         infowindow.open(map, marker);
       });

@@ -15,7 +15,7 @@ import { getQueryParameters } from './parameterUtils.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
-function RouteView() {
+function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
@@ -65,6 +65,8 @@ function RouteView() {
   }
 
   return (
+  <>
+    <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
     <Container>
       <Row>
         <TripName />
@@ -97,12 +99,10 @@ function RouteView() {
               centerLocation={tripObject.centerLocation}
             />
           </Row>
-          <Row>
-            <SaveButton isSaved={isSaved} save={save} />
-          </Row>
         </Col>
       </Row>
     </Container>
+      </>
   );
 }
 
