@@ -32,6 +32,7 @@ function Map({ attractions = MOCK_DATA, mode, centerLocation, google, onReady, v
         map,
         title: attraction.attractionName,
       });
+      //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
         infowindow.open(map, marker);
       });
