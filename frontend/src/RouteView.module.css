@@ -30,6 +30,12 @@
   opacity: 0.8;
 }
 
+.editButton {
+  left: 4px;
+  position: absolute;
+  top: 12px;
+}
+
 .modalBtn {
   margin: 5px 30px;
   padding: 5px;

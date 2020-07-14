@@ -110,6 +110,13 @@ function RouteView({ loggedIn }) {
           </Container>
         </Modal.Body>
       </Modal>
+      <Button
+        variant="link"
+        className={styles.editButton}
+        onClick={() => handleRouting(history)}
+      >
+        Edit Attractions
+      </Button>
       {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       )}
@@ -130,11 +137,6 @@ function RouteView({ loggedIn }) {
               <Container>
                 <Col>
                   <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-                </Col>
-                <Col>
-                  <Button onClick={() => handleRouting(history)}>
-                    Edit Attractions
-                  </Button>
                 </Col>
               </Container>
             </Row>
