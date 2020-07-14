@@ -8,7 +8,7 @@ import styles from './Navbar.module.css';
  */
 function Navbar({ authState }) {
   return (
-    <Nav className={styles.container}>
+    <Nav className={styles.navbar}>
       <Nav.Item className={styles.leftLink}>
         <Switch>
           <Route path="/explore">

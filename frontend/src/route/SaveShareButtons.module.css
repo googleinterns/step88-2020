@@ -1,5 +1,9 @@
-.button {
+.buttonsContainer {
   position: absolute;
   right: 16px;
   top: 8px;
+}
+
+.button {
+  margin: 0 10px;
 }

@@ -2,3 +2,44 @@
   max-height: 80vh;
   overflow: auto;
 }
+
+.copyContainer {
+  margin: 15px 0;
+}
+
+.copyText {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  padding: 6px;
+  width: 90%;
+}
+
+.copyText:focus {
+  outline: none;
+}
+
+.copyBtn {
+  font-size: 1.2rem;
+  margin: 7px 10px;
+  opacity: 0.6;
+}
+
+.copyBtn:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.modalBtn {
+  margin: 5px 30px;
+  padding: 5px;
+  width: 70px;
+}
+
+.modalBtnContainer {
+  justify-content: flex-end;
+}
+
+.modalText {
+  margin-bottom: 10px;
+}
