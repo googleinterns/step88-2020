@@ -8,6 +8,7 @@ import { getQueryParameters } from './parameterUtils.js';
  * Explore view with selectable attraction images and map
  */
 function Explore() {
+  const [loading, setLoading] = useState(true);
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
   const searchText = query.search || '';
@@ -22,7 +23,6 @@ function Explore() {
           tripName: 'Trip Name',
         }
   );
-
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
@@ -43,10 +43,12 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 500,
+            radius: 8000,
           },
           handleNearbySearch
         );
+      } else {
+        setLoading(false);
       }
     };
 
@@ -72,21 +74,33 @@ function Explore() {
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
-        <div className={styles.attractionImages}>
-          {initialAttractions.map((attraction, index) => (
-            <div className={styles.attractionContainer} key={index}>
-              <img
-                onClick={() => toggleSelection(attraction)}
-                className={`${styles.attraction} ${
-                  attraction.selected ? styles.selectedImage : ''
-                }`}
-                src={attraction.photoUrl}
-                alt=""
-              />
+        <div className={styles.attractionImagesContainer}>
+          {initialAttractions.length === 0 ? (
+            <div className={styles.fillerText}>
+              {loading ? 'Loading . . .' : 'No Images Found'}
             </div>
-          ))}
+          ) : (
+            initialAttractions.map((attraction, index) => (
+              <div className={styles.attractionContainer} key={index}>
+                <img
+                  onClick={() => toggleSelection(attraction)}
+                  className={`${styles.attraction} ${
+                    attraction.selected ? styles.selectedImage : ''
+                  }`}
+                  src={attraction.photoUrl}
+                  alt=""
+                />
+              </div>
+            ))
+          )}
         </div>
-        <Button className={styles.routeButton} onClick={() => handleRouting(history)}>
+
+        <Button
+          className={styles.routeButton}
+          onClick={() => handleRouting(history)}
+          variant="primary"
+          disabled={selectedAttractions.length < 1}
+        >
           Show Route
         </Button>
       </div>
