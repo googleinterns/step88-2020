@@ -20,7 +20,7 @@ function App() {
             <ExploreView />
           </Route>
           <Route path="/route">
-            <RouteView />
+            <RouteView loggedIn={authState.loggedIn} />
           </Route>
         </Switch>
       </Authenticator>

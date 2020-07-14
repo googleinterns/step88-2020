@@ -14,9 +14,6 @@ function Navbar({ authState }) {
           <Route path="/explore">
             <Nav.Link href="/">Back to Search</Nav.Link>
           </Route>
-          <Route path="/route">
-            <Nav.Link href="/explore">Back to Edit</Nav.Link>
-          </Route>
         </Switch>
       </Nav.Item>
       <Nav.Item>
@@ -25,7 +22,12 @@ function Navbar({ authState }) {
           href={authState.loggedIn ? authState.logoutUrl : authState.loginUrl}
           className={styles.rightLink}
         >
-          {authState.loggedIn ? 'Sign Out' : 'Sign In'}
+          <Switch>
+            <Route path="/route">
+              {authState.loggedIn ? '' : 'Sign in to save trips'}
+            </Route>
+            <Route path="/">{authState.loggedIn ? 'Sign Out' : 'Sign In'}</Route>
+          </Switch>
         </Nav.Link>
       </Nav.Item>
     </Nav>

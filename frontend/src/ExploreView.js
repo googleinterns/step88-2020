@@ -5,26 +5,44 @@ import Map from './map/Map';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getQueryParameters } from './parameterUtils.js';
 
 /**
  * Explore view with selectable attraction images and map
  */
 function Explore() {
-  const [centerLocation, setCenterLocation] = useState({});
-  const [allAttractions, setAllAttractions] = useState([]);
-  const [tripId, setTripId] = useState('');
-  const [tripName, setTripName] = useState('');
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
-  const [searchText, setSearchText] = useState(query.search || '');
+  const searchText = query.search || '';
+  const [tripObject, setTripObject] = useState(
+    'trip' in query
+      ? JSON.parse(decodeURIComponent(query.trip))
+      : {
+          centerLocation: {},
+          selectedAttractions: [],
+          searchText,
+          tripId: '',
+          tripName: 'Trip Name',
+        }
+  );
+
+  const [selectedAttractions, setSelectedAttractions] = useState(
+    tripObject.selectedAttractions
+  );
+  const [initialAttractions, setInitialAttractions] = useState([]);
   const history = useHistory();
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const latLng = results[0].geometry.location;
-        const coordinates = new google.maps.LatLng(latLng.lat(), latLng.lng());
-        setCenterLocation({ lat: coordinates.lat(), lng: coordinates.lng() });
+        const coordinates = results[0].geometry.location;
+        setTripObject({
+          ...tripObject,
+          centerLocation: {
+            lat: coordinates.lat(),
+            lng: coordinates.lng(),
+          },
+        });
         placesService.nearbySearch(
           {
             location: coordinates,
@@ -38,37 +56,28 @@ function Explore() {
     const handleNearbySearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
-          allAttractions.length === 0 ? getAllAttractions(results) : allAttractions;
-        setAllAttractions(newAllAttractions);
+          initialAttractions.length === 0
+            ? getAllAttractions(results)
+            : initialAttractions;
+        setInitialAttractions(newAllAttractions);
       }
     };
 
     const placesService = new google.maps.places.PlacesService(map);
     placesService.textSearch(
       {
-        query: query.search,
+        query: tripObject.searchText,
       },
       handleTextSearch
     );
-
-    if ('trip' in query) {
-      setTripData(JSON.parse(decodeURIComponent(query.trip)));
-    }
-    if ('search' in query) {
-      setSearchText(query.search);
-    }
   };
-
-  const selectedAttractions = allAttractions.filter(
-    (attraction) => attraction.selected
-  );
 
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
         <div className={styles.attractionImages}>
-          {allAttractions.map((attraction) => (
-            <div className={styles.attractionContainer} key={attraction.id}>
+          {initialAttractions.map((attraction, index) => (
+            <div className={styles.attractionContainer} key={index}>
               <img
                 onClick={() => toggleSelection(attraction)}
                 className={`${styles.attraction} ${
@@ -87,12 +96,7 @@ function Explore() {
             </div>
           ))}
         </div>
-        <Button
-          className={styles.routeButton}
-          onClick={() =>
-            handleRouteRouting(allAttractions, searchText, tripId, tripName, history)
-          }
-        >
+        <Button className={styles.routeButton} onClick={() => handleRouting(history)}>
           Show Route
         </Button>
       </div>
@@ -100,8 +104,8 @@ function Explore() {
         className={styles.mapContainer}
         onReady={onMapReady}
         attractions={selectedAttractions}
-        mode={'pins'}
-        centerLocation={centerLocation}
+        mode="pins"
+        centerLocation={tripObject.centerLocation}
         key={selectedAttractions}
       />
     </div>
@@ -109,35 +113,12 @@ function Explore() {
 
   /**
    * Creates route url and navigates to /route?trip=
-   * @param {object[]} allAttractions list of all attractions
-   * @param {string} searchText search text
-   * @param {string} tripId trip id
-   * @param {string} tripName trip name
    * @param {object} history used to route dom with react
    */
-  function handleRouteRouting(allAttractions, searchText, tripId, tripName, history) {
-    const tripObject = {
-      allAttractions: [],
-      searchText,
-      tripId,
-      tripName,
-    };
-
-    tripObject.allAttractions = allAttractions.filter(
-      (attraction) => attraction.selected
-    );
+  function handleRouting(history) {
+    tripObject.selectedAttractions = selectedAttractions;
     const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
     history.push(`/route${routeUrl}`);
-  }
-
-  /**
-   * Set trip data
-   * @param {object} tripObject trip object containing trip data
-   */
-  function setTripData(tripObject) {
-    setTripId(tripObject.tripId);
-    setTripName(tripObject.tripName);
-    setAllAttractions(tripObject.allAttractions);
   }
 
   /**
@@ -147,23 +128,20 @@ function Explore() {
    * @param {object} targetAttraction attraction to be found
    */
   function toggleSelection(targetAttraction) {
-    const newAttractions = allAttractions.map((attraction) => {
-      if (attraction.id === targetAttraction.id) {
-        attraction.selected = !attraction.selected;
-      }
-      return attraction;
-    });
-    setAllAttractions(newAttractions);
-  }
+    const targetAttrIndexInSelected = selectedAttractions.findIndex(
+      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
+    );
 
-  /**
-   * Extract the url parameters and convert to dictionary
-   * @param {string} query url string
-   * @return {object} key value pair of url parameters
-   */
-  function getQueryParameters(query) {
-    const params = query.split('?')[1];
-    return Object.fromEntries(new URLSearchParams(params));
+    targetAttraction.selected = !targetAttraction.selected;
+    const selectedAttractionsCopy = Array.from(selectedAttractions);
+
+    if (targetAttrIndexInSelected === -1) {
+      /*not in selected*/ selectedAttractionsCopy.push(targetAttraction);
+      setSelectedAttractions(selectedAttractionsCopy);
+    } /*in selected*/ else {
+      selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
+      setSelectedAttractions(selectedAttractionsCopy);
+    }
   }
 
   /**
@@ -172,41 +150,40 @@ function Explore() {
    * @return {object[]} array of all attractions
    */
   function getAllAttractions(attractions) {
-    const allAttractions = [];
+    const newAllAttractions = [];
     for (const attraction of attractions) {
-      if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
-        const attractionName = attraction.name;
+      if ('photos' in attraction) {
+        const name = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
-        const id = attraction.id;
-        const newAttraction = createAttraction(attractionName, id, latLng, photoUrl);
-        allAttractions.push(newAttraction);
+        const isSelected = selectedAttractions.some(
+          (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
+        );
+        const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
+        newAllAttractions.push(newAttraction);
       }
     }
-    return allAttractions;
+    return newAllAttractions;
   }
 
   /**
    * Get the photo url of each attraction object
-   * @param {string} attractionName attraction name
-   * @param {number} lat latitude
-   * @param {number} lng longitude
-   * @param {string} photoUrl photo url
+   * @param {string} name name of attraction
+   * @param {object} latLng coordinates
+   * @param {string} photoUrl url of image
+   * @param {boolean} selected used for checking object selection
    * @return {object} object containing the attraction data
    */
-  function createAttraction(attractionName, id, latLng, photoUrl) {
+  function createAttraction(name, latLng, photoUrl, selected) {
     return {
-      attractionName,
-      coordinates: {
-        lat: latLng.lat(),
-        lng: latLng.lng(),
-      },
-      id,
+      name,
+      description: 'Insert description here.',
+      lat: latLng.lat(),
+      lng: latLng.lng(),
       photoUrl,
       routeIndex: 0,
-      selected: false,
+      selected,
     };
   }
 }
-
 export default Explore;

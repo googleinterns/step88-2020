@@ -39,7 +39,7 @@ function Route({ places, setPlaces, onManualPlaceChange }) {
               <LocationCard
                 location={place.name}
                 description={place.description}
-                image={place.image}
+                image={place.photoUrl}
                 index={index}
                 key={index}
               />
