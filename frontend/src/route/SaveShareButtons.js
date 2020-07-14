@@ -14,7 +14,6 @@ function SaveShareButtons({ isSaved, save, share }) {
       <Button
         variant="secondary"
         onClick={share}
-        disabled={isSaved}
         className={styles.button}
       >
         Share Trip
