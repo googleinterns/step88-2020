@@ -42,6 +42,9 @@ public class Attraction {
     return this.name;
   }
 
+  /**
+   * Return coordinates in the form "lat,lng".
+   */
   public String getCoordinates() {
     return String.format("%f,%f", this.lat, this.lng);
   }
