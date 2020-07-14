@@ -23,11 +23,12 @@
   height: 300px;
   margin: 10px;
   width: 300px;
+  object-fit: cover;
 }
 
 .attraction:hover,
 .routeButton:hover {
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .check {
@@ -40,9 +41,12 @@
 }
 
 .selectedImage {
-  border: solid #007bff;
-  border-width: 15px;
-  opacity: 0.5;
+  background-color: #303030;
+  opacity: 0.55;
+}
+
+.selectedImage:hover{
+  opacity: 0.65;
 }
 
 .mapContainer {
