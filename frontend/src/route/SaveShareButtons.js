@@ -11,11 +11,7 @@ import styles from './SaveShareButtons.module.css';
 function SaveShareButtons({ isSaved, save, share }) {
   return (
     <div className={styles.buttonsContainer}>
-      <Button
-        variant="secondary"
-        onClick={share}
-        className={styles.button}
-      >
+      <Button variant="secondary" onClick={share} className={styles.button}>
         Share Trip
       </Button>
       <Button
