@@ -44,14 +44,14 @@ public class OptimizeServlet extends HttpServlet {
     String body = IOUtils.toString(request.getReader());
     Gson g = new Gson();
     JSON json = g.fromJson(body, JSON.class);
-    List<Attraction> attractions = json.attractions;
+    List<Attraction> attractions = json.selectedAttractions;
 
     // call Distance Matrix API
-    String[] attractionNames =
-        attractions.stream().map(Attraction::getName).toArray(String[] ::new);
+    String[] attractionCoordinates =
+        attractions.stream().map(Attraction::getCoordinates).toArray(String[] ::new);
     DistanceMatrix matrix;
     try {
-      matrix = createDistanceMatrix(attractionNames);
+      matrix = createDistanceMatrix(attractionCoordinates);
     } catch (Exception e) {
       response.sendError(500, e.getMessage());
       return;
@@ -88,10 +88,10 @@ public class OptimizeServlet extends HttpServlet {
   }
 
   private class JSON {
-    private List<Attraction> attractions;
+    private List<Attraction> selectedAttractions;
 
-    private JSON(List<Attraction> attractions) {
-      this.attractions = attractions;
+    private JSON(List<Attraction> selectedAttractions) {
+      this.selectedAttractions = selectedAttractions;
     }
   }
 }

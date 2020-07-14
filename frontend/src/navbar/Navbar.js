@@ -14,9 +14,6 @@ function Navbar({ authState }) {
           <Route path="/explore">
             <Nav.Link href="/">Back to Search</Nav.Link>
           </Route>
-          <Route path="/route">
-            <Nav.Link href="/explore">Back to Edit</Nav.Link>
-          </Route>
         </Switch>
       </Nav.Item>
       <Nav.Item>

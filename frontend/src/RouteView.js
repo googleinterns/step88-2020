@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -13,16 +14,13 @@ import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
 import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
-
-import { MOCK_DATA } from './route/mockData.js';
-
+import { getQueryParameters } from './parameterUtils.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
 function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
 
@@ -30,9 +28,15 @@ function RouteView({ loggedIn }) {
   const handleShareClose = () => setShowShareModal(false);
   const handleShareShow = () => setShowShareModal(true);
 
+  const urlParameters = useLocation();
+  const query = getQueryParameters(urlParameters.search);
+  const history = useHistory();
+  const tripObject = JSON.parse(decodeURIComponent(query.trip));
+  const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
+
   useEffect(() => {
     if (isOptimized) {
-      setPlaces(optimizedOrder);
+      setAttractions(optimizedOrder);
     }
   }, [isOptimized, optimizedOrder]);
 
@@ -40,7 +44,7 @@ function RouteView({ loggedIn }) {
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
-        body: JSON.stringify({ attractions: places }),
+        body: JSON.stringify({ selectedAttractions: attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);
@@ -61,6 +65,16 @@ function RouteView({ loggedIn }) {
   function copyToClipboard(e) {
     textAreaRef.current.select();
     document.execCommand('copy');
+  }
+  
+  /**
+   * Creates url and navigates to /explore?trip=
+   * @param {object} history used to route dom with react
+   */
+  function handleRouting(history) {
+    tripObject.selectedAttractions = attractions;
+    const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
+    history.push(`/explore${url}`);
   }
 
   return (
@@ -109,18 +123,31 @@ function RouteView({ loggedIn }) {
           <Col>
             <Row className={styles.routeListContainer}>
               <Route
-                places={places}
-                setPlaces={setPlaces}
+                places={attractions}
+                setPlaces={setAttractions}
                 onManualPlaceChange={onManualPlaceChange}
               />
             </Row>
             <Row>
-              <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+              <Container>
+                <Col>
+                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+                </Col>
+                <Col>
+                  <Button onClick={() => handleRouting(history)}>
+                    Edit Attractions
+                  </Button>
+                </Col>
+              </Container>
             </Row>
           </Col>
           <Col>
             <Row>
-              <Map mode="directions" places={places} centerLocation={places[0]} />
+              <Map
+                mode="directions"
+                attractions={attractions}
+                centerLocation={tripObject.centerLocation}
+              />
             </Row>
           </Col>
         </Row>
