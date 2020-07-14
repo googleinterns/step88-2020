@@ -65,44 +65,46 @@ function RouteView({ loggedIn }) {
   }
 
   return (
-  <>
-    <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
-    <Container>
-      <Row>
-        <TripName />
-      </Row>
-      <Row>
-        <Col>
-          <Row className={styles.routeListContainer}>
-            <Route
-              places={attractions}
-              setPlaces={setAttractions}
-              onManualPlaceChange={onManualPlaceChange}
-            />
-          </Row>
-          <Row>
-            <Container>
-              <Col>
-                <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-              </Col>
-              <Col>
-                <Button onClick={() => handleRouting(history)}>Edit Attractions</Button>
-              </Col>
-            </Container>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Map
-              mode="directions"
-              attractions={attractions}
-              centerLocation={tripObject.centerLocation}
-            />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
-      </>
+    <>
+      <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
+      <Container>
+        <Row>
+          <TripName />
+        </Row>
+        <Row>
+          <Col>
+            <Row className={styles.routeListContainer}>
+              <Route
+                places={attractions}
+                setPlaces={setAttractions}
+                onManualPlaceChange={onManualPlaceChange}
+              />
+            </Row>
+            <Row>
+              <Container>
+                <Col>
+                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+                </Col>
+                <Col>
+                  <Button onClick={() => handleRouting(history)}>
+                    Edit Attractions
+                  </Button>
+                </Col>
+              </Container>
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Map
+                mode="directions"
+                attractions={attractions}
+                centerLocation={tripObject.centerLocation}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 }
 
