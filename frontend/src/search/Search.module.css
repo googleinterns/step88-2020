@@ -42,3 +42,8 @@
   margin-bottom: 5px;
   text-align: center;
 }
+
+.barContainer {
+  width: 500px;
+  font-family: 'Arial', 'FontAwesome';
+}
