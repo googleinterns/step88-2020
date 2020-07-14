@@ -1,11 +1,13 @@
 .exploreContainer {
-  display: flex;
+  max-width: 2000px;
 }
 
-.attractionsSection {
-  display: flex;
-  flex-direction: column;
-  width: 1000px;
+.attractionContainer {
+  margin: 10px;
+}
+
+.attractionContainer:hover {
+  cursor: pointer;
 }
 
 .attractionImagesContainer {
@@ -18,22 +20,15 @@
 
 .attraction {
   height: 300px;
-  margin: 10px;
+  object-fit: cover;
   width: 300px;
 }
 
-.attraction:hover {
-  opacity: 0.5;
-}
-
-.selectedImage {
-  border: solid green;
-  border-width: 10px;
-}
-
-.mapContainer {
-  margin-right: 100px;
-  margin-top: 30px;
+.check {
+  color: whitesmoke;
+  font-size: 56px;
+  margin: 40%;
+  opacity: 0.8;
 }
 
 .routeButton {
@@ -47,4 +42,17 @@
 
 .fillerText {
   margin: auto;
+}
+
+.overlay {
+  background-color: #303030;
+  opacity: 0;
+}
+
+.attractionContainer:hover .overlay {
+  opacity: 0.3;
+}
+
+.selectedImage .overlay {
+  opacity: 0.4;
 }
