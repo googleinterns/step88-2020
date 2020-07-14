@@ -11,14 +11,13 @@ import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
 import SaveButton from './route/SaveButton.js';
 import TripName from './trip-name/TripName.js';
-
+import { getQueryParameters } from './parameterUtils.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
-function RouteView() {
+function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  // const [places, setPlaces] = useState(MOCK_DATA);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
 
   const urlParameters = useLocation();
@@ -26,16 +25,6 @@ function RouteView() {
   const history = useHistory();
   const tripObject = JSON.parse(decodeURIComponent(query.trip));
   const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
-
-  /**
-   * Extract the url parameters and convert to dictionary
-   * @param {string} query url string
-   * @return {object} key value pair of url parameters
-   */
-  function getQueryParameters(query) {
-    const params = query.split('?')[1];
-    return Object.fromEntries(new URLSearchParams(params));
-  }
 
   useEffect(() => {
     if (isOptimized) {
@@ -76,38 +65,46 @@ function RouteView() {
   }
 
   return (
-    <Container>
-      <Row>
-        <TripName />
-      </Row>
-      <Row>
-        <Col>
-          <Row className={styles.routeListContainer}>
-            <Route
-              places={attractions}
-              setPlaces={setAttractions}
-              onManualPlaceChange={onManualPlaceChange}
-            />
-          </Row>
-          <Row>
-            <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-            <Button onClick={() => handleRouting(history)}>Edit Attractions</Button>
-          </Row>
-        </Col>
-        <Col>
-          <Row>
-            <Map
-              mode="directions"
-              attractions={attractions}
-              centerLocation={tripObject.centerLocation}
-            />
-          </Row>
-          <Row>
-            <SaveButton isSaved={isSaved} save={save} />
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
+      <Container>
+        <Row>
+          <TripName />
+        </Row>
+        <Row>
+          <Col>
+            <Row className={styles.routeListContainer}>
+              <Route
+                places={attractions}
+                setPlaces={setAttractions}
+                onManualPlaceChange={onManualPlaceChange}
+              />
+            </Row>
+            <Row>
+              <Container>
+                <Col>
+                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+                </Col>
+                <Col>
+                  <Button onClick={() => handleRouting(history)}>
+                    Edit Attractions
+                  </Button>
+                </Col>
+              </Container>
+            </Row>
+          </Col>
+          <Col>
+            <Row>
+              <Map
+                mode="directions"
+                attractions={attractions}
+                centerLocation={tripObject.centerLocation}
+              />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 }
 

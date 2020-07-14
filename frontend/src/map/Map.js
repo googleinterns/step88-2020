@@ -19,7 +19,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         lat: attraction.lat,
         lng: attraction.lng,
       };
-
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
@@ -32,10 +31,11 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         `,
       });
       const marker = new google.maps.Marker({
-        position: location,
+        position: attraction.coordinates,
         map,
         title: attraction.name,
       });
+      //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
         infowindow.open(map, marker);
       });
@@ -53,6 +53,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       />
     );
   }
+
   const attractionCoordinates = attractions.map((attraction) =>
     encodeURIComponent(`${attraction.lat},${attraction.lng}`)
   );
