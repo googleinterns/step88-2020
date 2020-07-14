@@ -26,8 +26,12 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
           </div>
         `,
       });
+      const location = {
+        lat: attraction.lat,
+        lng: attraction.lng,
+      };
       const marker = new google.maps.Marker({
-        position: attraction.coordinates,
+        position: location,
         map,
         title: attraction.name,
       });
