@@ -3,7 +3,11 @@
 }
 
 .attractionContainer {
-  position: relative;
+  margin: 10px;
+}
+
+.attractionContainer:hover {
+  cursor: pointer;
 }
 
 .attractionsSection {
@@ -22,32 +26,15 @@
 
 .attraction {
   height: 300px;
-  margin: 10px;
-  width: 300px;
   object-fit: cover;
-}
-
-.attraction:hover {
-  cursor: pointer;
-  /* opacity: 0.5; */
+  width: 300px;
 }
 
 .check {
-  color: white;
-  font-size: 80px;
-  left: 120px;
+  color: whitesmoke;
+  font-size: 56px;
+  margin: 40%;
   opacity: 0.8;
-  position: absolute;
-  top: 120px;
-}
-
-.selectedImage {
-  background-color: #303030;
-  opacity: 0.55;
-}
-
-.selectedImage:hover {
-  opacity: 0.65;
 }
 
 .mapContainer {
@@ -66,4 +53,17 @@
 
 .fillerText {
   margin: auto;
+}
+
+.overlay {
+  background-color: #303030;
+  opacity: 0;
+}
+
+.attractionContainer:hover .overlay {
+  opacity: 0.3;
+}
+
+.selectedImage .overlay {
+  opacity: 0.4;
 }

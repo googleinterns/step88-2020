@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from 'react-bootstrap/Card';
 import styles from './ExploreView.module.css';
 import Button from 'react-bootstrap/Button';
 import Map from './map/Map';
@@ -84,22 +85,23 @@ function Explore() {
             </div>
           ) : (
             initialAttractions.map((attraction, index) => (
-              <div className={styles.attractionContainer} onClick={() => toggleSelection(attraction)} key={index}>
-                <img
-                  
-                  className={`${styles.attraction} ${
-                    attraction.selected ? styles.selectedImage : ''
-                  }`}
+              <Card
+                className={`${styles.attractionContainer} ${
+                  attraction.selected ? styles.selectedImage : ''
+                }`}
+                onClick={() => toggleSelection(attraction)}
+                key={index}
+              >
+                <Card.Img
                   src={attraction.photoUrl}
-                  alt=""
+                  className={styles.attraction}
+                  alt="attraction image"
                 />
-                {attraction.selected && (
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    className={styles.check}
-                  />
-                )}
-              </div>
+                <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
+                <Card.ImgOverlay>{attraction.selected && (
+                  <FontAwesomeIcon icon={faCheck} className={styles.check} />
+                )}</Card.ImgOverlay>
+              </Card>
             ))
           )}
         </div>
