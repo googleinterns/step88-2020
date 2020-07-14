@@ -8,7 +8,7 @@ import { useLocation, useHistory } from 'react-router-dom';
  * Explore view with selectable attraction images and map
  */
 function Explore() {
-  const [calledAPI, setCalledAPI] = useState(false);
+  const [loading, setLoading] = useState(true);
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
   const searchText = query.search || '';
@@ -43,10 +43,12 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 10000,
+            radius: 8000,
           },
           handleNearbySearch
         );
+      } else {
+        setLoading(false);
       }
     };
 
@@ -70,11 +72,13 @@ function Explore() {
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.attractionsSection}>
-        {allAttractions.length === 0 && calledAPI ? (
-          'No Images Found'
-        ) : (
-          <div className={styles.attractionImagesContainer}>
-            {allAttractions.map((attraction, index) => (
+        <div className={styles.attractionImagesContainer}>
+          {allAttractions.length === 0 ? (
+            <div className={styles.fillerText}>
+              {loading ? 'Loading' : 'No Images Found'}
+            </div>
+          ) : (
+            allAttractions.map((attraction, index) => (
               <div className={styles.attractionContainer} key={index}>
                 <img
                   onClick={() => toggleSelection(attraction)}
@@ -85,9 +89,10 @@ function Explore() {
                   alt=""
                 />
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
+
         <Button
           className={styles.routeButton}
           onClick={() => handleRouting(history)}
@@ -157,9 +162,10 @@ function Explore() {
    * @return {object[]} array of all attractions
    */
   function getAllAttractions(attractions) {
+    console.log('getting all attractions');
     const newAllAttractions = [];
     for (const attraction of attractions) {
-      if (!Object.prototype.hasOwnProperty.call(attraction, 'photos')) {
+      if (!attraction.photos) {
         continue;
       }
       if (Object.prototype.hasOwnProperty.call(attraction.photos[0], 'getUrl')) {
@@ -173,7 +179,6 @@ function Explore() {
         newAllAttractions.push(newAttraction);
       }
     }
-    setCalledAPI(true);
     return newAllAttractions;
   }
 
