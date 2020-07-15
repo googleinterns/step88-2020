@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
 import styles from './Search.module.css';
 import { useHistory } from 'react-router-dom';
-import usePlacesAutocomplete from 'use-places-autocomplete';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
-
+import Map from '../map/Map';
 /**
  * Creates Search component with search bar.
  */
 function Search() {
   const history = useHistory();
-  const [options, setOptions] = useState([]);
-
-  const {
-    suggestions: { status, data },
-    setValue,
-  } = usePlacesAutocomplete();
+  const [data, setData] = useState([]);
+  const options = data.map((suggestion) => suggestion.description);
+  const onMapReady = (google, map) => {};
 
   const handleInput = (e) => {
-    setValue(e);
-  };
-
-  const renderSuggestions = () => {
-    setOptions(
-      data.map((suggestion) => {
-        const {
-          structured_formatting: { main_text },
-        } = suggestion;
-        return main_text;
-      })
+    const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
+    const autocompleteService = new window.google.maps.places.AutocompleteService();
+    autocompleteService.getPlacePredictions(
+      {
+        input: e,
+        sessionToken: sessionToken,
+      },
+      setData
     );
   };
 
@@ -50,7 +43,6 @@ function Search() {
           className={styles.searchBar}
           onInputChange={(text) => {
             handleInput(text);
-            status === 'OK' && renderSuggestions();
           }}
           onChange={(text) => {
             if (text !== '') {
@@ -60,6 +52,14 @@ function Search() {
           options={options}
           placeholder="&#xF002; Where to?"
         />
+        <div className={styles.mapContainer}>
+          <Map
+            onReady={onMapReady}
+            attractions={[]}
+            mode="pins"
+            centerLocation={{ lat: 0, lng: 0 }}
+          />
+        </div>
       </Container>
     </div>
   );

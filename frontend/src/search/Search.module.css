@@ -47,3 +47,7 @@
   width: 500px;
   font-family: 'Arial', 'FontAwesome';
 }
+
+.mapContainer {
+  display: none;
+}
