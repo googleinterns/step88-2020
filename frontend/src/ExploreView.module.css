@@ -25,11 +25,14 @@
   object-fit: cover;
   width: 13vw;
 }
-
+.centerCheck {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
 .check {
   color: whitesmoke;
   font-size: 56px;
-  margin: 40%;
   opacity: 0.8;
 }
 

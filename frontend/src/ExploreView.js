@@ -104,7 +104,7 @@ function Explore() {
                     alt={`${attraction.name} image`}
                   />
                   <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-                  <Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.centerCheck}>
                     {attraction.selected && (
                       <FontAwesomeIcon icon={faCheck} className={styles.check} />
                     )}
