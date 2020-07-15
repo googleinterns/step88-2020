@@ -42,3 +42,12 @@
   margin-bottom: 5px;
   text-align: center;
 }
+
+.barContainer {
+  font-family: 'Arial', 'FontAwesome';
+  width: 500px;
+}
+
+.mapContainer {
+  display: none;
+}

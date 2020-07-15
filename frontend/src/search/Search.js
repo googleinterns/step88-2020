@@ -1,50 +1,68 @@
-import Button from 'react-bootstrap/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import React, { useState } from 'react';
 import styles from './Search.module.css';
 import { useHistory } from 'react-router-dom';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import Container from 'react-bootstrap/Container';
+import Map from '../map/Map';
 
 /**
  * Creates Search component with search bar.
  */
 function Search() {
-  const [query, setQuery] = useState('');
   const history = useHistory();
+  const [predictions, setPredictions] = useState([]);
+  const options = predictions.map((prediction) => prediction.description);
+  const onMapReady = (google, map) => {};
+
+  const handleInput = (input) => {
+    const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
+    const autocompleteService = new window.google.maps.places.AutocompleteService();
+    autocompleteService.getPlacePredictions(
+      {
+        input,
+        sessionToken,
+      },
+      setPredictions
+    );
+  };
 
   return (
     <div className={styles.searchContainer}>
       <div className={styles.whereTo}>
         <h1 className={styles.text}>
-          <span className={styles.blue}>W</span>
-          <span className={styles.red}>h</span>
-          <span className={styles.yellow}>e</span>
-          <span className={styles.green}>r</span>
+          <span className={styles.grey}>g</span>
+          <span className={styles.blue}>R</span>
+          <span className={styles.blue}>o</span>
+          <span className={styles.blue}>u</span>
+          <span className={styles.blue}>t</span>
           <span className={styles.blue}>e</span>
-          <span className={styles.grey}> to?</span>
+          <span className={styles.blue}>s</span>
         </h1>
       </div>
-      <Form
-        inline
-        className={styles.form}
-        onSubmit={() => {
-          if (query !== '') {
-            history.push(`/explore?search=${query}`);
-          }
-        }}
-      >
-        <FormControl
+      <Container className={styles.barContainer}>
+        <Typeahead
           type="text"
           className={styles.searchBar}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onInputChange={(text) => {
+            handleInput(text);
+          }}
+          onChange={(text) => {
+            if (text !== '') {
+              history.push(`/explore?search=${text[0]}`);
+            }
+          }}
+          options={options}
+          placeholder="&#xF002; Where to?"
         />
-        <Button variant="secondary" type="submit">
-          <FontAwesomeIcon icon={faSearch} className="optimized-icon" />
-        </Button>
-      </Form>
+        <div className={styles.mapContainer}>
+          <Map
+            onReady={onMapReady}
+            attractions={[]}
+            mode="pins"
+            centerLocation={{ lat: 0, lng: 0 }}
+          />
+        </div>
+      </Container>
     </div>
   );
 }
