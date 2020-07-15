@@ -52,7 +52,7 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 8000,
+            radius: 10000,
           },
           handleNearbySearch
         );
@@ -80,6 +80,7 @@ function Explore() {
     );
   };
 
+  console.log(initialAttractions);
   return (
     <Container className={styles.exploreContainer}>
       <Row>
