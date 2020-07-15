@@ -11,7 +11,7 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
  */
 
-function Map({ attractions, mode, centerLocation, google, onReady, view }) {
+function Map({ attractions, mode, centerLocation, google, onReady, view, ...props }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
@@ -44,11 +44,12 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
 
   if (mode === 'pins') {
     return (
-      <GoogleMap
+      <GoogleMap {...props}
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
         zoom={14}
+        styles={{width: "inherit"}}
       />
     );
   }
