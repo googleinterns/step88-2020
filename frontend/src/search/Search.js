@@ -30,19 +30,18 @@ function Search() {
     <div className={styles.searchContainer}>
       <div className={styles.whereTo}>
         <h1 className={styles.text}>
-          <span className={styles.blue}>g</span>
-          <span className={styles.grey}>R</span>
-          <span className={styles.grey}>o</span>
-          <span className={styles.grey}>u</span>
-          <span className={styles.grey}>t</span>
-          <span className={styles.grey}>e</span>
-          <span className={styles.grey}>s</span>
+          <span className={styles.grey}>g</span>
+          <span className={styles.blue}>R</span>
+          <span className={styles.blue}>o</span>
+          <span className={styles.blue}>u</span>
+          <span className={styles.blue}>t</span>
+          <span className={styles.blue}>e</span>
+          <span className={styles.blue}>s</span>
         </h1>
       </div>
       <Container className={styles.barContainer}>
         <Typeahead
           type="text"
-
           className={styles.searchBar}
           onInputChange={(text) => {
             handleInput(text);
