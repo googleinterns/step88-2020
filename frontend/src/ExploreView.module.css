@@ -3,6 +3,7 @@
 }
 
 .attractionContainer {
+  height: 300px;
   margin: 10px;
 }
 
@@ -14,6 +15,7 @@
   display: flex;
   flex-wrap: wrap;
   height: 900px;
+  justify-content: flex-end;
   max-width: 1000px;
   overflow-y: auto;
 }

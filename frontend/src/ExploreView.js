@@ -52,7 +52,7 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 8000,
+            radius: 10000,
           },
           handleNearbySearch
         );
@@ -101,7 +101,7 @@ function Explore() {
                   <Card.Img
                     src={attraction.photoUrl}
                     className={styles.attraction}
-                    alt="attraction image"
+                    alt={`${attraction.name} image`}
                   />
                   <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
                   <Card.ImgOverlay>
