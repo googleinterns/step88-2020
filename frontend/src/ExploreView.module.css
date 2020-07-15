@@ -58,3 +58,8 @@
 .selectedImage .overlay {
   opacity: 0.4;
 }
+
+.mapContainer {
+  height: 100%;
+  position: relative;
+}

@@ -25,12 +25,12 @@ function Explore() {
     'trip' in query
       ? JSON.parse(decodeURIComponent(query.trip))
       : {
-          centerLocation: {},
-          selectedAttractions: [],
-          searchText,
-          tripId: '',
-          tripName: 'Trip Name',
-        }
+        centerLocation: {},
+        selectedAttractions: [],
+        searchText,
+        tripId: '',
+        tripName: 'Trip Name',
+      }
   );
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
@@ -90,28 +90,28 @@ function Explore() {
                 {loading ? 'Loading . . .' : 'No Images Found'}
               </div>
             ) : (
-              initialAttractions.map((attraction, index) => (
-                <Card
-                  className={`${styles.attractionContainer} ${
-                    attraction.selected ? styles.selectedImage : ''
-                  }`}
-                  onClick={() => toggleSelection(attraction)}
-                  key={index}
-                >
-                  <Card.Img
-                    src={attraction.photoUrl}
-                    className={styles.attraction}
-                    alt={`${attraction.name} image`}
-                  />
-                  <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-                  <Card.ImgOverlay>
-                    {attraction.selected && (
-                      <FontAwesomeIcon icon={faCheck} className={styles.check} />
-                    )}
-                  </Card.ImgOverlay>
-                </Card>
-              ))
-            )}
+                initialAttractions.map((attraction, index) => (
+                  <Card
+                    className={`${styles.attractionContainer} ${
+                      attraction.selected ? styles.selectedImage : ''
+                      }`}
+                    onClick={() => toggleSelection(attraction)}
+                    key={index}
+                  >
+                    <Card.Img
+                      src={attraction.photoUrl}
+                      className={styles.attraction}
+                      alt={`${attraction.name} image`}
+                    />
+                    <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
+                    <Card.ImgOverlay>
+                      {attraction.selected && (
+                        <FontAwesomeIcon icon={faCheck} className={styles.check} />
+                      )}
+                    </Card.ImgOverlay>
+                  </Card>
+                ))
+              )}
           </div>
           <Button
             className={styles.routeButton}
@@ -123,14 +123,15 @@ function Explore() {
           </Button>
         </Col>
         <Col sm={6}>
-          <Map
-            className={styles.mapContainer}
-            onReady={onMapReady}
-            attractions={selectedAttractions}
-            mode="pins"
-            centerLocation={tripObject.centerLocation}
-            key={selectedAttractions}
-          />
+          <div className={styles.mapContainer}>
+            <Map
+              onReady={onMapReady}
+              attractions={selectedAttractions}
+              mode="pins"
+              centerLocation={tripObject.centerLocation}
+              key={selectedAttractions}
+            />
+          </div>
         </Col>
       </Row>
     </Container>
