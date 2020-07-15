@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getQueryParameters } from './parameterUtils.js';
+import { getQueryParameters, handleRouting } from './routingUtils.js';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -115,7 +115,9 @@ function Explore() {
           </div>
           <Button
             className={styles.routeButton}
-            onClick={() => handleRouting(history)}
+            onClick={() =>
+              handleRouting(history, 'route', tripObject, selectedAttractions)
+            }
             variant="primary"
             disabled={selectedAttractions.length < 1}
           >
@@ -135,16 +137,6 @@ function Explore() {
       </Row>
     </Container>
   );
-
-  /**
-   * Creates route url and navigates to /route?trip=
-   * @param {object} history used to route dom with react
-   */
-  function handleRouting(history) {
-    tripObject.selectedAttractions = selectedAttractions;
-    const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-    history.push(`/route${routeUrl}`);
-  }
 
   /**
    * changes selection property of attraction which causes the following
