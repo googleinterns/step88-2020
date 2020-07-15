@@ -30,7 +30,7 @@ function Navbar({ authState }) {
           <img src={googleLogo} alt="google logo" className={styles.googleLogo} />
           <Switch>
             <Route path="/route">
-              {authState.loggedIn ? '' : 'Sign in to save trip'}
+              {authState.loggedIn ? 'Sign Out' : 'Sign in to save trip'}
             </Route>
             <Route path="/">{authState.loggedIn ? 'Sign Out' : 'Sign In'}</Route>
           </Switch>
