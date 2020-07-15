@@ -80,7 +80,6 @@ function Explore() {
     );
   };
 
-  console.log(initialAttractions);
   return (
     <Container className={styles.exploreContainer}>
       <Row>
