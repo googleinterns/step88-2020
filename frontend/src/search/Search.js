@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
 import Map from '../map/Map';
+
 /**
  * Creates Search component with search bar.
  */
@@ -29,17 +30,19 @@ function Search() {
     <div className={styles.searchContainer}>
       <div className={styles.whereTo}>
         <h1 className={styles.text}>
-          <span className={styles.blue}>B</span>
-          <span className={styles.red}>e</span>
-          <span className={styles.yellow}>a</span>
-          <span className={styles.green}>n</span>
-          <span className={styles.blue}>s</span>
+          <span className={styles.blue}>g</span>
+          <span className={styles.grey}>R</span>
+          <span className={styles.grey}>o</span>
+          <span className={styles.grey}>u</span>
+          <span className={styles.grey}>t</span>
+          <span className={styles.grey}>e</span>
+          <span className={styles.grey}>s</span>
         </h1>
       </div>
       <Container className={styles.barContainer}>
         <Typeahead
           type="text"
-          id="basic-typeahead-single"
+
           className={styles.searchBar}
           onInputChange={(text) => {
             handleInput(text);
