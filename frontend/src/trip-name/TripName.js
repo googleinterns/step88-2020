@@ -13,7 +13,7 @@ import styles from './TripName.module.css';
  */
 function TripName({ tripName }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(tripName ? tripName : '');
+  const [name, setName] = useState(tripName || '');
 
   function handleSave() {
     setIsEditing(false);
