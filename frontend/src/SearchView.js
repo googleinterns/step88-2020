@@ -10,7 +10,7 @@ import styles from './SearchView.module.css';
 function SearchView({ loggedIn }) {
   const trips = ['London', 'Paris'];
 
-  const savedTrips = !loggedIn ? <SavedTrips trips={trips} /> : null;
+  const savedTrips = loggedIn ? <SavedTrips trips={trips} /> : null;
 
   return (
     <div className={styles.container}>
