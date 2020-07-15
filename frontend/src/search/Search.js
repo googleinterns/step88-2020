@@ -9,8 +9,8 @@ import Map from '../map/Map';
  */
 function Search() {
   const history = useHistory();
-  const [data, setData] = useState([]);
-  const options = data.map((suggestion) => suggestion.description);
+  const [predictions, setPredictions] = useState([]);
+  const options = predictions.map((prediction) => prediction.description);
   const onMapReady = (google, map) => {};
 
   const handleInput = (input) => {
@@ -21,7 +21,7 @@ function Search() {
         input,
         sessionToken,
       },
-      setData
+      setPredictions
     );
   };
 
