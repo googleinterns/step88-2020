@@ -1,5 +1,10 @@
 .tripNameContainer {
   width: 200px;
+  height: 100px;
+}
+
+.tripNameContainer :global(.form-group) {
+  margin-bottom: 0;
 }
 
 .tripNameInput {
@@ -31,17 +36,13 @@
   color: #8f8f8f;
   display: none;
   font-size: 0.9rem;
-  margin: auto;
+  margin: 12px auto;
   text-decoration: underline;
 }
 
 .saveBtn:hover {
   color: #616161;
   cursor: pointer;
-}
-
-.saveRow {
-  height: 20px;
 }
 
 .formGroup {

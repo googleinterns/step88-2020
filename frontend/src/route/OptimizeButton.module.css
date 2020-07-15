@@ -1,5 +1,8 @@
 .optimizedBtnContainer {
+  display: flex;
+  justify-content: center;
   margin: 10px auto;
+  padding-right: 62.5px;
 }
 
 .optimizedTxt {

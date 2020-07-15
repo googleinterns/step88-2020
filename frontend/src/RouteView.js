@@ -142,13 +142,11 @@ function RouteView({ loggedIn }) {
             </Row>
           </Col>
           <Col>
-            <Row>
-              <Map
-                mode="directions"
-                attractions={attractions}
-                centerLocation={tripObject.centerLocation}
-              />
-            </Row>
+            <Map
+              mode="directions"
+              attractions={attractions}
+              centerLocation={tripObject.centerLocation}
+            />
           </Col>
         </Row>
       </Container>
