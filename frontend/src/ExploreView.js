@@ -123,14 +123,15 @@ function Explore() {
           </Button>
         </Col>
         <Col sm={6}>
+        <div className={styles.mapContainer}>
           <Map
-            className={styles.mapContainer}
             onReady={onMapReady}
             attractions={selectedAttractions}
             mode="pins"
             centerLocation={tripObject.centerLocation}
             key={selectedAttractions}
           />
+          </div>
         </Col>
       </Row>
     </Container>
