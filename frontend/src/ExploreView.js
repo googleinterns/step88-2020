@@ -43,7 +43,7 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 2000,
+            radius: 8000,
           },
           handleNearbySearch
         );
