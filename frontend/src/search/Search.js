@@ -13,13 +13,13 @@ function Search() {
   const options = data.map((suggestion) => suggestion.description);
   const onMapReady = (google, map) => {};
 
-  const handleInput = (e) => {
+  const handleInput = (input) => {
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
     const autocompleteService = new window.google.maps.places.AutocompleteService();
     autocompleteService.getPlacePredictions(
       {
-        input: e,
-        sessionToken: sessionToken,
+        input,
+        sessionToken,
       },
       setData
     );
