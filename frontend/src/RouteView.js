@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 import styles from './RouteView.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClone } from '@fortawesome/free-solid-svg-icons';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
-import SaveButton from './route/SaveButton.js';
+import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
 import { getQueryParameters } from './parameterUtils.js';
 /**
@@ -19,6 +22,11 @@ function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  const textAreaRef = useRef(null);
+  const handleShareClose = () => setShowShareModal(false);
+  const handleShareShow = () => setShowShareModal(true);
 
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
@@ -36,7 +44,7 @@ function RouteView({ loggedIn }) {
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
-        body: JSON.stringify({ attractions }),
+        body: JSON.stringify({ selectedAttractions: attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);
@@ -54,6 +62,11 @@ function RouteView({ loggedIn }) {
     setIsSaved(false);
   }
 
+  function copyToClipboard(e) {
+    textAreaRef.current.select();
+    document.execCommand('copy');
+  }
+
   /**
    * Creates url and navigates to /explore?trip=
    * @param {object} history used to route dom with react
@@ -66,7 +79,47 @@ function RouteView({ loggedIn }) {
 
   return (
     <>
-      <SaveButton isSaved={isSaved} save={save} isLoggedIn={loggedIn} />
+      <Modal show={showShareModal} onHide={handleShareClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Share Trip</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row className={styles.copyContainer}>
+              <div className={styles.modalText}>Copy link to share trip.</div>
+              <input
+                ref={textAreaRef}
+                value={window.location.href}
+                className={styles.copyText}
+              />
+              <FontAwesomeIcon
+                icon={faClone}
+                onClick={copyToClipboard}
+                className={styles.copyBtn}
+              />
+            </Row>
+            <Row className={styles.modalBtnContainer}>
+              <Button
+                variant="primary"
+                onClick={handleShareClose}
+                className={styles.modalBtn}
+              >
+                Close
+              </Button>
+            </Row>
+          </Container>
+        </Modal.Body>
+      </Modal>
+      <Button
+        variant="link"
+        className={styles.editButton}
+        onClick={() => handleRouting(history)}
+      >
+        Edit Attractions
+      </Button>
+      {loggedIn && (
+        <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
+      )}
       <Container>
         <Row>
           <TripName />
@@ -84,11 +137,6 @@ function RouteView({ loggedIn }) {
               <Container>
                 <Col>
                   <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
-                </Col>
-                <Col>
-                  <Button onClick={() => handleRouting(history)}>
-                    Edit Attractions
-                  </Button>
                 </Col>
               </Container>
             </Row>
