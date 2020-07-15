@@ -5,3 +5,15 @@
   max-height: 900px;
   max-width: 700px;
 }
+
+.infoWindowName {
+  color: #383838;
+}
+
+.infoWindowDescription {
+  margin-bottom: 10px;
+}
+
+.infoWindowImg {
+  height: 200px;
+}
