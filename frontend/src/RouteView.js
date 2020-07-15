@@ -41,13 +41,15 @@ function RouteView({ loggedIn }) {
   }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
-    if (!optimizedOrder) {
+    if (!optimizedOrder && attractions.length > 1) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
         body: JSON.stringify({ selectedAttractions: attractions }),
       });
       const json = await response.json();
       setOptimizedOrder(json);
+    } else if (attractions.length === 1) {
+      setOptimizedOrder(attractions);
     }
     setIsOptimized(true);
   }
