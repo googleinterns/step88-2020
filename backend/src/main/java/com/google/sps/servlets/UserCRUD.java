@@ -33,25 +33,21 @@ public class UserCRUD extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    JsonObject json = new JsonObject();
     String requestData = request.getReader().lines().collect(Collectors.joining());
     Gson gson = new Gson();
     String bodyData = gson.fromJson(requestData, String.class);
     System.out.println(bodyData);
-    createUser(bodyData);
+    String userKey = createUser(bodyData);
+    JsonObject jsonResults = new JsonObject();
+    jsonResults.addProperty("userKey", userKey);
     response.setContentType("application/json;");
-    response.getWriter().println(json);
+    response.getWriter().println(jsonResults);
   }
 
   public String createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
     userEntity.setProperty("trips", "[]");
-    // String trips = (String) userEntity.getProperty("trips");
-    // JsonParser parser = new JsonParser();
-    // JsonElement jsonElement = parser.parse(trips);
-    // JsonArray tripsArray = jsonElement.getAsJsonArray();
-    // System.out.println(tripsArray);
     datastore.put(userEntity);
     return KeyFactory.keyToString(userEntity.getKey());
   }
