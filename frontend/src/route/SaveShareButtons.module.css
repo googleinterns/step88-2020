@@ -1,9 +1,13 @@
 .buttonsContainer {
   position: absolute;
-  right: 16px;
-  top: 12px;
+  right: 158px;
+  top: 18px;
 }
 
 .button {
   margin: 0 10px;
+}
+
+.icon {
+  margin-right: 8px;
 }

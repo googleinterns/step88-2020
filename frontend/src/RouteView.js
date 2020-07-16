@@ -15,6 +15,7 @@ import Route from './route/Route.js';
 import OptimizeButton from './route/OptimizeButton.js';
 import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
+import BackButton from './navbar/BackButton.js';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -103,13 +104,11 @@ function RouteView({ loggedIn }) {
           </Container>
         </Modal.Body>
       </Modal>
-      <Button
-        variant="link"
-        className={styles.editButton}
+      <BackButton
+        className={styles.editBtnContainer}
         onClick={() => handleRouting(history, 'explore', tripObject, attractions)}
-      >
-        Edit Attractions
-      </Button>
+        text="Edit Attractions"
+      />
       {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       )}

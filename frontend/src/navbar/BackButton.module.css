@@ -1,0 +1,10 @@
+.backCaret {
+  font-size: 1.6rem;
+  margin-right: 6px;
+}
+
+.btn {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

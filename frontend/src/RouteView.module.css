@@ -30,10 +30,10 @@
   opacity: 0.8;
 }
 
-.editButton {
-  left: 4px;
+.editBtnContainer {
+  left: 28px;
   position: absolute;
-  top: 12px;
+  top: 20px;
 }
 
 .modalBtn {
