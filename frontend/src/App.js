@@ -4,13 +4,11 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
-import {createUser} from './UserCRUD.js';
+import {createUser, readUser} from './UserCRUD.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
-  // <Route path="/updateUser">
-  //   {addTripToUser("userEmail@gmail.com",{''})}
-  // </Route>
+
   return (
     <Router>
       <Authenticator authState={authState} onChange={setAuthState}>
@@ -28,7 +26,9 @@ function App() {
           <Route path="/createUser">
             {createUser("userEmail@gmail.com")}
           </Route>
-
+          <Route path="/readUser">
+             {readUser("ahJwYWNrYWdlcy1zdGVwLTIwMjByEQsSBFVzZXIYgICAgICA0AoM")}
+          </Route>
 
         </Switch>
       </Authenticator>

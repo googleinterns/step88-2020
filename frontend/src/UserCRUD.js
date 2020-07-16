@@ -20,8 +20,11 @@ export const createUser = (email) => {
   });
 };
 
-export const readUser = (email) => {
-  fetch('/api/v1/readUser')
+export const readUser = (userKey) => {
+  fetch('/api/v1/readUser', {
+    method: 'post',
+    body: JSON.stringify(userKey)
+  })
   .then(
     function(response) {
       if (response.status !== 200) {
