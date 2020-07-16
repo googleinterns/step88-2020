@@ -104,7 +104,7 @@ function Explore() {
                     alt={`${attraction.name} image`}
                   />
                   <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-                  <Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.centerCheck}>
                     {attraction.selected && (
                       <FontAwesomeIcon icon={faCheck} className={styles.check} />
                     )}
@@ -125,14 +125,15 @@ function Explore() {
           </Button>
         </Col>
         <Col sm={6}>
-          <Map
-            className={styles.mapContainer}
-            onReady={onMapReady}
-            attractions={selectedAttractions}
-            mode="pins"
-            centerLocation={tripObject.centerLocation}
-            key={selectedAttractions}
-          />
+          <div className={styles.mapContainer}>
+            <Map
+              onReady={onMapReady}
+              attractions={selectedAttractions}
+              mode="pins"
+              centerLocation={tripObject.centerLocation}
+              key={selectedAttractions}
+            />
+          </div>
         </Col>
       </Row>
     </Container>
