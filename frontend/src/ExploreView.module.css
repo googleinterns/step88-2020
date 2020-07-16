@@ -62,6 +62,7 @@
 .attractionNameOverlay {
   color: white;
   display: none;
+  font-weight: 500;
   text-align: right;
 }
 
