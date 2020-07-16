@@ -48,7 +48,7 @@ function RouteView({ loggedIn }) {
       });
       const json = await response.json();
       setOptimizedOrder(json);
-    } 
+    }
     setIsOptimized(true);
   }
 
@@ -136,7 +136,11 @@ function RouteView({ loggedIn }) {
             <Row>
               <Container>
                 <Col>
-                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} isDisabled={attractions.length <= 1}/>
+                  <OptimizeButton
+                    isOptimized={isOptimized}
+                    optimize={optimize}
+                    isDisabled={attractions.length <= 1}
+                  />
                 </Col>
               </Container>
             </Row>
