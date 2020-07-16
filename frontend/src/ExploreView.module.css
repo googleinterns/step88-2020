@@ -1,5 +1,5 @@
 .exploreContainer {
-  max-width: 2000px;
+  max-width: 3000px;
 }
 
 .attractionContainer {
@@ -67,4 +67,5 @@
 .mapContainer {
   height: 100%;
   position: relative;
+  margin-right: 30px;
 }
