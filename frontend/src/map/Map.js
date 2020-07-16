@@ -12,6 +12,10 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  */
 
 function Map({ attractions, mode, centerLocation, google, onReady, view }) {
+  if (mode === 'search') {
+    return <></>;
+  }
+
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {

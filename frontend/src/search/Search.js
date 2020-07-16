@@ -15,7 +15,6 @@ function Search() {
   const history = useHistory();
   const [predictions, setPredictions] = useState([]);
   const options = predictions.map((prediction) => prediction.description);
-  const onMapReady = (google, map) => {};
 
   const handleInput = (input) => {
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
@@ -59,12 +58,7 @@ function Search() {
           placeholder="Where to?"
         />
         <div className={styles.mapContainer}>
-          <Map
-            onReady={onMapReady}
-            attractions={[]}
-            mode="pins"
-            centerLocation={{ lat: 0, lng: 0 }}
-          />
+          <Map attractions={[]} mode="search" centerLocation={{ lat: 0, lng: 0 }} />
         </div>
       </Container>
     </div>
