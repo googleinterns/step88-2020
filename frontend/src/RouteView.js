@@ -136,7 +136,11 @@ function RouteView({ loggedIn }) {
             <Row>
               <Container>
                 <Col>
-                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+                  <OptimizeButton
+                    isOptimized={isOptimized}
+                    optimize={optimize}
+                    isDisabled={attractions.length <= 1}
+                  />
                 </Col>
               </Container>
             </Row>
