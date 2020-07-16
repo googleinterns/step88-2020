@@ -58,3 +58,14 @@
 .selectedImage .overlay {
   opacity: 0.4;
 }
+
+.attractionNameOverlay {
+  color: white;
+  display: none;
+  text-align: right;
+}
+
+.attractionContainer:hover .attractionNameOverlay,
+.selectedImage .attractionNameOverlay {
+  display: block;
+}

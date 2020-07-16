@@ -109,6 +109,9 @@ function Explore() {
                       <FontAwesomeIcon icon={faCheck} className={styles.check} />
                     )}
                   </Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.attractionNameOverlay}>
+                    {attraction.name}
+                  </Card.ImgOverlay>
                 </Card>
               ))
             )}
