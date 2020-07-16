@@ -63,6 +63,18 @@
   opacity: 0.4;
 }
 
+.attractionNameOverlay {
+  color: white;
+  display: none;
+  font-weight: 500;
+  text-align: left;
+}
+
+.attractionContainer:hover .attractionNameOverlay,
+.selectedImage .attractionNameOverlay {
+  display: block;
+}
+
 .mapContainer {
   height: 100%;
   position: relative;
