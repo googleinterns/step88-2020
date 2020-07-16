@@ -33,7 +33,7 @@
 .saveBtn {
   background: none;
   border: none;
-  color: #8f8f8f;
+  color: var(--gray);
   display: none;
   font-size: 0.9rem;
   margin: 12px auto;
@@ -41,7 +41,7 @@
 }
 
 .saveBtn:hover {
-  color: #616161;
+  color: #464646;
   cursor: pointer;
 }
 

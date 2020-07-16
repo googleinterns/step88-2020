@@ -1,5 +1,9 @@
 :root {
   --blue: #4c8bf5;
+  --green: #34a853;
+  --red: #ea4335;
+  --yellow: #fbbc05;
+  --gray: #6c757d;
 }
 
 /* put styles that should be uniform across entire app */

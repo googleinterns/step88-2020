@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
+import { getQueryParameters, handleRouting } from './routingUtils.js';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -15,7 +16,6 @@ import OptimizeButton from './route/OptimizeButton.js';
 import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
 import BackButton from './navbar/BackButton.js';
-import { getQueryParameters } from './parameterUtils.js';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -59,24 +59,16 @@ function RouteView({ loggedIn }) {
     // save to back end database
   }
 
-  function onManualPlaceChange() {
+  function onManualPlaceChange(newAttractions) {
+    setAttractions(newAttractions);
     setIsOptimized(false);
     setIsSaved(false);
+    handleRouting(history, 'route', tripObject, newAttractions);
   }
 
   function copyToClipboard(e) {
     textAreaRef.current.select();
     document.execCommand('copy');
-  }
-
-  /**
-   * Creates url and navigates to /explore?trip=
-   * @param {object} history used to route dom with react
-   */
-  function handleRouting(history) {
-    tripObject.selectedAttractions = attractions;
-    const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-    history.push(`/explore${url}`);
   }
 
   return (
@@ -125,16 +117,16 @@ function RouteView({ loggedIn }) {
         <Row>
           <Col>
             <Row className={styles.routeListContainer}>
-              <Route
-                places={attractions}
-                setPlaces={setAttractions}
-                onManualPlaceChange={onManualPlaceChange}
-              />
+              <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>
             <Row>
               <Container>
                 <Col>
-                  <OptimizeButton isOptimized={isOptimized} optimize={optimize} />
+                  <OptimizeButton
+                    isOptimized={isOptimized}
+                    optimize={optimize}
+                    isDisabled={attractions.length <= 1}
+                  />
                 </Col>
               </Container>
             </Row>

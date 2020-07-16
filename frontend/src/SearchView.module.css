@@ -1,4 +1,5 @@
 .container {
   height: 100%;
   margin: 15vh auto;
+  max-width: 1400px;
 }
