@@ -106,7 +106,7 @@ function RouteView({ loggedIn }) {
       </Modal>
       <BackButton
         className={styles.editBtnContainer}
-        onClick={() => handleRouting(history)}
+        onClick={() => handleRouting(history, 'explore', tripObject, attractions)}
         text="Edit Attractions"
       />
       {loggedIn && (
