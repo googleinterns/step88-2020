@@ -1,9 +1,9 @@
 .exploreContainer {
-  max-width: 2000px;
+  max-width: 3000px;
 }
 
 .attractionContainer {
-  height: 15vw;
+  height: 13vw;
   margin: 10px;
 }
 
@@ -16,20 +16,24 @@
   flex-wrap: wrap;
   height: 75vh;
   justify-content: center;
-  max-width: 1000px;
   overflow-y: auto;
 }
 
 .attraction {
-  height: 15vw;
+  height: 13vw;
   object-fit: cover;
-  width: 15vw;
+  width: 13vw;
+}
+
+.centerCheck {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .check {
   color: whitesmoke;
   font-size: 56px;
-  margin: 40%;
   opacity: 0.8;
 }
 
@@ -39,7 +43,7 @@
   height: 60px;
   justify-content: center;
   margin: 20px auto;
-  width: 300px;
+  width: 200px;
 }
 
 .fillerText {
@@ -69,4 +73,10 @@
 .attractionContainer:hover .attractionNameOverlay,
 .selectedImage .attractionNameOverlay {
   display: block;
+}
+
+.mapContainer {
+  height: 100%;
+  position: relative;
+  margin-right: 30px;
 }
