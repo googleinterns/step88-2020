@@ -57,9 +57,7 @@ function Search() {
           options={options}
           placeholder="Where to?"
         />
-        <div className={styles.mapContainer}>
-          <Map attractions={[]} mode="search" centerLocation={{ lat: 0, lng: 0 }} />
-        </div>
+        <Map mode="search" />
       </Container>
     </div>
   );
