@@ -16,7 +16,7 @@ function Navbar({ authState }) {
         <Switch>
           <Route path="/explore">
             <Nav.Link href="/">
-              <BackButton text={'Back to Search'} />
+              <BackButton text="Back to Search" />
             </Nav.Link>
           </Route>
         </Switch>
