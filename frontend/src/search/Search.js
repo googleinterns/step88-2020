@@ -57,6 +57,7 @@ function Search() {
           }}
           options={options}
           placeholder="Where to?"
+          id="Where to?"
         />
         <div className={styles.mapContainer}>
           <Map
