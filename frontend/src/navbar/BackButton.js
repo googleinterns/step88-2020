@@ -4,9 +4,14 @@ import styles from './BackButton.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
-function BackButton({ text }) {
+/**
+ * The back button in the navbar.
+ * @param {string} text text to display on the button
+ * @param {function} onClick called when button is clicked
+ */
+function BackButton({ text, onClick }) {
   return (
-    <Button variant="outline-primary" className={styles.btn}>
+    <Button variant="link" className={styles.btn} onClick={onClick}>
       <FontAwesomeIcon icon={faAngleLeft} className={styles.backCaret} />
       <div>{text}</div>
     </Button>
