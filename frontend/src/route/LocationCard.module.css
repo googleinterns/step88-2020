@@ -1,18 +1,18 @@
 .locationCardContainer {
   color: white;
-  margin: 16px;
+  margin-bottom: 16px;
   max-width: 600px;
 }
 
 .locationCard,
 .locationImg {
-  height: 16rem;
+  height: 14rem;
   object-fit: cover;
 }
 
 .overlay {
   background-color: #303030;
-  opacity: 0.3;
+  opacity: 0.55;
 }
 
 .cardTxt {
@@ -28,7 +28,7 @@
 }
 
 .locationCardContainer:hover .overlay {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .locationCardContainer:hover .arrows {

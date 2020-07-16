@@ -1,0 +1,9 @@
+.buttonsContainer {
+  position: absolute;
+  right: 16px;
+  top: 12px;
+}
+
+.button {
+  margin: 0 10px;
+}

@@ -15,27 +15,27 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     for (const attraction of attractions) {
-      const location = {
-        lat: attraction.coordinates.lat,
-        lng: attraction.coordinates.lng,
-      };
-
       const infowindow = new google.maps.InfoWindow({
         content: `
           <div>
-            <h4>${attraction.attractionName}</h4>
-            <div>Short description of attraction if desired</div>
+            <h4 class=${styles.infoWindowName}>${attraction.name}</h4>
+            <div class=${styles.infoWindowDescription}>Short description of attraction if desired</div>
             <div>
-              <img src="${attraction.photoUrl}" alt="${attraction.attractionName} Image" />
+              <img class=${styles.infoWindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
           </div>
         `,
       });
+      const location = {
+        lat: attraction.lat,
+        lng: attraction.lng,
+      };
       const marker = new google.maps.Marker({
         position: location,
         map,
-        title: attraction.attractionName,
+        title: attraction.name,
       });
+      //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
         infowindow.open(map, marker);
       });
@@ -45,7 +45,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   if (mode === 'pins') {
     return (
       <GoogleMap
-        className={styles.mapContainer}
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
@@ -53,8 +52,9 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       />
     );
   }
+
   const attractionCoordinates = attractions.map((attraction) =>
-    encodeURIComponent(`${attraction.coordinates.lat},${attraction.coordinates.lng}`)
+    encodeURIComponent(`${attraction.lat},${attraction.lng}`)
   );
   const origin = attractionCoordinates[0];
   const destination = attractionCoordinates[attractionCoordinates.length - 1];
@@ -62,14 +62,12 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const waypointsParam = waypoints.length > 0 ? `waypoints=${waypoints.join('|')}` : '';
 
   return (
-    <div className={styles.mapContainer}>
-      <iframe
-        className={styles.map}
-        title="trip-map"
-        src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
-        allowFullScreen
-      ></iframe>
-    </div>
+    <iframe
+      className={styles.map}
+      title="trip-map"
+      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+      allowFullScreen
+    ></iframe>
   );
 }
 
