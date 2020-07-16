@@ -16,13 +16,10 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.*;
 import java.io.IOException;
-import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -58,24 +55,5 @@ public class AuthServlet extends HttpServlet {
     }
     response.setContentType("application/json;");
     response.getWriter().println(json);
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    JsonObject json = new JsonObject();
-    String requestData = request.getReader().lines().collect(Collectors.joining());
-    Gson gson = new Gson();
-    String bodyData = gson.fromJson(requestData, String.class);
-    createUser(bodyData);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
-
-  public String createUser(String email) {
-    Entity userEntity = new Entity("User");
-    userEntity.setProperty("email", email);
-    userEntity.setProperty("trips", "[]");
-    datastore.put(userEntity);
-    return KeyFactory.keyToString(userEntity.getKey());
   }
 }
