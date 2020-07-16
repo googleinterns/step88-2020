@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './TripName.module.css';
@@ -15,7 +14,8 @@ function TripName({ tripName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(tripName || '');
 
-  function handleSave() {
+  function handleSave(e) {
+    e.preventDefault();
     setIsEditing(false);
     // send to back end
   }
@@ -28,31 +28,30 @@ function TripName({ tripName }) {
     <Container
       className={`${styles.tripNameContainer} ${isEditing ? styles.edit : ''}`}
     >
-      <Row>
-        <Form noValidate onClick={() => setIsEditing(true)}>
-          <Form.Group>
-            <InputGroup>
-              <InputGroup.Prepend className={styles.editIcon}>
-                <FontAwesomeIcon icon={faPencilAlt} />
-              </InputGroup.Prepend>
-              <Form.Control
-                type="text"
-                placeholder="Trip Name"
-                defaultValue={name}
-                aria-describedby="inputGroupPrepend"
-                className={styles.tripNameInput}
-                onChange={handleChange}
-                required
-              />
-            </InputGroup>
-          </Form.Group>
-        </Form>
-      </Row>
-      <Row className={styles.saveRow}>
-        <div className={styles.saveBtn} onClick={handleSave}>
-          Save
-        </div>
-      </Row>
+      <Form
+        noValidate
+        onClick={() => setIsEditing(true)}
+        className={styles.form}
+        onSubmit={handleSave}
+      >
+        <Form.Group>
+          <InputGroup>
+            <InputGroup.Prepend className={styles.editIcon}>
+              <FontAwesomeIcon icon={faPencilAlt} />
+            </InputGroup.Prepend>
+            <Form.Control
+              type="text"
+              placeholder="Trip Name"
+              defaultValue={name}
+              aria-describedby="inputGroupPrepend"
+              className={styles.tripNameInput}
+              onChange={handleChange}
+              onBlur={handleSave}
+              required
+            />
+          </InputGroup>
+        </Form.Group>
+      </Form>
     </Container>
   );
 }
