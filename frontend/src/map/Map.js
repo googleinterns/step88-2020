@@ -14,7 +14,7 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
-    const infowindow = new google.maps.InfoWindow()
+    const infowindow = new google.maps.InfoWindow();
     for (const attraction of attractions) {
       const location = {
         lat: attraction.lat,
@@ -27,7 +27,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
       });
       //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
-        infowindow.close()
+        infowindow.close();
         const content = `
           <div>
             <h4 class=${styles.infoWindowName}>${attraction.name}</h4>
@@ -36,7 +36,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
               <img class=${styles.infoWindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
           </div>
-        `
+        `;
         infowindow.setContent(content);
         infowindow.open(map, marker);
       });
