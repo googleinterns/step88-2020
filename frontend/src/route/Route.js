@@ -6,7 +6,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
  * Return locations listed in order of the user's planned route.
  * Route list is customizable via drag and drop (docs: https://github.com/atlassian/react-beautiful-dnd)
  */
-function Route({ places, setPlaces, onManualPlaceChange }) {
+function Route({ places, onManualPlaceChange }) {
   // referece: https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
   function handleOnDragEnd({ destination, source, draggableId }) {
     // no change in list ordering due after drag
@@ -25,8 +25,7 @@ function Route({ places, setPlaces, onManualPlaceChange }) {
     const newPlaces = Array.from(places);
     newPlaces.splice(source.index, 1);
     newPlaces.splice(destination.index, 0, places[source.index]);
-    setPlaces(newPlaces);
-    onManualPlaceChange();
+    onManualPlaceChange(newPlaces);
   }
 
   // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
