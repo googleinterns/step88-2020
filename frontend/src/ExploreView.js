@@ -53,6 +53,7 @@ function Explore() {
           {
             location: coordinates,
             radius: 8000,
+            type: 'tourist_attraction',
           },
           handleNearbySearch
         );
