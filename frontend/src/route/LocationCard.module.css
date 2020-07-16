@@ -20,7 +20,7 @@
 }
 
 .arrows {
-  color: #616161;
+  color: var(--gray);
   font-size: 2rem;
   margin: auto 0;
   padding: 0;
