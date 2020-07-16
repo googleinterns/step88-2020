@@ -18,43 +18,27 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/api/v1/auth")
-public class AuthServlet extends HttpServlet {
+@WebServlet("/api/v1/createUser")
+public class UserCRUD extends HttpServlet {
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     JsonObject json = new JsonObject();
-    UserService userService = UserServiceFactory.getUserService();
-    String redirect = request.getParameter("redirect");
-    if (redirect == null) {
-      redirect = "/";
-    }
-
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String logoutUrl = userService.createLogoutURL(redirect);
-
-      json.addProperty("loggedIn", true);
-      json.addProperty("userEmail", userEmail);
-      json.addProperty("logoutUrl", logoutUrl);
-    } else {
-      String loginUrl = userService.createLoginURL(redirect);
-
-      json.addProperty("loggedIn", false);
-      json.addProperty("loginUrl", loginUrl);
-    }
+    String requestData = request.getReader().lines().collect(Collectors.joining());
+    Gson gson = new Gson();
+    String bodyData = gson.fromJson(requestData, String.class);
+    System.out.println(bodyData);
+    createUser(bodyData);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -62,6 +46,12 @@ public class AuthServlet extends HttpServlet {
   public String createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
+    userEntity.setProperty("trips", "[]");
+    // String trips = (String) userEntity.getProperty("trips");
+    // JsonParser parser = new JsonParser();
+    // JsonElement jsonElement = parser.parse(trips);
+    // JsonArray tripsArray = jsonElement.getAsJsonArray();
+    // System.out.println(tripsArray);
     datastore.put(userEntity);
     return KeyFactory.keyToString(userEntity.getKey());
   }

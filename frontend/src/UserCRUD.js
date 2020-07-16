@@ -1,5 +1,5 @@
 export const createUser = (email) => {
-  fetch('/userCRUD', {
+  fetch('/api/v1/createUser', {
     method: 'post',
     body: JSON.stringify(email)
   }).then(
@@ -21,7 +21,7 @@ export const createUser = (email) => {
 };
 
 export const readUser = (email) => {
-  fetch('/create')
+  fetch('/api/v1/readUser')
   .then(
     function(response) {
       if (response.status !== 200) {
@@ -41,7 +41,7 @@ export const readUser = (email) => {
 };
 
 export const deleteUser = (email) => {
-  fetch('/create')
+  fetch('/api/v1/deleteUser')
   .then(
     function(response) {
       if (response.status !== 200) {
@@ -61,7 +61,7 @@ export const deleteUser = (email) => {
 };
 
 export const updateUser = (email,tripID,tripObject) => {
-  fetch('/create')
+  fetch('/api/v1/updateUser')
   .then(
     function(response) {
       if (response.status !== 200) {

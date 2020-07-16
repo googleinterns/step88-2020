@@ -8,7 +8,9 @@ import {createUser} from './UserCRUD.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
-
+  // <Route path="/updateUser">
+  //   {addTripToUser("userEmail@gmail.com",{''})}
+  // </Route>
   return (
     <Router>
       <Authenticator authState={authState} onChange={setAuthState}>
@@ -23,6 +25,11 @@ function App() {
           <Route path="/route">
             <RouteView loggedIn={authState.loggedIn} />
           </Route>
+          <Route path="/createUser">
+            {createUser("userEmail@gmail.com")}
+          </Route>
+
+
         </Switch>
       </Authenticator>
     </Router>

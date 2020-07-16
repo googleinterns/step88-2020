@@ -16,10 +16,6 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -27,42 +23,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/api/v1/auth")
-public class AuthServlet extends HttpServlet {
+/** Servlet to return user data from datastore */
+@WebServlet("/api/v1/getUser")
+public class getUserServlet extends HttpServlet {
 
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     JsonObject json = new JsonObject();
-    UserService userService = UserServiceFactory.getUserService();
-    String redirect = request.getParameter("redirect");
-    if (redirect == null) {
-      redirect = "/";
-    }
-
-    if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
-      String logoutUrl = userService.createLogoutURL(redirect);
-
-      json.addProperty("loggedIn", true);
-      json.addProperty("userEmail", userEmail);
-      json.addProperty("logoutUrl", logoutUrl);
-    } else {
-      String loginUrl = userService.createLoginURL(redirect);
-
-      json.addProperty("loggedIn", false);
-      json.addProperty("loginUrl", loginUrl);
-    }
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
-  public String createUser(String email) {
-    Entity userEntity = new Entity("User");
-    userEntity.setProperty("email", email);
-    datastore.put(userEntity);
-    return KeyFactory.keyToString(userEntity.getKey());
-  }
+  public void getUser(String email, String userKey) {}
 }
