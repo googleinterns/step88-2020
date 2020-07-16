@@ -62,9 +62,7 @@ function RouteView({ loggedIn }) {
     setAttractions(newAttractions);
     setIsOptimized(false);
     setIsSaved(false);
-    tripObject.selectedAttractions = newAttractions;
-    const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-    history.push(`/route${url}`);
+    handleRouting(history, 'route', tripObject, newAttractions);
   }
 
   function copyToClipboard(e) {
