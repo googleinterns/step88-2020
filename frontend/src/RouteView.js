@@ -112,9 +112,11 @@ function RouteView({ loggedIn }) {
           </Container>
         </Modal.Body>
       </Modal>
-      <div className={styles.editBtnContainer}>
-        <BackButton onClick={() => handleRouting(history)} text="Edit Attractions" />
-      </div>
+      <BackButton
+        className={styles.editBtnContainer}
+        onClick={() => handleRouting(history)}
+        text="Edit Attractions"
+      />
       {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       )}
