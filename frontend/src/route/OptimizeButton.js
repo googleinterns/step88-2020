@@ -9,8 +9,9 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
  * If route is optimized, render text indicating that it is optimized.
  * @param {boolean|undefined} isOptimized indicates whether route has been optimized
  * @param {function} optimize called to optimize the route
+ * @param {boolean} isDisabled whether or not the optimize button is disabled
  */
-function OptimizeButton({ isOptimized, optimize }) {
+function OptimizeButton({ isOptimized, optimize, isDisabled }) {
   if (isOptimized) {
     return (
       <div className={`${styles.optimizedBtnContainer} ${styles.optimizedTxt}`}>
@@ -22,7 +23,7 @@ function OptimizeButton({ isOptimized, optimize }) {
 
   return (
     <div className={styles.optimizedBtnContainer}>
-      <Button variant="primary" onClick={optimize}>
+      <Button variant="primary" onClick={optimize} disabled={isDisabled}>
         Optimize
       </Button>
     </div>

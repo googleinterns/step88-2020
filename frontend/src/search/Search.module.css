@@ -1,21 +1,21 @@
 .blue {
-  color: #4285f4;
+  color: var(--blue);
 }
 
 .green {
-  color: #34a853;
+  color: var(--green);
 }
 
 .grey {
-  color: #6c757d;
+  color: var(--gray);
 }
 
 .red {
-  color: #ea4335;
+  color: var(--red);
 }
 
 .yellow {
-  color: #fbbc05;
+  color: var(--yellow);
 }
 
 .form {
@@ -29,25 +29,38 @@
   width: 40vw;
 }
 
+.searchBar input {
+  padding-left: 36px;
+}
+
 .searchContainer {
   align-content: center;
   margin: 15px auto;
 }
 
 .text {
-  font-size: 3.5rem;
+  font-size: 3rem;
+  margin-bottom: 15px;
 }
 
 .whereTo {
-  margin-bottom: 5px;
   text-align: center;
 }
 
 .barContainer {
   font-family: 'Arial', 'FontAwesome';
+  position: relative;
   width: 500px;
 }
 
 .mapContainer {
   display: none;
+}
+
+.searchIcon {
+  color: var(--gray);
+  left: 26px;
+  position: absolute;
+  top: 12px;
+  z-index: 10;
 }
