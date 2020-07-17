@@ -25,7 +25,11 @@ function Search() {
         input,
         sessionToken,
       },
-      setPredictions
+      (newPredictions, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          setPredictions(newPredictions);
+        }
+      }
     );
   };
 
