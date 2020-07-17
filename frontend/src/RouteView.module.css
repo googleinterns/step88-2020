@@ -1,6 +1,9 @@
 .routeListContainer {
+  justify-content: center;
+  margin: 0 20px;
   max-height: 70vh;
   overflow: auto;
+  padding-left: 15px;
 }
 
 .copyContainer {
@@ -48,4 +51,16 @@
 
 .modalText {
   margin-bottom: 10px;
+}
+
+.container {
+  width: 100%;
+}
+
+.row {
+  margin: 0;
+}
+
+.mapDiv {
+  margin-right: 30px;
 }
