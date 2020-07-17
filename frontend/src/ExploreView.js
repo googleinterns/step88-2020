@@ -53,6 +53,7 @@ function Explore() {
           {
             location: coordinates,
             radius: 8000,
+            type: 'tourist_attraction',
           },
           handleNearbySearch
         );
@@ -108,6 +109,9 @@ function Explore() {
                     {attraction.selected && (
                       <FontAwesomeIcon icon={faCheck} className={styles.check} />
                     )}
+                  </Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.attractionNameOverlay}>
+                    {attraction.name}
                   </Card.ImgOverlay>
                 </Card>
               ))
