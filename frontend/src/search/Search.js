@@ -5,8 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import Map from '../map/Map';
+import { withGoogleApi } from '../googleApiUtils';
 
 /**
  * Creates Search component with search bar.
@@ -15,7 +14,6 @@ function Search() {
   const history = useHistory();
   const [predictions, setPredictions] = useState([]);
   const options = predictions.map((prediction) => prediction.description);
-  const onMapReady = (google, map) => {};
 
   const handleInput = (input) => {
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
@@ -59,17 +57,9 @@ function Search() {
           placeholder="Where to?"
           id="Where to?"
         />
-        <div className={styles.mapContainer}>
-          <Map
-            onReady={onMapReady}
-            attractions={[]}
-            mode="pins"
-            centerLocation={{ lat: 0, lng: 0 }}
-          />
-        </div>
       </Container>
     </div>
   );
 }
 
-export default Search;
+export default withGoogleApi(Search);
