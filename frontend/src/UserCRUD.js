@@ -4,11 +4,9 @@ export const createUser = (email) => {
       if (response.status !== 200) {
         return {};
       }
-      try {
-        return JSON.parse(response);
-      } catch {
-        return {};
-      }
+      response.json().then((response) => {
+        return response;
+      });
     })
     .catch((err) => {
       return {};
