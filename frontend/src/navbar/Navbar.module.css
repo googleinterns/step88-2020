@@ -18,21 +18,12 @@
   color: var(--blue);
 }
 
-.backToSearch {
-  margin-left: 76px;
-}
-
 .googleLogo {
   height: 30px;
   margin-right: 12px;
 }
 
-.gRoutesLogoContainer {
-  position: absolute;
-  top: 16px;
-  left: 50px;
-}
-
 .gRoutesLogo {
   height: 50px;
+  margin-left: 24px;
 }

@@ -13,13 +13,15 @@ import logo from './logo.png';
 function Navbar({ authState }) {
   return (
     <Nav className={styles.navbar}>
-      <a href="/" className={styles.gRoutesLogoContainer}>
-        <img src={logo} alt="gRoutes logo" className={styles.gRoutesLogo} />
-      </a>
       <Nav.Item>
         <Switch>
+          <Route exact path="/">
+            <Nav.Link href="/">
+              <img src={logo} alt="gRoutes logo" className={styles.gRoutesLogo} />
+            </Nav.Link>
+          </Route>
           <Route path="/explore">
-            <Nav.Link href="/" className={styles.backToSearch}>
+            <Nav.Link href="/">
               <BackButton text="Back to Search" />
             </Nav.Link>
           </Route>
