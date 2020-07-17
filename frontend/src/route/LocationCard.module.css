@@ -14,10 +14,6 @@
   opacity: 0.55;
 }
 
-.cardTxt {
-  padding: 4rem 2rem;
-}
-
 .arrows {
   color: var(--gray);
   font-size: 2rem;
