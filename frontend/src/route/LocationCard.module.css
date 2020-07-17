@@ -1,12 +1,11 @@
 .locationCardContainer {
   color: white;
   margin-bottom: 16px;
-  max-width: 600px;
 }
 
 .locationCard,
 .locationImg {
-  height: 14rem;
+  height: 22vh;
   object-fit: cover;
 }
 
