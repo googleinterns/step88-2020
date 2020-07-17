@@ -16,6 +16,7 @@ function Search() {
   const options = predictions.map((prediction) => prediction.description);
 
   const handleInput = (input) => {
+    console.log(input)
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
     const autocompleteService = new window.google.maps.places.AutocompleteService();
     autocompleteService.getPlacePredictions(
@@ -24,12 +25,26 @@ function Search() {
         sessionToken,
       },
       (newPredictions, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        if (status === 'OK') {
           setPredictions(newPredictions);
         }
       }
     );
   };
+
+  const handleSearch = (text) => {
+    if (text) {
+      const searchText = text.constrctor === Array ? text[0] : text;
+      history.push(`/explore?search=${searchText}`);
+    }
+  }
+
+  const handleOnKeyDown = (e) => {
+    const isEnter = e.keyCode === 13;
+    if (isEnter) {
+      handleSearch(options[0]);
+    }
+  }
 
   return (
     <div className={styles.searchContainer}>
@@ -49,17 +64,12 @@ function Search() {
         <Typeahead
           type="text"
           className={styles.searchBar}
-          onInputChange={(text) => {
-            handleInput(text);
-          }}
-          onChange={(text) => {
-            if (text !== '') {
-              history.push(`/explore?search=${text[0]}`);
-            }
-          }}
+          onInputChange={handleInput}
+          onChange={handleSearch}
           options={options}
           placeholder="Where to?"
           id="Where to?"
+          onKeyDown={handleOnKeyDown}
         />
       </Container>
     </div>
