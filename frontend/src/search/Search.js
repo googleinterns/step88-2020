@@ -37,14 +37,14 @@ function Search() {
       const searchText = text.constrctor === Array ? text[0] : text;
       history.push(`/explore?search=${searchText}`);
     }
-  }
+  };
 
   const handleOnKeyDown = (e) => {
     const isEnter = e.keyCode === 13;
     if (isEnter) {
       handleSearch(options[0]);
     }
-  }
+  };
 
   return (
     <div className={styles.searchContainer}>
