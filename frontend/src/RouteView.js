@@ -113,12 +113,12 @@ function RouteView({ loggedIn }) {
       {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       )}
-      <Container>
+      <div className={styles.container}>
         <Row>
           <TripName />
         </Row>
         <Row>
-          <Col>
+          <Col sm={6}>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>
@@ -134,7 +134,7 @@ function RouteView({ loggedIn }) {
               </Container>
             </Row>
           </Col>
-          <Col>
+          <Col sm={6}>
             <Map
               mode="directions"
               attractions={attractions}
@@ -142,7 +142,7 @@ function RouteView({ loggedIn }) {
             />
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 }
