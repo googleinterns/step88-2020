@@ -117,7 +117,7 @@ function RouteView({ loggedIn }) {
           <TripName />
         </Row>
         <Row className={styles.row}>
-          <Col sm={6}>
+          <Col sm={4}>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>
@@ -133,7 +133,7 @@ function RouteView({ loggedIn }) {
               </Container>
             </Row>
           </Col>
-          <Col sm={6}>
+          <Col sm={8}>
             <div className={styles.mapDiv}>
               <Map
                 mode="directions"
