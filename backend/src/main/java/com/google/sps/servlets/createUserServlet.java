@@ -16,38 +16,36 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.*;
+import com.google.sps.UserCrud;
 import java.io.IOException;
-import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet that creates a new user */
 @WebServlet("/api/v1/createUser")
 public class createUserServlet extends HttpServlet {
-
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  UserCrud userCrud = new UserCrud(datastore);
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String requestData = request.getReader().lines().collect(Collectors.joining());
-    Gson gson = new Gson();
-    String bodyData = gson.fromJson(requestData, String.class);
-    String userKey = createUser(bodyData);
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String email = request.getParameter("email");
+    if (email == "" || email == null) {
+      return;
+    }
+    if (userCrud.readUser(email) != null) {
+      return;
+    }
+    try {
+      userCrud.createUser(email);
+    } catch (Exception e) {
+      return;
+    }
     JsonObject jsonResults = new JsonObject();
-    jsonResults.addProperty("userKey", userKey);
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
-  }
-
-  public String createUser(String email) {
-    Entity userEntity = new Entity("User");
-    userEntity.setProperty("email", email);
-    userEntity.setProperty("trips", "[]");
-    datastore.put(userEntity);
-    return KeyFactory.keyToString(userEntity.getKey());
   }
 }

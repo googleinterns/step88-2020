@@ -4,7 +4,7 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
-import {createUser, readUser} from './UserCRUD.js';
+import { createUser, readUser } from './UserCRUD.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
@@ -23,13 +23,8 @@ function App() {
           <Route path="/route">
             <RouteView loggedIn={authState.loggedIn} />
           </Route>
-          <Route path="/createUser">
-            {createUser("userEmail@gmail.com")}
-          </Route>
-          <Route path="/readUser">
-             {readUser("ahJwYWNrYWdlcy1zdGVwLTIwMjByEQsSBFVzZXIYgICAgICA0AoM")}
-          </Route>
-
+          <Route path="/createUser">{createUser('mealTime@gmail.com')}</Route>
+          <Route path="/readUser">{readUser('mealTime@gmail.com')}</Route>
         </Switch>
       </Authenticator>
     </Router>

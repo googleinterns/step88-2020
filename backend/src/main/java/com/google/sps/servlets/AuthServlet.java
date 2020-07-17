@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/api/v1/auth")
 public class AuthServlet extends HttpServlet {
-
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override

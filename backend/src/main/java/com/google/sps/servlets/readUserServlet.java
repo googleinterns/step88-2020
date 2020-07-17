@@ -17,43 +17,34 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.*;
+import com.google.sps.UserCrud;
 import java.io.IOException;
-import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet that returns the user data */
 @WebServlet("/api/v1/readUser")
 public class readUserServlet extends HttpServlet {
-
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  UserCrud userCrud = new UserCrud(datastore);
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String requestData = request.getReader().lines().collect(Collectors.joining());
-    Gson gson = new Gson();
-    String bodyData = gson.fromJson(requestData, String.class);
-    readUser(bodyData);
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String email = request.getParameter("email");
+    if (email == "" || email == null) {
+      return;
+    }
+    Entity userEntity = userCrud.readUser(email);
+    if (userEntity == null) {
+      return;
+    }
     JsonObject jsonResults = new JsonObject();
+    jsonResults.addProperty("email", userEntity.getProperty("email").toString());
+    jsonResults.addProperty("trips", userEntity.getProperty("trips").toString());
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
-  }
-
-  public void readUser(String key) throws EntityNotFoundException {
-    System.out.println(key);
-    Key userKey = KeyFactory.createKey("User", key);
-    Entity user = datastore.get(userKey);
-    String userEmail = (String) user.getProperty("email");
-    System.out.println(userEmail);
-    // PreparedQuery results = datastore.prepare(query);
-    // results.filter()
-    // for (Entity entity : results.asIterable()) {
-    //   System.out.println(entity);
-    // }
   }
 }
