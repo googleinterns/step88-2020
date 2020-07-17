@@ -1,7 +1,7 @@
 import React from 'react';
-import { Map as GoogleMap, GoogleApiWrapper } from 'google-maps-react';
+import { Map as GoogleMap } from 'google-maps-react';
+import { withGoogleApi, MAPS_API_KEY } from '../googleApiUtils';
 import styles from './Map.module.css';
-const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
 /**
@@ -49,7 +49,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
-        zoom={14}
+        zoom={13}
       />
     );
   }
@@ -72,7 +72,4 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   );
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg',
-  libraries: ['places'],
-})(Map);
+export default withGoogleApi(Map);
