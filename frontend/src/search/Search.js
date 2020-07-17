@@ -13,10 +13,10 @@ import { withGoogleApi } from '../googleApiUtils';
 function Search() {
   const history = useHistory();
   const [predictions, setPredictions] = useState([]);
+  const [singleSelections, setSingleSelections] = useState([]);
   const options = predictions.map((prediction) => prediction.description);
 
   const handleInput = (input) => {
-    console.log(input)
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
     const autocompleteService = new window.google.maps.places.AutocompleteService();
     autocompleteService.getPlacePredictions(
@@ -70,6 +70,7 @@ function Search() {
           placeholder="Where to?"
           id="Where to?"
           onKeyDown={handleOnKeyDown}
+          selected={singleSelections}
         />
       </Container>
     </div>
