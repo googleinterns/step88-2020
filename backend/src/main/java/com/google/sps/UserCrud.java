@@ -31,4 +31,9 @@ public class UserCrud {
     }
     return null;
   }
+
+  public void updateUser(Entity userEntity, String trips) {
+    userEntity.setProperty("trips", trips);
+    datastore.put(userEntity);
+  }
 }
