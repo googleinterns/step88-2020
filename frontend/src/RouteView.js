@@ -22,6 +22,7 @@ import BackButton from './navbar/BackButton.js';
  */
 function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -43,6 +44,7 @@ function RouteView({ loggedIn }) {
   }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
+    setIsOptimizing(true);
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
@@ -52,6 +54,7 @@ function RouteView({ loggedIn }) {
       setOptimizedOrder(json);
     }
     setIsOptimized(true);
+    setIsOptimizing(false);
   }
 
   function save() {
@@ -127,7 +130,8 @@ function RouteView({ loggedIn }) {
                   <OptimizeButton
                     isOptimized={isOptimized}
                     optimize={optimize}
-                    isDisabled={attractions.length <= 1}
+                    isDisabled={attractions.length <= 1 || isOptimizing}
+                    isOptimizing={isOptimizing}
                   />
                 </Col>
               </Container>
