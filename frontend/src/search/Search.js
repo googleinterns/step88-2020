@@ -5,8 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import Map from '../map/Map';
+import { withGoogleApi } from '../googleApiUtils';
 
 /**
  * Creates Search component with search bar.
@@ -57,10 +56,9 @@ function Search() {
           options={options}
           placeholder="Where to?"
         />
-        <Map mode="search" />
       </Container>
     </div>
   );
 }
 
-export default Search;
+export default withGoogleApi(Search);
