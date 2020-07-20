@@ -23,8 +23,8 @@ function App() {
           <Route path="/route">
             <RouteView loggedIn={authState.loggedIn} />
           </Route>
-          <Route path="/createUser">{createUser('mealTime@gmail.com')}</Route>
-          <Route path="/readUser">{readUser('mealTime@gmail.com')}</Route>
+          <Route path="/createUser">{createUser('t@gmail.com')}</Route>
+          <Route path="/readUser">{readUser('time@gmail.com')}</Route>
           <Route path="/updateUser">{updateUser('mealTime@gmail.com','[{hello:bye}]')}</Route>
         </Switch>
       </Authenticator>
