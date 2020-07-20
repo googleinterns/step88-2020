@@ -28,22 +28,23 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/updateUser")
 public class updateUserServlet extends HttpServlet {
-  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  UserCrud userCrud = new UserCrud(datastore);
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private UserCrud userCrud = new UserCrud(datastore);
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
     if (email == "" || email == null) {
-      return;
+      throw new IllegalArgumentException("Email passed is not valid");
     }
     String trips = request.getParameter("trips");
     if (trips == "" || trips == null) {
-      return;
+      throw new IllegalArgumentException("Trips passed is not valid");
     }
-    Entity userEntity = userCrud.readUser(email);
+
+    Entity userEntity = userCrud.readEntity("email", email, "User");
     if (userEntity == null) {
-      return;
+      throw new Exception("User not found");
     }
     userCrud.updateUser(userEntity, trips);
     JsonObject jsonResults = new JsonObject();
