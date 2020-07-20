@@ -16,7 +16,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.gson.*;
+import com.google.gson.JsonObject;
 import com.google.sps.UserCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -36,14 +36,12 @@ public class createUserServlet extends HttpServlet {
     if (email == "" || email == null) {
       return;
     }
-    if (userCrud.readUser(email) != null) {
+    if (userCrud.readEntity(email)) {
       return;
     }
-    try {
-      userCrud.createUser(email);
-    } catch (Exception e) {
-      return;
-    }
+
+    userCrud.createUser(email);
+
     JsonObject jsonResults = new JsonObject();
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
