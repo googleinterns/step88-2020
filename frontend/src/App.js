@@ -30,7 +30,7 @@ function App() {
 
 function Authenticator({ children, onChange }) {
   const location = useLocation();
-  const redirectUrl = encodeURIComponent(`${location.pathname}${location.search}`);
+  const redirectUrl = `${location.pathname}${location.search}`;
 
   useEffect(
     () => {
