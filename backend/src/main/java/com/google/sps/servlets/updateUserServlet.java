@@ -41,7 +41,7 @@ public class updateUserServlet extends HttpServlet {
     if (trips == "" || trips == null) {
       return;
     }
-    Entity userEntity = userCrud.readUser(email);
+    Entity userEntity = userCrud.readEntity("email", email, "User");
     if (userEntity == null) {
       return;
     }
