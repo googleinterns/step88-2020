@@ -4,10 +4,9 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.gson.*;
 
 public class UserCrud {
-  DatastoreService datastore;
+  private DatastoreService datastore;
 
   public UserCrud(DatastoreService datastore) {
     this.datastore = datastore;
@@ -16,7 +15,7 @@ public class UserCrud {
   public void createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
-    userEntity.setProperty("trips", "[]");
+    userEntity.setProperty("trips", ListValue.of());
     datastore.put(userEntity);
   }
 
