@@ -69,6 +69,8 @@ function Explore() {
             ? getAllAttractions(results)
             : initialAttractions;
         setInitialAttractions(newAllAttractions);
+      } else {
+        setLoading(false);
       }
     };
 
