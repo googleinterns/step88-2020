@@ -44,7 +44,7 @@ public class updateUserServlet extends HttpServlet {
 
     Entity userEntity = userCrud.readEntity("email", email, "User");
     if (userEntity == null) {
-      throw new Exception("User not found");
+      throw new IllegalArgumentException("Email passed is not linked to user");
     }
     userCrud.updateUser(userEntity, trips);
     JsonObject jsonResults = new JsonObject();
