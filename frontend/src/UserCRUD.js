@@ -1,17 +1,5 @@
-export const createUser = async (email) => {
-  const response = await fetch(`/api/v1/createUser?email=${email}`);
-  const json = await response.json();
-  return json;
-};
-
-export const readUser = async (email) => {
-  const response = await fetch(`/api/v1/readUser?email=${email}`);
-  const json = await response.json();
-  return json;
-};
-
-export const updateUser = async (email, trips) => {
-  const response = await fetch(`/api/v1/updateUser?email=${email}&trips=${trips}`);
+export const fetchRequest = async (url) => {
+  const response = await fetch(url);
   const json = await response.json();
   return json;
 };
