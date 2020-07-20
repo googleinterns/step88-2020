@@ -36,7 +36,7 @@ public class createUserServlet extends HttpServlet {
     if (email == "" || email == null) {
       return;
     }
-    if (userCrud.readEntity(email)) {
+    if (userCrud.readEntity("email", email, "User") != null) {
       return;
     }
 
