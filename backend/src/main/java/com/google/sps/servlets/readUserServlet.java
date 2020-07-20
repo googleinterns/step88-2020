@@ -37,7 +37,7 @@ public class readUserServlet extends HttpServlet {
     if (email == "" || email == null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
-    Entity userEntity = userCrud.readUser(email);
+    Entity userEntity = userCrud.readEntity("email", email, "User");
     if (userEntity == null) {
       throw new Exception("User not found");
     }
