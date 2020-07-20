@@ -36,6 +36,7 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [initialAttractions, setInitialAttractions] = useState([]);
+  const [pagination, setPagination] = useState(null)
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -79,6 +80,7 @@ function Explore() {
       },
       handleTextSearch
     );
+    setPagination(new google.maps.places.PlaceSearchPagination(map));
   };
 
   return (
