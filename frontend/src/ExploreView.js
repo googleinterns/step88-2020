@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,8 +36,10 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [initialAttractions, setInitialAttractions] = useState([]);
-  const [pagination, setPagination] = useState(null)
   const history = useHistory();
+  // const [getNextPage, setGetNextPage] = useState(null);
+  const [loadMore, setLoadMore] = useState(false);
+  let getNextPage;
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
@@ -63,13 +65,28 @@ function Explore() {
       }
     };
 
-    const handleNearbySearch = (results, status) => {
+    const handleNearbySearch = (results, status, pagination) => {
+      console.log('in handle nearby search');
+      console.log(pagination);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
         const newAllAttractions =
           initialAttractions.length === 0
             ? getAllAttractions(results)
             : initialAttractions;
         setInitialAttractions(newAllAttractions);
+        getNextPage =
+          pagination.hasNextPage
+            ? () => {
+                console.log('in get next, loadmore:');
+                console.log(loadMore);
+                pagination.nextPage();
+              }
+            : null
+        ;
+        console.log('has next page');
+        console.log(pagination.hasNextPage);
+        console.log("get next page")
+        console.log(getNextPage);
       }
     };
 
@@ -80,14 +97,32 @@ function Explore() {
       },
       handleTextSearch
     );
-    setPagination(new google.maps.places.PlaceSearchPagination(map));
   };
+
+  function handleScroll(e) {
+    const loadMore =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    setLoadMore(loadMore);
+    console.log(e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight);
+    console.log('in handleScroll, getNextPage ' + getNextPage);
+    console.log(getNextPage)
+    // if (getNextPage) {
+    //   console.log("trying to load next page")
+    //   getNextPage();
+    // }
+  }
+
+  useEffect(() => {
+    if (loadMore && getNextPage) {
+      getNextPage();
+    }
+  }, [loadMore, getNextPage]);
 
   return (
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
-          <div className={styles.attractionImagesContainer}>
+          <div className={styles.attractionImagesContainer} onScroll={handleScroll}>
             {initialAttractions.length === 0 ? (
               <div className={styles.fillerText}>
                 {loading ? 'Loading . . .' : 'No Images Found'}
