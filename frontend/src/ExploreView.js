@@ -94,7 +94,11 @@ function Explore() {
               initialAttractions.map((attraction, index) => (
                 <Card
                   className={`${styles.attractionContainer} ${
-                    attraction.selected ? styles.selectedImage : ''
+                    attraction.selected
+                      ? styles.selectedImage
+                      : selectedAttractions.length < 8
+                      ? ''
+                      : styles.unselectable
                   }`}
                   onClick={() => toggleSelection(attraction)}
                   key={index}
