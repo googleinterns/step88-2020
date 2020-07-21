@@ -23,9 +23,9 @@ function App() {
           <Route path="/route">
             <RouteView loggedIn={authState.loggedIn} />
           </Route>
-          // <Route path="/createUser">{createUser('t@gmail.com')}</Route>
-          // <Route path="/readUser">{readUser('time@gmail.com')}</Route>
-          // <Route path="/updateUser">{updateUser('mealTime@gmail.com','[{hello:bye}]')}</Route>
+          <Route path="/createUser">{fetchRequest(`/api/v1/createUser?email=some@mail.com`)}</Route>
+          <Route path="/readUser">{console.log(fetchRequest(`/api/v1/readUser?email=some@mail.com`))}</Route>
+          <Route path="/updateUser">{fetchRequest(`/api/v1/updateUser?email=some@mail.com&trips=[{hello:bye}]`)}</Route>
         </Switch>
       </Authenticator>
     </Router>

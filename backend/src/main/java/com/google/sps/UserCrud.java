@@ -28,11 +28,12 @@ public class UserCrud {
    *
    * @param email email of new user
    */
-  public void createUser(String email) {
+  public Entity createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
     userEntity.setProperty("tripIds", "[]");
     datastore.put(userEntity);
+    return userEntity;
   }
 
   /**

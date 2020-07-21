@@ -41,9 +41,11 @@ public class readUserServlet extends HttpServlet {
     if (userEntity == null) {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
+
     JsonObject jsonResults = new JsonObject();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    jsonResults.addProperty("trips", userEntity.getProperty("trips").toString());
+    jsonResults.addProperty("tripsId", userEntity.getProperty("tripIds").toString());
+
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
   }
