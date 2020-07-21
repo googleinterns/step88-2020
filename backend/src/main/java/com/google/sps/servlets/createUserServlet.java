@@ -33,26 +33,13 @@ public class createUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
-<<<<<<< HEAD
-    if (email == "" || email == null) {
-      return;
-    }
-    if (userCrud.readEntity("email", email, "User") != null) {
-      return;
-    }
-    try {
-      userCrud.createUser(email);
-    } catch (Exception e) {
-      return;
-    }
-=======
+
     if (email == "" || email == null || userCrud.readEntity("email", email, "User") != null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
 
     userCrud.createUser(email);
 
->>>>>>> createUserServlet
     JsonObject jsonResults = new JsonObject();
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
