@@ -32,8 +32,7 @@ public class TodoDataServicesTest {
           new LocalDatastoreServiceTestConfig()
               .setDefaultHighRepJobPolicyUnappliedJobPercentage(0));
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-  private static final TodoDataServices dataServices = new TodoDataServices();
+  private UserCrud userCrud = new UserCrud(datastore);
 
   @BeforeClass
   public static void setup() {
