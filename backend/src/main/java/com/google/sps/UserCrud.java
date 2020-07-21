@@ -17,7 +17,7 @@ import java.util.List;
 
 /** Class to handle CRUD related to user and trip entities */
 public class UserCrud {
-  DatastoreService datastore;
+  private DatastoreService datastore;
 
   public UserCrud(DatastoreService datastore) {
     this.datastore = datastore;

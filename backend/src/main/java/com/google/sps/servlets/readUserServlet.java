@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns the user data */
 @WebServlet("/api/v1/readUser")
 public class readUserServlet extends HttpServlet {
-  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  UserCrud userCrud = new UserCrud(datastore);
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private UserCrud userCrud = new UserCrud(datastore);
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

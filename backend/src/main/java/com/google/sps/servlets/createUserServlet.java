@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/createUser")
 public class createUserServlet extends HttpServlet {
-  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  UserCrud userCrud = new UserCrud(datastore);
+  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private UserCrud userCrud = new UserCrud(datastore);
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
