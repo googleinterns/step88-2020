@@ -77,11 +77,17 @@
 
 .mapContainer {
   height: 100%;
-  position: relative;
   margin-right: 30px;
+  position: relative;
 }
 
 .unselectable {
-  pointer-events: none;
   opacity: 0.3;
+  pointer-events: none;
+}
+
+.p {
+  height: 25px;
+  margin: -25px 0 0;
+  text-align: center;
 }

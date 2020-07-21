@@ -85,6 +85,9 @@ function Explore() {
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
+          {selectedAttractions.length < 8 || (
+            <p className={styles.p}>You may select up to 8 attractions.</p>
+          )}
           <div className={styles.attractionImagesContainer}>
             {initialAttractions.length === 0 ? (
               <div className={styles.fillerText}>
