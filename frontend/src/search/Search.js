@@ -3,6 +3,9 @@ import styles from './Search.module.css';
 import { useHistory } from 'react-router-dom';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 import Map from '../map/Map';
 
 /**
@@ -40,6 +43,7 @@ function Search() {
         </h1>
       </div>
       <Container className={styles.barContainer}>
+        <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
         <Typeahead
           type="text"
           className={styles.searchBar}
@@ -52,7 +56,8 @@ function Search() {
             }
           }}
           options={options}
-          placeholder="&#xF002; Where to?"
+          placeholder="Where to?"
+          id="Where to?"
         />
         <div className={styles.mapContainer}>
           <Map

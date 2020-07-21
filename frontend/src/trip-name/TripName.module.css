@@ -10,7 +10,7 @@
 .tripNameInput {
   border: none;
   font-size: 1.5rem;
-  padding: 2px 4px;
+  padding: 1px 4px;
 }
 
 .tripNameInput:focus,
@@ -33,15 +33,15 @@
 .saveBtn {
   background: none;
   border: none;
-  color: #8f8f8f;
+  color: var(--gray);
   display: none;
   font-size: 0.9rem;
-  margin: 12px auto;
+  margin: 4px auto;
   text-decoration: underline;
 }
 
 .saveBtn:hover {
-  color: #616161;
+  color: #464646;
   cursor: pointer;
 }
 
@@ -49,9 +49,15 @@
   margin-bottom: 4px;
 }
 
+.form ::placeholder {
+  color: #949494;
+  font-style: italic;
+}
+
 /* styles for when trip name is being edited */
 
-.edit .editIcon {
+.edit .editIcon,
+.form:hover .editIcon {
   color: var(--blue);
   opacity: 1;
 }

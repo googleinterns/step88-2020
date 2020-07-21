@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getQueryParameters } from './parameterUtils.js';
+import { getQueryParameters, handleRouting } from './routingUtils.js';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -53,6 +53,7 @@ function Explore() {
           {
             location: coordinates,
             radius: 8000,
+            type: 'tourist_attraction',
           },
           handleNearbySearch
         );
@@ -104,10 +105,13 @@ function Explore() {
                     alt={`${attraction.name} image`}
                   />
                   <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
-                  <Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.centerCheck}>
                     {attraction.selected && (
                       <FontAwesomeIcon icon={faCheck} className={styles.check} />
                     )}
+                  </Card.ImgOverlay>
+                  <Card.ImgOverlay className={styles.attractionNameOverlay}>
+                    {attraction.name}
                   </Card.ImgOverlay>
                 </Card>
               ))
@@ -115,7 +119,9 @@ function Explore() {
           </div>
           <Button
             className={styles.routeButton}
-            onClick={() => handleRouting(history)}
+            onClick={() =>
+              handleRouting(history, 'route', tripObject, selectedAttractions)
+            }
             variant="primary"
             disabled={selectedAttractions.length < 1}
           >
@@ -123,28 +129,19 @@ function Explore() {
           </Button>
         </Col>
         <Col sm={6}>
-          <Map
-            className={styles.mapContainer}
-            onReady={onMapReady}
-            attractions={selectedAttractions}
-            mode="pins"
-            centerLocation={tripObject.centerLocation}
-            key={selectedAttractions}
-          />
+          <div className={styles.mapContainer}>
+            <Map
+              onReady={onMapReady}
+              attractions={selectedAttractions}
+              mode="pins"
+              centerLocation={tripObject.centerLocation}
+              key={selectedAttractions}
+            />
+          </div>
         </Col>
       </Row>
     </Container>
   );
-
-  /**
-   * Creates route url and navigates to /route?trip=
-   * @param {object} history used to route dom with react
-   */
-  function handleRouting(history) {
-    tripObject.selectedAttractions = selectedAttractions;
-    const routeUrl = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-    history.push(`/route${routeUrl}`);
-  }
 
   /**
    * changes selection property of attraction which causes the following
