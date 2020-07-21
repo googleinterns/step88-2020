@@ -16,7 +16,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.gson.*;
+import com.google.gson.JsonObject;
 import com.google.sps.UserCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +33,7 @@ public class createUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
+<<<<<<< HEAD
     if (email == "" || email == null) {
       return;
     }
@@ -44,6 +45,14 @@ public class createUserServlet extends HttpServlet {
     } catch (Exception e) {
       return;
     }
+=======
+    if (email == "" || email == null || userCrud.readEntity("email", email, "User") != null) {
+      throw new IllegalArgumentException("Email passed is not valid");
+    }
+
+    userCrud.createUser(email);
+
+>>>>>>> createUserServlet
     JsonObject jsonResults = new JsonObject();
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
