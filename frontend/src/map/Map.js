@@ -31,7 +31,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         const content = `
           <div>
             <h4 class=${styles.infoWindowName}>${attraction.name}</h4>
-            <div class=${styles.infoWindowDescription}>Short description of attraction if desired</div>
             <div>
               <img class=${styles.infoWindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
@@ -66,7 +65,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
     <iframe
       className={styles.map}
       title="trip-map"
-      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}&zoom=13`}
       allowFullScreen
     ></iframe>
   );
