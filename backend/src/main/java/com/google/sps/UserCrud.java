@@ -61,8 +61,18 @@ public class UserCrud {
    * @return trip entity or null if not found
    */
   public Entity readTrip(String tripId) throws EntityNotFoundException {
-    Key entityKey = KeyFactory.createKey("Trip", tripId);
+    Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
     return datastore.get(entityKey);
+  }
+
+  /**
+   * Update a trip's data
+   *
+   * @param tripId id of the trip to find
+   */
+  public void updateTrip(Entity tripEntity, String tripData) {
+    tripEntity.setProperty("tripData", tripData);
+    datastore.put(tripEntity);
   }
 
   /**
@@ -95,7 +105,7 @@ public class UserCrud {
    * @param userEntity user entity
    * @param tripIds array of trip ids as string
    */
-  public void updateUser(Entity userEntity, String tripIds) {
+  public void updateTripIds(Entity userEntity, String tripIds) {
     userEntity.setProperty("tripIds", tripIds);
     datastore.put(userEntity);
   }

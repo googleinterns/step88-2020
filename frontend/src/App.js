@@ -25,7 +25,10 @@ function App() {
           </Route>
           <Route path="/createUser">{fetchRequest(`/api/v1/createUser?email=some@mail.com`)}</Route>
           <Route path="/readUser">{console.log(fetchRequest(`/api/v1/readUser?email=some@mail.com`))}</Route>
-          <Route path="/updateUser">{fetchRequest(`/api/v1/updateUser?email=some@mail.com&trips=[{hello:bye}]`)}</Route>
+          <Route path="/updateUser">{fetchRequest(`/api/v1/updateUser?email=some@mail.com&tripIds=[{hello:bye}]`)}</Route>
+          <Route path="/createTrip">{fetchRequest(`/api/v1/createTrip?email=some@mail.com&tripData=[{ciao:adio}]`)}</Route>
+          <Route path="/readTrip">{console.log(fetchRequest(`/api/v1/readTrip?tripId=5985741301612544`))}</Route>
+          <Route path="/updateTrip">{console.log(fetchRequest(`/api/v1/updateTrip?tripId=5985741301612544&tripData=[{ciao:adio,maperchenon:speriamo}]`))}</Route>
         </Switch>
       </Authenticator>
     </Router>

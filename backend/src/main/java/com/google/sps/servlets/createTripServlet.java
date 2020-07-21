@@ -17,7 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.gson.*;
+import com.google.gson.JsonObject;
 import com.google.sps.UserCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -26,20 +26,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that creates a new user */
-@WebServlet("/api/v1/updateUser")
-public class updateUserServlet extends HttpServlet {
+@WebServlet("/api/v1/createTrip")
+public class createTripServlet extends HttpServlet {
   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private UserCrud userCrud = new UserCrud(datastore);
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
-    if (email == "" || email == null) {
+
+    if (email == "" || email == null || userCrud.readEntity("email", email, "User") == null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
-    String tripIds = request.getParameter("tripIds");
-    if (tripIds == "" || tripIds == null) {
-      throw new IllegalArgumentException("TripIds passed is not valid");
+
+    String tripData = request.getParameter("tripData");
+    if (tripData == "" || tripData == null) {
+      throw new IllegalArgumentException("Trip data passed is not valid");
     }
 
     Entity userEntity = userCrud.readEntity("email", email, "User");
@@ -47,7 +49,8 @@ public class updateUserServlet extends HttpServlet {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
-    userCrud.updateTripIds(userEntity, tripIds);
+    userCrud.createTrip(email, tripData);
+
     JsonObject jsonResults = new JsonObject();
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
