@@ -49,6 +49,12 @@ function Explore() {
   const getNextPage = useRef(null);
   const history = useHistory();
 
+  useEffect(() => {
+    if (loadMore && getNextPage.current) {
+      getNextPage.current();
+    }
+  }, [loadMore, getNextPage]);
+
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -98,12 +104,6 @@ function Explore() {
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     setLoadMore(loadMore);
   }
-
-  useEffect(() => {
-    if (loadMore && getNextPage.current) {
-      getNextPage.current();
-    }
-  }, [loadMore, getNextPage]);
 
   return (
     <Container className={styles.exploreContainer}>
