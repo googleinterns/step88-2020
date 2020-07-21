@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,10 +35,19 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [initialAttractions, setInitialAttractions] = useState([]);
-  const history = useHistory();
+
+  function loadMoreReducer(state, action) {
+    const newAllAttractions = Array.from(state.attractions);
+    for (const attraction of action.attractions) {
+      newAllAttractions.push(attraction);
+    }
+    return { attractions: newAllAttractions };
+  }
+  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [] });
+
   const [loadMore, setLoadMore] = useState(false);
   const getNextPage = useRef(null);
+  const history = useHistory();
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
@@ -65,34 +74,13 @@ function Explore() {
     };
 
     const handleNearbySearch = (results, status, pagination) => {
-      console.log('in handle nearby search');
-      console.log(pagination);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        // const newAllAttractions =
-        //   initialAttractions.length === 0
-        //     ? getAllAttractions(results)
-        //     : initialAttractions;
-        console.log('initialAttractions');
-        console.log(initialAttractions);
-
-        let newAllAttractions;
-        if (initialAttractions.length === 0) {
-          newAllAttractions = getAllAttractions(results);
-        } else {
-          newAllAttractions = Array.from(initialAttractions);
-          newAllAttractions.push.apply(getAllAttractions(results));
-        }
-        setInitialAttractions(newAllAttractions);
-
+        dispatch({ attractions: getAllAttractions(results) });
         getNextPage.current = pagination.hasNextPage
           ? () => {
               pagination.nextPage();
             }
           : null;
-        console.log('has next page');
-        console.log(pagination.hasNextPage);
-        console.log('get next page');
-        console.log(getNextPage);
       }
     };
 
@@ -112,27 +100,22 @@ function Explore() {
   }
 
   useEffect(() => {
-    if (loadMore) {
+    if (loadMore && getNextPage.current) {
       getNextPage.current();
     }
   }, [loadMore, getNextPage]);
-
-  useEffect(() => {
-    console.log('initial attractions in use effect');
-    console.log(initialAttractions);
-  }, [initialAttractions]);
 
   return (
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
           <div className={styles.attractionImagesContainer} onScroll={handleScroll}>
-            {initialAttractions.length === 0 ? (
+            {state.attractions.length === 0 ? (
               <div className={styles.fillerText}>
                 {loading ? 'Loading . . .' : 'No Images Found'}
               </div>
             ) : (
-              initialAttractions.map((attraction, index) => (
+              state.attractions.map((attraction, index) => (
                 <Card
                   className={`${styles.attractionContainer} ${
                     attraction.selected ? styles.selectedImage : ''
