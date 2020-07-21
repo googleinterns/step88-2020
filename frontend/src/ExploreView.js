@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,9 +37,8 @@ function Explore() {
   );
   const [initialAttractions, setInitialAttractions] = useState([]);
   const history = useHistory();
-  // const [getNextPage, setGetNextPage] = useState(null);
   const [loadMore, setLoadMore] = useState(false);
-  let getNextPage;
+  const getNextPage = useRef(null);
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
@@ -69,23 +68,30 @@ function Explore() {
       console.log('in handle nearby search');
       console.log(pagination);
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const newAllAttractions =
-          initialAttractions.length === 0
-            ? getAllAttractions(results)
-            : initialAttractions;
+        // const newAllAttractions =
+        //   initialAttractions.length === 0
+        //     ? getAllAttractions(results)
+        //     : initialAttractions;
+        console.log('initialAttractions');
+        console.log(initialAttractions);
+
+        let newAllAttractions;
+        if (initialAttractions.length === 0) {
+          newAllAttractions = getAllAttractions(results);
+        } else {
+          newAllAttractions = Array.from(initialAttractions);
+          newAllAttractions.push.apply(getAllAttractions(results));
+        }
         setInitialAttractions(newAllAttractions);
-        getNextPage =
-          pagination.hasNextPage
-            ? () => {
-                console.log('in get next, loadmore:');
-                console.log(loadMore);
-                pagination.nextPage();
-              }
-            : null
-        ;
+
+        getNextPage.current = pagination.hasNextPage
+          ? () => {
+              pagination.nextPage();
+            }
+          : null;
         console.log('has next page');
         console.log(pagination.hasNextPage);
-        console.log("get next page")
+        console.log('get next page');
         console.log(getNextPage);
       }
     };
@@ -103,20 +109,18 @@ function Explore() {
     const loadMore =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     setLoadMore(loadMore);
-    console.log(e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight);
-    console.log('in handleScroll, getNextPage ' + getNextPage);
-    console.log(getNextPage)
-    // if (getNextPage) {
-    //   console.log("trying to load next page")
-    //   getNextPage();
-    // }
   }
 
   useEffect(() => {
-    if (loadMore && getNextPage) {
-      getNextPage();
+    if (loadMore) {
+      getNextPage.current();
     }
   }, [loadMore, getNextPage]);
+
+  useEffect(() => {
+    console.log('initial attractions in use effect');
+    console.log(initialAttractions);
+  }, [initialAttractions]);
 
   return (
     <Container className={styles.exploreContainer}>
