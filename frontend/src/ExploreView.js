@@ -88,6 +88,9 @@ function Explore() {
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
+          {selectedAttractions.length < 8 || (
+            <p className={styles.p}>You may select up to 8 attractions.</p>
+          )}
           <div className={styles.attractionImagesContainer}>
             {initialAttractions.length === 0 ? (
               <div className={styles.fillerText}>
@@ -102,8 +105,12 @@ function Explore() {
             ) : (
               initialAttractions.map((attraction, index) => (
                 <Card
-                  className={`${styles.attractionContainer} ${
-                    attraction.selected ? styles.selectedImage : ''
+                  className={`${styles.attractionContainer}${
+                    attraction.selected
+                      ? styles.selectedImage
+                      : selectedAttractions.length < 8
+                      ? ''
+                      : styles.unselectable
                   }`}
                   onClick={() => toggleSelection(attraction)}
                   key={index}
