@@ -1,37 +1,34 @@
 package com.google.sps;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Class to handle CRUD related to user and trip entities */
 public class UserCrud {
-  private DatastoreService datastore;
+  private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  public UserCrud(DatastoreService datastore) {
-    this.datastore = datastore;
-  }
+  /** private constructor */
+  private UserCrud() {};
 
   /**
    * Create a user and give it email and array of tripIds
    *
    * @param email email of new user
+   * @return Entity containing user info
    */
-  public Entity createUser(String email) {
+  public static Entity createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
-    userEntity.setProperty("tripIds", "[]");
+    userEntity.setProperty("tripIds", Collections.emptyList());
     datastore.put(userEntity);
     return userEntity;
   }
@@ -44,7 +41,8 @@ public class UserCrud {
    * @param table table to search through
    * @return trip entity or null if not found
    */
-  public Entity readEntity(String property, String value, String table) {
+  // abstract into own helper method
+  public static Entity readEntity(String property, String value, String table) {
     Filter propertyFilter = new FilterPredicate(property, FilterOperator.EQUAL, value);
     Query query = new Query(table).setFilter(propertyFilter);
     List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
@@ -55,57 +53,18 @@ public class UserCrud {
   }
 
   /**
-   * Find a trip entity and return it
-   *
-   * @param tripId id of the trip to find
-   * @return trip entity or null if not found
-   */
-  public Entity readTrip(String tripId) throws EntityNotFoundException {
-    Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
-    return datastore.get(entityKey);
-  }
-
-  /**
-   * Update a trip's data
-   *
-   * @param tripId id of the trip to find
-   */
-  public void updateTrip(Entity tripEntity, String tripData) {
-    tripEntity.setProperty("tripData", tripData);
-    datastore.put(tripEntity);
-  }
-
-  /**
-   * Create a new trip
-   *
-   * @param email email of user
-   * @param tripData json of tripData as string
-   */
-  public void createTrip(String email, String tripData) {
-    Entity tripEntity = new Entity("Trip");
-    tripEntity.setProperty("tripData", tripData);
-
-    datastore.put(tripEntity);
-
-    Entity userEntity = this.readEntity("email", email, "User");
-    String trips = (String) userEntity.getProperty("tripIds");
-    JsonParser parser = new JsonParser();
-    JsonElement jsonElement = parser.parse(trips);
-    JsonArray tripIds = jsonElement.getAsJsonArray();
-
-    tripIds.add(tripEntity.getKey().getId());
-
-    userEntity.setProperty("tripIds", tripIds.toString());
-    datastore.put(userEntity);
-  }
-
-  /**
    * Update the user property of tripIds
    *
-   * @param userEntity user entity
-   * @param tripIds array of trip ids as string
+   * @param email user email
+   * @param tripId trip id to add to user tripIds
    */
-  public void updateTripIds(Entity userEntity, String tripIds) {
+  public static void addTripId(String email, Long tripId) {
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
+    if (tripIds == null) {
+      tripIds = new ArrayList<String>();
+    }
+    tripIds.add(Long.toString(tripId));
     userEntity.setProperty("tripIds", tripIds);
     datastore.put(userEntity);
   }

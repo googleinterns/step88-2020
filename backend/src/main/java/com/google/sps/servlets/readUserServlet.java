@@ -14,12 +14,12 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.sps.UserCrud;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,23 +28,22 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns the user data */
 @WebServlet("/api/v1/readUser")
 public class readUserServlet extends HttpServlet {
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private UserCrud userCrud = new UserCrud(datastore);
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
     if (email == "" || email == null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
-    Entity userEntity = userCrud.readEntity("email", email, "User");
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
     if (userEntity == null) {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
     JsonObject jsonResults = new JsonObject();
+    Gson gson = new Gson();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    jsonResults.addProperty("tripsId", userEntity.getProperty("tripIds").toString());
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
+    jsonResults.addProperty("tripIds", gson.toJson(tripIds));
 
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);

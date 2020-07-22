@@ -14,12 +14,10 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.gson.JsonObject;
-import com.google.sps.UserCrud;
+import com.google.sps.TripCRUD;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,9 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/readTrip")
 public class readTripServlet extends HttpServlet {
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private UserCrud userCrud = new UserCrud(datastore);
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String tripId = request.getParameter("tripId");
@@ -42,17 +37,14 @@ public class readTripServlet extends HttpServlet {
 
     Entity tripEntity;
     try {
-      tripEntity = userCrud.readTrip(tripId);
+      tripEntity = TripCRUD.readTrip(tripId);
     } catch (EntityNotFoundException e) {
       return;
     }
-
-    String tripData = tripEntity.getProperty("tripData").toString();
-
+    JsonObject tripJson = TripCRUD.toJson(tripEntity);
     JsonObject jsonResults = new JsonObject();
     jsonResults.addProperty("tripId", tripId);
-    jsonResults.addProperty("tripData", tripData);
-
+    jsonResults.addProperty("tripData", tripJson.toString());
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
   }
