@@ -88,6 +88,16 @@ function Explore() {
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
+          <Container className={styles.exploreViewHeader}>
+            <Row>
+              <Col>
+                {`Search results for: ${searchText}`}
+              </Col>
+              <Col>
+                Slider
+              </Col>
+            </Row>
+          </Container>
           {selectedAttractions.length < 8 || (
             <p className={styles.p}>You may select up to 8 attractions.</p>
           )}

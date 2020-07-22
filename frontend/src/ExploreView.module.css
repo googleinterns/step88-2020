@@ -92,3 +92,8 @@
   margin: -35px 0 0;
   text-align: center;
 }
+
+.exploreViewHeader {
+  margin: 8px auto;
+  padding: 0 48px;
+}
