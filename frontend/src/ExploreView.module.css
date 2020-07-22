@@ -3,7 +3,7 @@
 }
 
 .attractionContainer {
-  height: 13vw;
+  height: 12vw;
   margin: 10px;
 }
 
@@ -20,9 +20,9 @@
 }
 
 .attraction {
-  height: 13vw;
+  height: 12vw;
   object-fit: cover;
-  width: 13vw;
+  width: 12vw;
 }
 
 .centerCheck {
@@ -88,13 +88,14 @@
 
 .p {
   color: var(--gray);
-  height: 35px;
-  margin: -35px 0 0;
+  height: 24px;
+  margin: -24px 0 0;
   text-align: center;
 }
 
 .exploreViewHeader {
   color: var(--gray);
+  margin-bottom: 12px;
   padding: 12px 48px;
   vertical-align: center;
 }
