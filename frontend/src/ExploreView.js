@@ -37,7 +37,7 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [radius, setRadius] = useState(10);
+  const [radius, setRadius] = useState(8);
 
   function loadMoreReducer(state, action) {
     const newAllAttractions = Array.from(state.attractions);
@@ -61,32 +61,35 @@ function Explore() {
     }
   }, [loadMore, getNextPage]);
 
-    /**
+  /**
    * Get the photo url of each attraction object
    * @param {object[]} attractions array of objects from Places Request
    * @return {object[]} array of all attractions
    */
-  const getAllAttractions = useCallback((attractions) => {
-    const newAllAttractions = [];
-    for (const attraction of attractions) {
-      if ('photos' in attraction) {
-        const name = attraction.name;
-        const photoUrl = attraction.photos[0].getUrl();
-        const latLng = attraction.geometry.location;
-        const isSelected = selectedAttractions.some(
-          (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
-        );
-        const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
-        newAllAttractions.push(newAttraction);
+  const getAllAttractions = useCallback(
+    (attractions) => {
+      const newAllAttractions = [];
+      for (const attraction of attractions) {
+        if ('photos' in attraction) {
+          const name = attraction.name;
+          const photoUrl = attraction.photos[0].getUrl();
+          const latLng = attraction.geometry.location;
+          const isSelected = selectedAttractions.some(
+            (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
+          );
+          const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
+          newAllAttractions.push(newAttraction);
+        }
       }
-    }
-    return newAllAttractions;
-  }, [selectedAttractions])
+      return newAllAttractions;
+    },
+    [selectedAttractions]
+  );
 
-
- const handleNearbySearch = useCallback((status, pagination) => {
-    console.log("handle nearby search with radius " + radius)
-    console.log(nearbySearchResults.current)
+  const handleNearbySearch = useCallback(
+    (status, pagination) => {
+      console.log('handle nearby search with radius ' + radius);
+      console.log(nearbySearchResults.current);
       if (status === 'OK') {
         dispatch({ attractions: getAllAttractions(nearbySearchResults.current) });
         getNextPage.current = pagination.hasNextPage
@@ -97,12 +100,14 @@ function Explore() {
       } else {
         setLoading(false);
       }
-    }, [getAllAttractions]);
-  
+    },
+    [getAllAttractions, radius]
+  );
 
-  const handleTextSearch = useCallback((status) => {
-    console.log("handle text search")
-    console.log(textSearchResults.current)
+  const handleTextSearch = useCallback(
+    (status) => {
+      console.log('handle text search');
+      console.log(textSearchResults.current);
       if (status === 'OK') {
         const coordinates = textSearchResults.current[0].geometry.location;
         setTripObject({
@@ -120,22 +125,22 @@ function Explore() {
           },
           (results, status, pagination) => {
             nearbySearchResults.current = results;
-            handleNearbySearch(status, pagination)
+            handleNearbySearch(status, pagination);
           }
         );
       } else {
         setLoading(false);
       }
-    }, [radius, tripObject, handleNearbySearch]);
-
- 
+    },
+    [radius, tripObject, handleNearbySearch]
+  );
 
   useEffect(() => {
     console.log(radius);
     // if (textSearchResults.current) {
     //   handleTextSearch('OK')
     // }
-  }, [radius])
+  }, [radius]);
 
   function handleScroll(e) {
     const loadMore =
@@ -144,7 +149,6 @@ function Explore() {
   }
 
   const onMapReady = (google, map) => {
-
     placesService.current = new google.maps.places.PlacesService(map);
     placesService.current.textSearch(
       {
@@ -152,7 +156,7 @@ function Explore() {
       },
       (results, status) => {
         textSearchResults.current = results;
-        handleTextSearch(status)
+        handleTextSearch(status);
       }
     );
   };
@@ -172,9 +176,9 @@ function Explore() {
               <Col md={5} className={styles.sliderContainer}>
                 <RangeSlider
                   value={radius}
-                  onChange={e => setRadius(e.target.value)}
-                  tooltipPlacement='top'
-                  tooltip='on'
+                  onChange={(e) => setRadius(e.target.value)}
+                  tooltipPlacement="top"
+                  tooltip="on"
                   min={1}
                   max={10}
                 />
@@ -225,9 +229,8 @@ function Explore() {
                 </Card>
               ))
             )}
-          
           </div>
-          
+
           <Button
             className={styles.routeButton}
             onClick={() =>
@@ -276,8 +279,6 @@ function Explore() {
       setSelectedAttractions(selectedAttractionsCopy);
     }
   }
-
-
 
   /**
    * Get the photo url of each attraction object
