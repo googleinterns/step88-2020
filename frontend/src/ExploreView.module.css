@@ -87,8 +87,8 @@
 }
 
 .p {
+  color: var(--gray);
   height: 35px;
   margin: -35px 0 0;
   text-align: center;
-  color: var(--gray);
 }
