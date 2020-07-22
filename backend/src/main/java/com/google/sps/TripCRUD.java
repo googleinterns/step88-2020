@@ -17,7 +17,7 @@ public class TripCRUD {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /** private constructor */
-  private TripCRUD() {};
+  private TripCRUD(){};
 
   /**
    * Create a new trip
