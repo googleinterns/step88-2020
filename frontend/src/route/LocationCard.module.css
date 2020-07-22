@@ -5,7 +5,7 @@
 
 .locationCard,
 .locationImg {
-  height: 22vh;
+  height: 230px;
   object-fit: cover;
 }
 
@@ -28,4 +28,20 @@
 
 .locationCardContainer:hover .arrows {
   opacity: 0.6;
+}
+
+.locationName {
+  margin-top: 6%;
+}
+
+/* Medium devices */
+@media (max-width: 1600px) {
+  .locationCard,
+  .locationImg {
+    height: 22vh;
+  }
+
+  .locationName {
+    font-size: 1.2rem;
+  }
 }

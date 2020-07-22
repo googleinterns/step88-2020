@@ -1,6 +1,7 @@
 .map {
   border: 0;
-  height: 70vh;
+  height: 85vh;
+  margin-top: 14px;
   width: 100%;
 }
 
@@ -8,10 +9,13 @@
   color: #383838;
 }
 
-.infoWindowDescription {
-  margin-bottom: 10px;
-}
-
 .infoWindowImg {
   height: 200px;
+}
+
+/* Medium devices */
+@media (max-width: 1600px) {
+  .infoWindowName {
+    font-size: 1.2rem;
+  }
 }
