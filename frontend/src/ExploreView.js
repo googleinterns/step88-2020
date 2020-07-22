@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import styles from './ExploreView.module.css';
+import Spinner from 'react-bootstrap/Spinner';
 
 import Map from './map/Map';
 
@@ -87,6 +88,8 @@ function Explore() {
               pagination.nextPage();
             }
           : null;
+      } else {
+        setLoading(false);
       }
     };
 
@@ -112,7 +115,13 @@ function Explore() {
           <div className={styles.attractionImagesContainer} onScroll={handleScroll}>
             {state.attractions.length === 0 ? (
               <div className={styles.fillerText}>
-                {loading ? 'Loading . . .' : 'No Images Found'}
+                {loading ? (
+                  <Spinner animation="border" role="status" variant="primary">
+                    <span className="sr-only">Loading...</span>
+                  </Spinner>
+                ) : (
+                  'No Images Found'
+                )}
               </div>
             ) : (
               state.attractions.map((attraction, index) => (
