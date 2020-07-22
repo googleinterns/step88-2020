@@ -3,6 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -37,6 +38,7 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [initialAttractions, setInitialAttractions] = useState([]);
+  const [radius, setRadius] = useState(10);
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -53,7 +55,7 @@ function Explore() {
         placesService.nearbySearch(
           {
             location: coordinates,
-            radius: 8000,
+            radius: radius * 1000,
             type: 'tourist_attraction',
           },
           handleNearbySearch
@@ -90,11 +92,21 @@ function Explore() {
         <Col sm={6}>
           <Container className={styles.exploreViewHeader}>
             <Row>
-              <Col>
-                {`Search results for: ${searchText}`}
+              <Col md={5} className={styles.searchResultsTxt}>
+                Results for: <span>{`${searchText}`}</span>
               </Col>
-              <Col>
-                Slider
+              <Col md={2} className={styles.sliderLabel}>
+                Search radius:
+              </Col>
+              <Col md={5} className={styles.sliderContainer}>
+                <RangeSlider
+                  value={radius}
+                  onChange={e => setRadius(e.target.value)}
+                  tooltipPlacement='top'
+                  tooltip='on'
+                  min={1}
+                  max={10}
+                />
               </Col>
             </Row>
           </Container>
