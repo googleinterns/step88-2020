@@ -37,11 +37,11 @@ public class createUserServlet extends HttpServlet {
     }
 
     Entity userEntity = UserCrud.createUser(email);
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
 
     JsonObject jsonResults = new JsonObject();
     Gson gson = new Gson();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     jsonResults.addProperty("tripIds", gson.toJson(tripIds));
 
     response.setContentType("application/json;");

@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Class to handle CRUD related to user and trip entities */
+/** Class to handles CRU related to the User */
 public class UserCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /** private constructor */
-  private UserCrud() {};
+  private UserCrud(){};
 
   /**
-   * Create a user and give it email and array of tripIds
+   * Creates a User Entity
    *
    * @param email email of new user
-   * @return Entity containing user info
+   * @return User Entity
    */
   public static Entity createUser(String email) {
     Entity userEntity = new Entity("User");
@@ -34,14 +34,13 @@ public class UserCrud {
   }
 
   /**
-   * Find a user entity and return it
+   * Find a user entity
    *
    * @param property property refering to
    * @param value value to find
-   * @param table table to search through
-   * @return trip entity or null if not found
+   * @param table table to search in
+   * @return Trip entity or null if not found
    */
-  // abstract into own helper method
   public static Entity readEntity(String property, String value, String table) {
     Filter propertyFilter = new FilterPredicate(property, FilterOperator.EQUAL, value);
     Query query = new Query(table).setFilter(propertyFilter);
@@ -53,10 +52,10 @@ public class UserCrud {
   }
 
   /**
-   * Update the user property of tripIds
+   * Add trip Id to User Trip ids
    *
    * @param email user email
-   * @param tripId trip id to add to user tripIds
+   * @param tripId trip id
    */
   public static void addTripId(String email, Long tripId) {
     Entity userEntity = UserCrud.readEntity("email", email, "User");

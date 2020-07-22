@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates a new user */
+/** Servlet that returns a trip data */
 @WebServlet("/api/v1/readTrip")
 public class readTripServlet extends HttpServlet {
   @Override

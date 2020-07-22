@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates a new user */
+/** Servlet that creates a new trip */
 @WebServlet("/api/v1/createTrip")
 public class createTripServlet extends HttpServlet {
   @Override
@@ -49,6 +49,7 @@ public class createTripServlet extends HttpServlet {
 
     JsonObject jsonResults = new JsonObject();
     jsonResults.addProperty("tripId", tripEntity.getKey().getId());
+    jsonResults.addProperty("tripData", tripData);
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
   }

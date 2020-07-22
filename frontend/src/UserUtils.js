@@ -1,7 +1,13 @@
-//import fetchJson
+import { fetchJson } from './fetchJson.js';
 
-//createUser
+export const createUser = async (email) => {
+  const url = `/api/v1/createUser?email=${email}`;
+  const json = await fetchJson(url);
+  return json;
+};
 
-//readUser
-
-//addTrip
+export const readUser = async (email) => {
+  const url = `/api/v1/readUser?email=${email}`;
+  const json = await fetchJson(url);
+  return json;
+};

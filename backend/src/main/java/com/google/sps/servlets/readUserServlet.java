@@ -39,10 +39,10 @@ public class readUserServlet extends HttpServlet {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     JsonObject jsonResults = new JsonObject();
     Gson gson = new Gson();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     jsonResults.addProperty("tripIds", gson.toJson(tripIds));
 
     response.setContentType("application/json;");

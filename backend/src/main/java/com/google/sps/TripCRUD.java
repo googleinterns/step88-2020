@@ -12,18 +12,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
 
-/** Class to handle CRUD related to user and trip entities */
+/** Class to handles CRU related to the Trip */
 public class TripCRUD {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /** private constructor */
-  private TripCRUD() {};
+  private TripCRUD(){};
 
   /**
    * Create a new trip
    *
    * @param email email of user
    * @param tripData json of tripData as string
+   * @return tripEntity a trip entity
    */
   public static Entity createTrip(String email, String tripData) {
     Entity tripEntity = toEntity(tripData, "", null);
@@ -32,11 +33,30 @@ public class TripCRUD {
     return tripEntity;
   }
 
+  /**
+   * Converts string tripData to Trip Entity
+   *
+   * @param tripData tripData string representation of a trip json
+   * @param tripId trip id
+   * @param tripKey trip key, can be null
+   * @return tripEntity from tripData
+   */
   public static Entity toEntity(String tripData, String tripId, Key tripKey) {
+    Entity tripEntity = tripId == "" ? new Entity("Trip") : new Entity("Trip", tripId, tripKey);
+    setProperties(tripEntity, tripData);
+    return tripEntity;
+  }
+
+  /**
+   * Mutates trip entity properties given string representation of tripData json
+   *
+   * @param tripEntity Trip Entity
+   * @param tripData tripData string representation of a trip json
+   */
+  private static void setProperties(Entity tripEntity, String tripData) {
     JsonParser parser = new JsonParser();
     JsonElement jsonElement = parser.parse(tripData);
     JsonObject jsonObject = jsonElement.getAsJsonObject();
-    Entity tripEntity = tripId == "" ? new Entity("Trip") : new Entity("Trip", tripId, tripKey);
 
     tripEntity.setProperty(
         "isOptimized", Boolean.parseBoolean(jsonObject.get("isOptimized").toString()));
@@ -55,20 +75,26 @@ public class TripCRUD {
       attractions.add(embeddedAttraction);
     }
     tripEntity.setProperty("attractions", attractions);
-    return tripEntity;
   }
 
   /**
-   * Find a trip entity and return it
+   * Finds a trip entity by id
    *
    * @param tripId id of the trip to find
-   * @return trip entity or null if not found
+   * @throws EntityNotFoundException if trip entity is not found
+   * @return Trip entity
    */
   public static Entity readTrip(String tripId) throws EntityNotFoundException {
     Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
     return datastore.get(entityKey);
   }
 
+  /**
+   * Converts Trip Entity to Json
+   *
+   * @param tripEntity Trip Entity
+   * @return JsonObject of trip
+   */
   public static JsonObject toJson(Entity tripEntity) {
     JsonObject jsonTrip = new JsonObject();
     jsonTrip.addProperty("tripId", Long.toString(tripEntity.getKey().getId()));
@@ -94,16 +120,19 @@ public class TripCRUD {
   }
 
   /**
-   * Update a trip's data
+   * Updates a trip's properties
    *
    * @param tripId id of the trip to find
+   * @param tripData string representation of tripData json
    */
-  // use readTrip
-  // pass in only trip Data and trip id
-  // just replace trip in datastore -> overwrites
-  public static void updateTrip(String tripId, Key tripKey, String tripData) {
-    Entity tripEntity = toEntity(tripData, tripId, tripKey);
-    System.out.println(tripEntity);
+  public static void updateTrip(String tripId, String tripData) {
+    Entity tripEntity;
+    try {
+      tripEntity = TripCRUD.readTrip(tripId);
+    } catch (EntityNotFoundException e) {
+      return;
+    }
+    setProperties(tripEntity, tripData);
     datastore.put(tripEntity);
   }
 }

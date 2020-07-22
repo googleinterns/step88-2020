@@ -14,9 +14,6 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.JsonObject;
 import com.google.sps.TripCRUD;
 import java.io.IOException;
@@ -25,7 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates a new user */
+/** Servlet that updates a trip */
 @WebServlet("/api/v1/updateTrip")
 public class updateTripServlet extends HttpServlet {
   @Override
@@ -37,20 +34,11 @@ public class updateTripServlet extends HttpServlet {
       throw new IllegalArgumentException("trip passed is not valid");
     }
 
-    Entity tripEntity;
-    try {
-      tripEntity = TripCRUD.readTrip(tripId);
-    } catch (EntityNotFoundException e) {
-      return;
-    }
-
-    String keyString = KeyFactory.keyToString(tripEntity.getKey());
-    System.out.println(keyString);
-    TripCRUD.updateTrip(tripId, tripEntity.getKey(), tripData);
+    TripCRUD.updateTrip(tripId, tripData);
 
     JsonObject jsonResults = new JsonObject();
     jsonResults.addProperty("tripId", tripId);
-    // jsonResults.addProperty("tripData", entityTripData);
+    jsonResults.addProperty("tripData", tripData);
 
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
