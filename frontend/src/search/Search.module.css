@@ -2,20 +2,8 @@
   color: var(--blue);
 }
 
-.green {
-  color: var(--green);
-}
-
 .grey {
   color: var(--gray);
-}
-
-.red {
-  color: var(--red);
-}
-
-.yellow {
-  color: var(--yellow);
 }
 
 .form {

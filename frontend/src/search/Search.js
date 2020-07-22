@@ -33,15 +33,14 @@ function Search() {
 
   const handleSearch = (text) => {
     if (text) {
-      const searchText = text.constrctor === Array ? text[0] : text;
-      history.push(`/explore?search=${searchText}`);
+      history.push(`/explore?search=${text[0]}`);
     }
   };
 
   const handleOnKeyDown = (e) => {
     const isEnter = e.keyCode === 13;
     if (isEnter) {
-      handleSearch(options[0]);
+      handleSearch(options);
     }
   };
 
@@ -50,12 +49,7 @@ function Search() {
       <div className={styles.whereTo}>
         <h1 className={styles.text}>
           <span className={styles.grey}>g</span>
-          <span className={styles.blue}>R</span>
-          <span className={styles.blue}>o</span>
-          <span className={styles.blue}>u</span>
-          <span className={styles.blue}>t</span>
-          <span className={styles.blue}>e</span>
-          <span className={styles.blue}>s</span>
+          <span className={styles.blue}>Routes</span>
         </h1>
       </div>
       <Container className={styles.barContainer}>
