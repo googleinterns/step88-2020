@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,9 +37,30 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [initialAttractions, setInitialAttractions] = useState([]);
   const [radius, setRadius] = useState(10);
+
+  function loadMoreReducer(state, action) {
+    const newAllAttractions = Array.from(state.attractions);
+    for (const attraction of action.attractions) {
+      newAllAttractions.push(attraction);
+    }
+    return { attractions: newAllAttractions };
+  }
+  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [] });
+
+  const [loadMore, setLoadMore] = useState(false);
+  const getNextPage = useRef(null);
   const history = useHistory();
+
+  useEffect(() => {
+    if (loadMore && getNextPage.current) {
+      getNextPage.current();
+    }
+  }, [loadMore, getNextPage]);
+
+  useEffect(() => {
+    console.log(radius);
+  }, [radius])
 
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
@@ -65,13 +86,14 @@ function Explore() {
       }
     };
 
-    const handleNearbySearch = (results, status) => {
+    const handleNearbySearch = (results, status, pagination) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const newAllAttractions =
-          initialAttractions.length === 0
-            ? getAllAttractions(results)
-            : initialAttractions;
-        setInitialAttractions(newAllAttractions);
+        dispatch({ attractions: getAllAttractions(results) });
+        getNextPage.current = pagination.hasNextPage
+          ? () => {
+              pagination.nextPage();
+            }
+          : null;
       } else {
         setLoading(false);
       }
@@ -85,6 +107,12 @@ function Explore() {
       handleTextSearch
     );
   };
+
+  function handleScroll(e) {
+    const loadMore =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    setLoadMore(loadMore);
+  }
 
   return (
     <Container className={styles.exploreContainer}>
@@ -113,8 +141,8 @@ function Explore() {
           {selectedAttractions.length < 8 || (
             <p className={styles.p}>You may select up to 8 attractions.</p>
           )}
-          <div className={styles.attractionImagesContainer}>
-            {initialAttractions.length === 0 ? (
+          <div className={styles.attractionImagesContainer} onScroll={handleScroll}>
+            {state.attractions.length === 0 ? (
               <div className={styles.fillerText}>
                 {loading ? (
                   <Spinner animation="border" role="status" variant="primary">
@@ -125,7 +153,7 @@ function Explore() {
                 )}
               </div>
             ) : (
-              initialAttractions.map((attraction, index) => (
+              state.attractions.map((attraction, index) => (
                 <Card
                   className={`${styles.attractionContainer}${
                     attraction.selected
