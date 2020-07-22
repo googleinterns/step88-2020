@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import styles from './ExploreView.module.css';
+import Spinner from 'react-bootstrap/Spinner';
 
 import Map from './map/Map';
 
@@ -36,7 +37,6 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [initialAttractions, setInitialAttractions] = useState([]);
-  const [pagination, setPagination] = useState(null)
   const history = useHistory();
 
   const onMapReady = (google, map) => {
@@ -70,6 +70,8 @@ function Explore() {
             ? getAllAttractions(results)
             : initialAttractions;
         setInitialAttractions(newAllAttractions);
+      } else {
+        setLoading(false);
       }
     };
 
@@ -80,23 +82,35 @@ function Explore() {
       },
       handleTextSearch
     );
-    setPagination(new google.maps.places.PlaceSearchPagination(map));
   };
 
   return (
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
+          {selectedAttractions.length < 8 || (
+            <p className={styles.p}>You may select up to 8 attractions.</p>
+          )}
           <div className={styles.attractionImagesContainer}>
             {initialAttractions.length === 0 ? (
               <div className={styles.fillerText}>
-                {loading ? 'Loading . . .' : 'No Images Found'}
+                {loading ? (
+                  <Spinner animation="border" role="status" variant="primary">
+                    <span className="sr-only">Loading...</span>
+                  </Spinner>
+                ) : (
+                  'No Images Found'
+                )}
               </div>
             ) : (
               initialAttractions.map((attraction, index) => (
                 <Card
-                  className={`${styles.attractionContainer} ${
-                    attraction.selected ? styles.selectedImage : ''
+                  className={`${styles.attractionContainer}${
+                    attraction.selected
+                      ? styles.selectedImage
+                      : selectedAttractions.length < 8
+                      ? ''
+                      : styles.unselectable
                   }`}
                   onClick={() => toggleSelection(attraction)}
                   key={index}

@@ -117,10 +117,10 @@ function RouteView({ loggedIn }) {
       )}
       <div className={styles.container}>
         <Row className={styles.row}>
-          <TripName />
-        </Row>
-        <Row className={styles.row}>
           <Col sm={4}>
+            <Row className={styles.row}>
+              <TripName />
+            </Row>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>

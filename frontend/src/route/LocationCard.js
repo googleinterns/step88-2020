@@ -32,7 +32,7 @@ function LocationCard({ location, description, image, index }) {
                 <Card.Img src={image} className={styles.locationImg} alt="Card image" />
                 <Card.ImgOverlay className={styles.overlay}></Card.ImgOverlay>
                 <Card.ImgOverlay>
-                  <Card.Title>{location}</Card.Title>
+                  <Card.Title className={styles.locationName}>{location}</Card.Title>
                 </Card.ImgOverlay>
               </Card>
             </Col>
