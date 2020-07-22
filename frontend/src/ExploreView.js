@@ -96,7 +96,7 @@ function Explore() {
             ) : (
               initialAttractions.map((attraction, index) => (
                 <Card
-                  className={`${styles.attractionContainer} ${
+                  className={`${styles.attractionContainer}${
                     attraction.selected
                       ? styles.selectedImage
                       : selectedAttractions.length < 8
