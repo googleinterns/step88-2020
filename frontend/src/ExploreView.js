@@ -46,27 +46,21 @@ function Explore() {
   const textSearchResults = useRef(null);
   const history = useHistory();
 
-  // const [renderOverlay, setRenderOverlay] = useState(false);
-
   function reducer(state, action) {
     console.log('in load more reducer, next page current: ');
     console.log(getNextPage.current);
 
     let newAllAttractions;
-    if (action.radius !== state.radius || !getNextPage.current /*|| !loadMore*/) {
+    if (action.radius !== state.radius || !getNextPage.current) {
       newAllAttractions = [];
     } else if (!loadMore && action.radius === state.radius) {
       return { attractions: state.attractions, radius: state.radius };
-    } /*
-    else if (!loadMore && getNextPage.current) {
-      return { attractions: state.attractions, radius: action.radius };
-    }*/ else {
+    } else {
       newAllAttractions = Array.from(state.attractions);
     }
     for (const attraction of action.attractions) {
       newAllAttractions.push(attraction);
     }
-    // setRenderOverlay(false);
     return { attractions: newAllAttractions, radius: action.radius };
   }
   const [state, dispatch] = useReducer(reducer, {
@@ -74,17 +68,12 @@ function Explore() {
     radius: radiusState,
   });
 
-  // useEffect(() => {
-  //   console.log("render overlay is " + renderOverlay)
-  // }, [renderOverlay])
-
   useEffect(() => {
     tripObject.selectedAttractions = selectedAttractions;
   }, [selectedAttractions, tripObject]);
 
   useEffect(() => {
     if (loadMore && getNextPage.current && getNextPage.current !== 'end') {
-      console.log('getting next page');
       getNextPage.current();
     }
   }, [loadMore, getNextPage]);
@@ -118,7 +107,6 @@ function Explore() {
     (status, pagination) => {
       console.log('handle nearby search with radius ' + radiusState);
       console.log(nearbySearchResults.current);
-      console.log(status);
       if (status === 'OK' && getNextPage.current !== 'end') {
         dispatch({
           attractions: getAllAttractions(nearbySearchResults.current),
@@ -140,7 +128,6 @@ function Explore() {
 
   const handleTextSearch = useCallback(
     (status) => {
-      // setRenderOverlay(true);
       if (status === 'OK') {
         const coordinates = textSearchResults.current[0].geometry.location;
         setTripObject({
@@ -222,8 +209,6 @@ function Explore() {
             <p className={styles.p}>You may select up to 8 attractions.</p>
           )}
           <div className={styles.attractionImagesContainer} onScroll={handleScroll}>
-            {/*<div className={renderOverlay ? styles.reloadOverlay : ""}>
-            </div>*/}
             {state.attractions.length === 0 ? (
               <div className={styles.fillerText}>
                 {loading ? (
@@ -265,7 +250,6 @@ function Explore() {
               ))
             )}
           </div>
-
           <Button
             className={styles.routeButton}
             onClick={() =>
