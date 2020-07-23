@@ -38,7 +38,6 @@ function Explore() {
     tripObject.selectedAttractions
   );
   const [radiusState, setRadiusState] = useState(8);
-
   const [loadMore, setLoadMore] = useState(false);
   const getNextPage = useRef(null);
   const placesService = useRef(null);
@@ -47,9 +46,6 @@ function Explore() {
   const history = useHistory();
 
   function reducer(state, action) {
-    console.log('in load more reducer, next page current: ');
-    console.log(getNextPage.current);
-
     let newAllAttractions;
     if (action.radius !== state.radius || !getNextPage.current) {
       newAllAttractions = [];
@@ -105,8 +101,6 @@ function Explore() {
 
   const handleNearbySearch = useCallback(
     (status, pagination) => {
-      console.log('handle nearby search with radius ' + radiusState);
-      console.log(nearbySearchResults.current);
       if (status === 'OK' && getNextPage.current !== 'end') {
         dispatch({
           attractions: getAllAttractions(nearbySearchResults.current),
@@ -117,8 +111,6 @@ function Explore() {
               pagination.nextPage();
             }
           : 'end';
-        console.log('pagination obj in handleNearbySearch');
-        console.log(pagination);
       } else {
         setLoading(false);
       }
