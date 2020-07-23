@@ -104,7 +104,7 @@ function Explore() {
 
   function handleScroll(e) {
     const loadMore =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+      e.target.scrollHeight - e.target.scrollTop >= e.target.clientHeight;
     setLoadMore(loadMore);
   }
 
