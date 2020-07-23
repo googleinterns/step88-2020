@@ -123,6 +123,6 @@
 }
 
 .searchResultsTxt span {
-  color: var(--blue);
+  color: var(--red);
   font-weight: 600;
 }

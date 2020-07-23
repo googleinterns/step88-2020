@@ -39,20 +39,6 @@ function Explore() {
   );
   const [radiusState, setRadiusState] = useState(8);
 
-  function loadMoreReducer(state, action) {
-    let newAllAttractions;
-    console.log('in load more reducer')
-    if (action.radius !== state.radius) {
-      newAllAttractions = [];
-    } else {
-      newAllAttractions = Array.from(state.attractions);
-    }
-    for (const attraction of action.attractions) {
-      newAllAttractions.push(attraction);
-    }
-    return { attractions: newAllAttractions, radius: action.radius };
-  }
-  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [], radius: radiusState });
 
   const [loadMore, setLoadMore] = useState(false);
   const getNextPage = useRef(null);
@@ -61,8 +47,29 @@ function Explore() {
   const textSearchResults = useRef(null);
   const history = useHistory();
 
+
+  function reducer(state, action) {
+    console.log('in load more reducer, next page current: ')
+    console.log(getNextPage.current)
+    console.log(loadMore)
+    
+    let newAllAttractions;
+    if (action.radius !== state.radius || !loadMore) {
+      newAllAttractions = [];
+    }/*else if (!loadMore && getNextPage.current) {
+      return { attractions: state.attractions, radius: action.radius };
+    }*/ else {
+      newAllAttractions = Array.from(state.attractions);
+    }
+    for (const attraction of action.attractions) {
+      newAllAttractions.push(attraction);
+    }
+    return { attractions: newAllAttractions, radius: action.radius };
+  }
+  const [state, dispatch] = useReducer(reducer, { attractions: [], radius: radiusState });
+
   useEffect(() => {
-    if (loadMore && getNextPage.current) {
+    if (loadMore && getNextPage.current && getNextPage.current !== "end") {
       getNextPage.current();
     }
   }, [loadMore, getNextPage]);
@@ -96,14 +103,13 @@ function Explore() {
     (status, pagination) => {
       console.log('handle nearby search with radius ' + radiusState);
       console.log(nearbySearchResults.current);
-      if (status === 'OK') {
-        // if change radius, call another dispatch function
+      if (status === 'OK' && getNextPage.current !== "end") {
         dispatch({ attractions: getAllAttractions(nearbySearchResults.current), radius: radiusState });
         getNextPage.current = pagination.hasNextPage
           ? () => {
               pagination.nextPage();
             }
-          : null;
+          : "end";
         console.log("pagination obj in handleNearbySearch")
         console.log(pagination)
       } else {
@@ -134,7 +140,7 @@ function Explore() {
           },
           (results, status, pagination) => {
             nearbySearchResults.current = results;
-            handleNearbySearch(status, pagination,);
+            handleNearbySearch(status, pagination);
           }
         );
       } else {
@@ -152,9 +158,11 @@ function Explore() {
   }, [radiusState]);
 
   function handleScroll(e) {
-    const loadMore =
+    const loadMoreFlag =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    setLoadMore(loadMore);
+    setLoadMore(loadMoreFlag);
+    console.log("handle scroll")
+    console.log(loadMoreFlag)
   }
 
   const onMapReady = (google, map) => {
