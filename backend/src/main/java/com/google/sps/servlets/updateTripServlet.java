@@ -14,7 +14,6 @@
 
 package com.google.sps.servlets;
 
-import com.google.gson.JsonObject;
 import com.google.sps.TripCRUD;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/api/v1/updateTrip")
 public class updateTripServlet extends HttpServlet {
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String tripId = request.getParameter("tripId");
     String tripData = request.getParameter("tripData");
 
@@ -35,12 +34,5 @@ public class updateTripServlet extends HttpServlet {
     }
 
     TripCRUD.updateTrip(tripId, tripData);
-
-    JsonObject jsonResults = new JsonObject();
-    jsonResults.addProperty("tripId", tripId);
-    jsonResults.addProperty("tripData", tripData);
-
-    response.setContentType("application/json;");
-    response.getWriter().println(jsonResults);
   }
 }
