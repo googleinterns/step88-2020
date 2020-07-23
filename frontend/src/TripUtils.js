@@ -2,7 +2,7 @@ import { fetchJson } from './fetchJson.js';
 
 export const createTrip = async (email, tripData) => {
   const url = `/api/v1/createTrip?email=${email}&tripData=${JSON.stringify(tripData)}`;
-  return await fetchJson(url);
+  await fetch(url, { method: 'POST' });
 };
 
 export const getTrip = async (tripId) => {
@@ -14,7 +14,7 @@ export const updateTrip = async (tripId, tripData) => {
   const url = `/api/v1/updateTrip?tripId=${tripId}&tripData=${JSON.stringify(
     tripData
   )}`;
-  return await fetchJson(url);
+  await fetch(url, { method: 'POST' });
 };
 
 export const getAllUserTrips = async (email) => {
