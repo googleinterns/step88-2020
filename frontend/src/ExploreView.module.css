@@ -126,3 +126,16 @@
   color: var(--red);
   font-weight: 600;
 }
+
+.reloadOverlay {
+  background-color: whitesmoke;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0.3;
+  z-index: 10;
+}
