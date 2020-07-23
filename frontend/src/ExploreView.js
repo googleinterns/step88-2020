@@ -37,16 +37,22 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [radius, setRadius] = useState(8);
+  const [radiusState, setRadiusState] = useState(8);
 
   function loadMoreReducer(state, action) {
-    const newAllAttractions = Array.from(state.attractions);
+    let newAllAttractions;
+    console.log('in load more reducer')
+    if (action.radius !== state.radius) {
+      newAllAttractions = [];
+    } else {
+      newAllAttractions = Array.from(state.attractions);
+    }
     for (const attraction of action.attractions) {
       newAllAttractions.push(attraction);
     }
-    return { attractions: newAllAttractions };
+    return { attractions: newAllAttractions, radius: action.radius };
   }
-  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [] });
+  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [], radius: radiusState });
 
   const [loadMore, setLoadMore] = useState(false);
   const getNextPage = useRef(null);
@@ -88,20 +94,23 @@ function Explore() {
 
   const handleNearbySearch = useCallback(
     (status, pagination) => {
-      console.log('handle nearby search with radius ' + radius);
+      console.log('handle nearby search with radius ' + radiusState);
       console.log(nearbySearchResults.current);
       if (status === 'OK') {
-        dispatch({ attractions: getAllAttractions(nearbySearchResults.current) });
+        // if change radius, call another dispatch function
+        dispatch({ attractions: getAllAttractions(nearbySearchResults.current), radius: radiusState });
         getNextPage.current = pagination.hasNextPage
           ? () => {
               pagination.nextPage();
             }
           : null;
+        console.log("pagination obj in handleNearbySearch")
+        console.log(pagination)
       } else {
         setLoading(false);
       }
     },
-    [getAllAttractions, radius]
+    [getAllAttractions, radiusState]
   );
 
   const handleTextSearch = useCallback(
@@ -120,27 +129,27 @@ function Explore() {
         placesService.current.nearbySearch(
           {
             location: coordinates,
-            radius: radius * 1000,
+            radius: radiusState * 1000,
             type: 'tourist_attraction',
           },
           (results, status, pagination) => {
             nearbySearchResults.current = results;
-            handleNearbySearch(status, pagination);
+            handleNearbySearch(status, pagination,);
           }
         );
       } else {
         setLoading(false);
       }
     },
-    [radius, tripObject, handleNearbySearch]
+    [radiusState, tripObject, handleNearbySearch]
   );
 
   useEffect(() => {
-    console.log(radius);
-    // if (textSearchResults.current) {
-    //   handleTextSearch('OK')
-    // }
-  }, [radius]);
+    console.log(radiusState);
+    if (textSearchResults.current) {
+      handleTextSearch('OK') //pass in boolean changeRadius true to not append to list but the rerender OR change radius to be a state property in dispatch
+    }
+  }, [radiusState]);
 
   function handleScroll(e) {
     const loadMore =
@@ -175,8 +184,8 @@ function Explore() {
               </Col>
               <Col md={5} className={styles.sliderContainer}>
                 <RangeSlider
-                  value={radius}
-                  onChange={(e) => setRadius(e.target.value)}
+                  value={radiusState}
+                  onChange={(e) => setRadiusState(e.target.value)}
                   tooltipPlacement="top"
                   tooltip="on"
                   min={1}
