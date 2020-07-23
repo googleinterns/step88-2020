@@ -32,12 +32,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import com.google.sps.ApiKey;
 
 /** Servlet that returns the optimized route between list of attractions */
 @WebServlet("/api/v1/optimize")
 public class OptimizeServlet extends HttpServlet {
   private static final GeoApiContext context =
-      new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
+      new GeoApiContext.Builder().apiKey(ApiKey.key).build();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
