@@ -191,6 +191,9 @@ dist
 **/*.backup.*
 **/*.back.*
 
+#api keys
+backend/src/main/java/com/google/sps/ApiKey.java
+
 node_modules
 
 *.sublime*
