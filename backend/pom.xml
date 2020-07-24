@@ -90,9 +90,7 @@
          <scope>test</scope>
      </dependency>
   </dependencies>
-
-
-
+  
   <build>
     <plugins>
       <!-- Old plugin that is deprecated for deployment but can be used for local testing.
