@@ -16,8 +16,10 @@ package com.google.sps;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,13 @@ import org.junit.runners.JUnit4;
 public class UserCrudTest {
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+  private static final String Email = "testEmail@gmail.com";
+  private static final String Email2 = "testEmail2@gmail.com";
+  private static final Long TripId = Long.parseLong("111222333");
+  private static final ArrayList<String> EmptyTripIds = new ArrayList<String>();
+  private static final ArrayList<String> SingleTripId = new ArrayList<String>() {
+    { add("111222333"); }
+  };
 
   @Before
   public void setUp() {
@@ -40,12 +49,36 @@ public class UserCrudTest {
   }
 
   @Test
-  public void createUserTest() {
-    assertEquals(1, 1);
-    //   Entity userEntity = userCrud.createUser("temail@gmail.com");
-    //   String userEmail = (String) userEntity.getProperty("email");
-    //   System.out.println(userEmail);
-    //   // Key key = dataServices.saveTask("daily", "unique_id343434");
-    //   // assertEquals("unique_id343434", key.getName());
+  public void createUserEmail() {
+    Entity userEntity = UserCrud.createUser(Email);
+    assertEquals(Email, userEntity.getProperty("email").toString());
+  }
+
+  @Test
+  public void createUserTripIds() {
+    Entity userEntity = UserCrud.createUser(Email);
+    assertEquals(EmptyTripIds, (ArrayList<String>) userEntity.getProperty("tripIds"));
+  }
+
+  @Test
+  public void readUserEmail() {
+    Entity userEntity = UserCrud.createUser(Email);
+    Entity readEntity = UserCrud.readEntity("email", Email, "User");
+    assertEquals(Email, readEntity.getProperty("email").toString());
+  }
+
+  @Test
+  public void noUserRead() {
+    Entity userEntity = UserCrud.createUser(Email);
+    assertEquals(null, UserCrud.readEntity("email", Email2, "User"));
+  }
+
+  @Test
+  public void addTripId() {
+    Entity userEntity = UserCrud.createUser(Email);
+    UserCrud.addTripId(Email, TripId);
+    userEntity = UserCrud.readEntity("email", Email, "User");
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
+    assertEquals(SingleTripId, tripIds);
   }
 }
