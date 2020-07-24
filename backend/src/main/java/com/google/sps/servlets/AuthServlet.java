@@ -55,7 +55,6 @@ public class AuthServlet extends HttpServlet {
       json.addProperty("loggedIn", false);
       json.addProperty("loginUrl", loginUrl);
     }
-    
 
     response.setContentType("application/json;");
     response.getWriter().println(json);

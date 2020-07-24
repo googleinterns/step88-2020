@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/createUser")
-public class createUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
@@ -45,8 +45,6 @@ public class createUserServlet extends HttpServlet {
     Gson gson = new Gson();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());
     jsonResults.addProperty("tripIds", gson.toJson(tripIds));
-
-    System.out.println(jsonResults);
 
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
