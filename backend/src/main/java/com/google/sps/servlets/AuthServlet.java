@@ -14,9 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonObject;
+import com.google.sps.UserCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,12 +44,19 @@ public class AuthServlet extends HttpServlet {
       json.addProperty("loggedIn", true);
       json.addProperty("userEmail", userEmail);
       json.addProperty("logoutUrl", logoutUrl);
+
+      Entity userEntity = UserCrud.readEntity("email", userEmail, "User");
+      if (userEntity == null) {
+        userEntity = UserCrud.createUser(userEmail);
+      }
     } else {
       String loginUrl = userService.createLoginURL(redirect);
 
       json.addProperty("loggedIn", false);
       json.addProperty("loginUrl", loginUrl);
     }
+    
+
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
