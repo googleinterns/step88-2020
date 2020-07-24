@@ -54,6 +54,7 @@ function Authenticator({ children, onChange, setTripIds }) {
 
   useEffect(() => {
     if (userEmail) {
+      console.log(userEmail);
       readUser(userEmail).then((userData) => {
         if (userData.tripIds !== 'null') {
           setTripIds(userData.tripIds);
