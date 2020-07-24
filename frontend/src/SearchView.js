@@ -9,7 +9,12 @@ import styles from './SearchView.module.css';
  * @param {Object} tripIds the datastore entity ids that point to each trip
  */
 function SearchView({ loggedIn, tripIds }) {
-  const savedTrips = loggedIn && tripIds.length > 0 ? <SavedTrips trips={tripIds} /> : <div className={styles.noTrips}>No Saved Trips Found</div>;
+  const savedTrips =
+    loggedIn && tripIds.length > 0 ? (
+      <SavedTrips trips={tripIds} />
+    ) : (
+      <div className={styles.noTrips}>No Saved Trips Found</div>
+    );
 
   return (
     <div className={styles.container}>
