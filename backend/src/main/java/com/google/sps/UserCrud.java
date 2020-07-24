@@ -15,9 +15,6 @@ import java.util.List;
 public class UserCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  /** private constructor */
-  private UserCrud(){};
-
   /**
    * Creates a User Entity
    *
