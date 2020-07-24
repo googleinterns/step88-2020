@@ -39,7 +39,7 @@ import org.apache.commons.io.IOUtils;
 public class OptimizeServlet extends HttpServlet {
   private static final Dotenv dotenv = Dotenv.load();
   private static final GeoApiContext context =
-      new GeoApiContext.Builder().apiKey(dotenv.get("API_KEY")).build();
+      new GeoApiContext.Builder().apiKey(dotenv.get("MAPS_API_KEY")).build();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -192,8 +192,7 @@ dist
 **/*.back.*
 
 #api keys
-backend/src/main/java/com/google/sps/ApiKey.java
-frontend/src/ApiKey.js
+frontend/src/ApiKeys.js
 
 node_modules
 

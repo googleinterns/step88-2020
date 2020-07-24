@@ -1,7 +1,6 @@
 import { GoogleApiWrapper } from 'google-maps-react';
-import { API_KEY } from './ApiKey.js';
+import { MAPS_API_KEY } from './ApiKeys.js';
 
-const MAPS_API_KEY = API_KEY;
 const withGoogleApi = (WrappedComponent) =>
   GoogleApiWrapper({
     apiKey: MAPS_API_KEY,
