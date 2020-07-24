@@ -16,7 +16,7 @@ public class UserCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /** private constructor */
-  private UserCrud() {};
+  private UserCrud(){};
 
   /**
    * Creates a User Entity
