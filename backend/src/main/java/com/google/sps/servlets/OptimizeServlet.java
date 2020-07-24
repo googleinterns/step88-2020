@@ -20,7 +20,6 @@ import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
-import com.google.sps.ApiKey;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
 import com.google.sps.TspOptimizer;
@@ -33,12 +32,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import io.github.cdimascio.dotenv.Dotenv;
 
 /** Servlet that returns the optimized route between list of attractions */
 @WebServlet("/api/v1/optimize")
 public class OptimizeServlet extends HttpServlet {
+  private static final Dotenv dotenv = Dotenv.load();
   private static final GeoApiContext context =
-      new GeoApiContext.Builder().apiKey(ApiKey.key).build();
+      new GeoApiContext.Builder().apiKey(dotenv.get("API_KEY")).build();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
