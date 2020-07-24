@@ -42,6 +42,6 @@ public class readTripServlet extends HttpServlet {
     }
 
     response.setContentType("application/json;");
-    response.getWriter().println(TripCRUD.toJson(tripEntity));
+    response.getWriter().println(TripCRUD.toJson(tripEntity).toString());
   }
 }
