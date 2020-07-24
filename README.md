@@ -7,14 +7,14 @@ npm install
 ```
 ## Set up API Keys
 Run:
-$cat > frontend/src/ApiKeys.js
-$export const MAPS_API_KEY = '[INSERT KEY HERE]' **Note: include quotes here
-Then press Cntrl + D
+`$cat > frontend/src/ApiKeys.js`
+`$export const MAPS_API_KEY = '[INSERT KEY HERE]'` **Note: include quotes here
+Then press `Cntrl + D`
 
 Then Run:
-$cat > backend/target/step-react-demo-1/.env
-$MAPS_API_KEY=[INSERT KEY HERE] **Note: no quotes here
-Then press Cntrl + D
+`$cat > backend/target/step-react-demo-1/.env`
+`$MAPS_API_KEY=[INSERT KEY HERE]` **Note: no quotes here
+Then press `Cntrl + D`
 
 ## Development Resources
 * [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/)
