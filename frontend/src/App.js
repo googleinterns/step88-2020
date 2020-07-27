@@ -8,7 +8,7 @@ import Navbar from './navbar/Navbar.js';
 import { readUser } from './userUtils.js';
 
 function App() {
-  const [authState, setAuthState] = useState({ ready: false });
+  const [authState, setAuthState] = useState({ ready: false, loggedIn: false });
   const [tripIds, setTripIds] = useState([]);
 
   return (
