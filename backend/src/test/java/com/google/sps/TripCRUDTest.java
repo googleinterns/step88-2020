@@ -53,13 +53,15 @@ public class TripCRUDTest {
   public void createTrip_returnsEntityForCreatedTrip() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
-    Entity readTripEntity;
-    try {
-      readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
-    } catch (EntityNotFoundException e) {
-      return;
-    }
+    Entity readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
     assertEquals(tripEntity, readTripEntity);
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void createTrip_noTripFoundThrowsError() {
+    Entity userEntity = UserCrud.createUser('fakeEMAIL@gamil.com');
+    Entity tripEntity = TripCRUD.createTrip('fakeEMAIL@gamil.com', TRIP_DATA);
+    Entity readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));;
   }
 
   @Test
