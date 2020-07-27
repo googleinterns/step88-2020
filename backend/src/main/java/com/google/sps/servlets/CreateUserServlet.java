@@ -14,8 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.sps.UserCrud;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +27,26 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/createUser")
-public class createUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet {
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
 
-    if (email == "" || email == null || UserCrud.readEntity("email", email, "User") != null) {
-      throw new IllegalArgumentException("Email passed is not valid");
+    if (email == "" || email == null) {
+      response.sendError(400, "Email passed is not valid");
+      return;
     }
-    UserCrud.createUser(email);
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
+    if (userEntity == null) {
+      userEntity = UserCrud.createUser(email);
+    }
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
+    JsonObject jsonResults = new JsonObject();
+    Gson gson = new Gson();
+    jsonResults.addProperty("email", userEntity.getProperty("email").toString());
+    jsonResults.addProperty("tripIds", gson.toJson(tripIds));
+
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonResults);
   }
 }

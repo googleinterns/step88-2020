@@ -27,16 +27,18 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns the user data */
 @WebServlet("/api/v1/readUser")
-public class readUserServlet extends HttpServlet {
+public class ReadUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
     if (email == "" || email == null) {
-      throw new IllegalArgumentException("Email passed is not valid");
+      response.sendError(400, "Email passed is not valid");
+      return;
     }
     Entity userEntity = UserCrud.readEntity("email", email, "User");
     if (userEntity == null) {
-      throw new IllegalArgumentException("Email passed is not linked to user");
+      response.sendError(401, "Email passed is not linked to user");
+      return;
     }
 
     ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
