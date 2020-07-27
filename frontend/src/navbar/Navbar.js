@@ -16,9 +16,7 @@ function Navbar({ authState }) {
       <Nav.Item>
         <Switch>
           <Route exact path="/">
-            <Nav.Link href="/">
-              <img src={logo} alt="gRoutes logo" className={styles.gRoutesLogo} />
-            </Nav.Link>
+            <img src={logo} alt="gRoutes logo" className={styles.gRoutesLogo} />
           </Route>
           <Route path="/explore">
             <Nav.Link href="/">
