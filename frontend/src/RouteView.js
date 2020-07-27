@@ -9,6 +9,7 @@ import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
+import {createTrip, updateTrip, getTrip} from './tripUtils.js';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -20,7 +21,7 @@ import BackButton from './navbar/BackButton.js';
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
  */
-function RouteView({ loggedIn }) {
+function RouteView({ loggedIn, userEmail }) {
   const [isOptimized, setIsOptimized] = useState(false);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -35,7 +36,7 @@ function RouteView({ loggedIn }) {
   const query = getQueryParameters(urlParameters.search);
   const history = useHistory();
   const tripObject = JSON.parse(decodeURIComponent(query.trip));
-  const [attractions, setAttractions] = useState(tripObject.selectedAttractions);
+  const [attractions, setAttractions] = useState(tripObject.attractions);
 
   useEffect(() => {
     if (isOptimized) {
@@ -60,6 +61,14 @@ function RouteView({ loggedIn }) {
   function save() {
     setIsSaved(true);
     // save to back end database
+    tripObject.isOptimized = isOptimized;
+    console.log(tripObject)
+    if (!tripObject.id) {
+      createTrip(userEmail, tripObject)
+        .then((tripId) => console.log(tripId));
+    } else {
+      updateTrip(tripObject.id, tripObject);
+    }
   }
 
   function onManualPlaceChange(newAttractions) {

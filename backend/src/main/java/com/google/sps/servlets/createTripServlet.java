@@ -15,6 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.gson.JsonObject;
 import com.google.sps.TripCRUD;
 import com.google.sps.UserCrud;
 import java.io.IOException;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/api/v1/createTrip")
 public class createTripServlet extends HttpServlet {
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
 
     if (email == "" || email == null) {
@@ -44,6 +45,13 @@ public class createTripServlet extends HttpServlet {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
-    TripCRUD.createTrip(email, tripData);
+    Entity tripEntity = TripCRUD.createTrip(email, tripData);
+
+    // return tripId of created trip
+    JsonObject jsonResults = new JsonObject();
+    System.out.println(tripEntity.getProperty("tripId"));
+    jsonResults.addProperty("tripId", 123);
+    response.setContentType("application/json;");
+    response.getWriter().println(jsonResults); 
   }
 }

@@ -16,9 +16,6 @@ import java.util.ArrayList;
 public class TripCRUD {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-  /** private constructor */
-  private TripCRUD(){};
-
   /**
    * Create a new trip
    *
@@ -29,8 +26,21 @@ public class TripCRUD {
   public static Entity createTrip(String email, String tripData) {
     Entity tripEntity = toEntity(tripData, "", null);
     datastore.put(tripEntity);
-    UserCrud.addTripId(email, tripEntity.getKey().getId());
+    long id = tripEntity.getKey().getId();
+    UserCrud.addTripId(email, id);
+    TripCRUD.addTripId(Long.toString(id));
     return tripEntity;
+  }
+
+  /**
+   * Add tripId property to Trip Entity
+   * 
+   * @param id the trip id
+   */
+  public static void addTripId(String id) {
+    Entity tripEntity = TripCRUD.readTrip(id);
+    tripEntity.setProperty("tripId", id);
+    datastore.put(tripEntity); 
   }
 
   /**
