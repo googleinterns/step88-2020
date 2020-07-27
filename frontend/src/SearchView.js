@@ -15,9 +15,7 @@ function SearchView({ loggedIn, tripIds }) {
     ) : (
       <div className={styles.noTrips}>No Saved Trips Found</div>
     )
-  ) : (
-    <></>
-  );
+  ) : null;
 
   return (
     <div className={styles.container}>

@@ -54,6 +54,7 @@ function Authenticator({ children, onChange, setTripIds }) {
   useEffect(() => {
     if (userEmail) {
       readUser(userEmail).then((userData) => {
+        // Empty list representation in datastore
         if (userData.tripIds !== 'null') {
           setTripIds(userData.tripIds);
         }
