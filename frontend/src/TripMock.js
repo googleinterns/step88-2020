@@ -1,4 +1,4 @@
-export const tripData = {
+export const TRIP_DATA = {
   isOptimized: true,
   searchText: 'Milano',
   tripName: 'My Milan Trip',
@@ -15,7 +15,7 @@ export const tripData = {
   ],
 };
 
-export const tripData2 = {
+export const TRIP_DATA_2 = {
   isOptimized: true,
   searchText: 'Milano',
   tripName: 'My Crazy Milan Trip',
