@@ -23,6 +23,7 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.sps.Attraction;
 import com.google.sps.Edge;
 import com.google.sps.TspOptimizer;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,8 +37,9 @@ import org.apache.commons.io.IOUtils;
 /** Servlet that returns the optimized route between list of attractions */
 @WebServlet("/api/v1/optimize")
 public class OptimizeServlet extends HttpServlet {
+  private static final Dotenv dotenv = Dotenv.load();
   private static final GeoApiContext context =
-      new GeoApiContext.Builder().apiKey("AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg").build();
+      new GeoApiContext.Builder().apiKey(dotenv.get("MAPS_API_KEY")).build();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
