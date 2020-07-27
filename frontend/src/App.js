@@ -4,8 +4,6 @@ import SearchView from './SearchView.js';
 import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
-import {createTrip, readTrip} from './TripUtils';
-import {TRIP_DATA, TRIP_DATA_2} from './TripMock.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false });
@@ -23,9 +21,6 @@ function App() {
           </Route>
           <Route path="/route">
             <RouteView loggedIn={authState.loggedIn} />
-          </Route>
-          <Route path='/createTrip'>
-            {console.log(createTrip("testEmail@gmail.com",TRIP_DATA))}
           </Route>
         </Switch>
       </Authenticator>

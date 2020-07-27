@@ -30,7 +30,6 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class TripCRUDTest {
-
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TripData =
@@ -51,8 +50,7 @@ public class TripCRUDTest {
     helper.tearDown();
   }
 
-  @Test
-  public void createTrip() { // need to create an identical trip entity
+  @Test public void createTrip() { // need to create an identical trip entity
     Entity userEntity = UserCrud.createUser(Email);
     Entity tripEntity = TripCRUD.createTrip(Email, TripData);
     Entity readTripEntity;
@@ -93,8 +91,7 @@ public class TripCRUDTest {
     Entity userEntity = UserCrud.createUser(Email);
     Entity tripEntity = TripCRUD.createTrip(Email, TripData);
     Entity tripEntityConverted = TripCRUD.toEntity(TripData, "", null);
-    assertEquals(
-        (String) tripEntity.getProperty("tripName"),
+    assertEquals((String) tripEntity.getProperty("tripName"),
         (String) tripEntityConverted.getProperty("tripName"));
   }
 
