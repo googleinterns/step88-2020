@@ -34,12 +34,9 @@ public class UserCrudTest {
   private static final String EMAIL_2 = "testEMAIL_2@gmail.com";
   private static final Long TRIP_ID = 111222333L;
   private static final ArrayList<String> EMPTY_TRIP_IDS = new ArrayList<String>();
-  private static final ArrayList<String> SINGLE_TRIP_ID =
-      new ArrayList<String>() {
-        {
-          add(Long.toString(TRIP_ID));
-        }
-      };
+  private static final ArrayList<String> SINGLE_TRIP_ID = new ArrayList<String>() {
+    { add(Long.toString(TRIP_ID)); }
+  };
 
   @Before
   public void setUp() {
