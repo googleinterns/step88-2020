@@ -28,7 +28,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class UserCrudTest {
-  private static final LocalServiceTestHelper helper =
+  private static final LocalServiceTestHelper HELPER =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String EMAIL = "testEMAIL@gmail.com";
   private static final String EMAIL_2 = "testEMAIL_2@gmail.com";
@@ -40,12 +40,12 @@ public class UserCrudTest {
 
   @Before
   public void setUp() {
-    helper.setUp();
+    HELPER.setUp();
   }
 
   @After
   public void tearDown() {
-    helper.tearDown();
+    HELPER.tearDown();
   }
 
   @Test
