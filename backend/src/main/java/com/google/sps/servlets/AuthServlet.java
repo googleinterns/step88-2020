@@ -46,7 +46,7 @@ public class AuthServlet extends HttpServlet {
       json.addProperty("logoutUrl", logoutUrl);
 
       if (UserCrud.readEntity("email", userEmail, "User") == null) {
-       UserCrud.createUser(userEmail);
+        UserCrud.createUser(userEmail);
       }
     } else {
       String loginUrl = userService.createLoginURL(redirect);
