@@ -3,6 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
 
 import Card from 'react-bootstrap/Card';
@@ -37,7 +38,7 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.selectedAttractions
   );
-  const [radiusState, setRadiusState] = useState(8);
+  const [radius, setRadius] = useState(8);
   const [loadMore, setLoadMore] = useState(false);
   const getNextPage = useRef(null);
   const placesService = useRef(null);
@@ -61,7 +62,7 @@ function Explore() {
   }
   const [state, dispatch] = useReducer(reducer, {
     attractions: [],
-    radius: radiusState,
+    radius: radius,
   });
 
   useEffect(() => {
@@ -69,7 +70,7 @@ function Explore() {
   }, [selectedAttractions, tripObject]);
 
   useEffect(() => {
-    if (loadMore && getNextPage.current && getNextPage.current !== 'end') {
+    if (loadMore && getNextPage.current) {
       getNextPage.current();
     }
   }, [loadMore, getNextPage]);
@@ -83,7 +84,7 @@ function Explore() {
     (attractions) => {
       const newAllAttractions = [];
       for (const attraction of attractions) {
-        if ('photos' in attraction) {
+        if (attraction.photos) {
           const name = attraction.name;
           const photoUrl = attraction.photos[0].getUrl();
           const latLng = attraction.geometry.location;
@@ -101,21 +102,21 @@ function Explore() {
 
   const handleNearbySearch = useCallback(
     (status, pagination) => {
-      if (status === 'OK' && getNextPage.current !== 'end') {
+      if (status === 'OK' && getNextPage.current !== false) {
         dispatch({
           attractions: getAllAttractions(nearbySearchResults.current),
-          radius: radiusState,
+          radius: radius,
         });
         getNextPage.current = pagination.hasNextPage
           ? () => {
               pagination.nextPage();
             }
-          : 'end';
+          : false;
       } else {
         setLoading(false);
       }
     },
-    [getAllAttractions, radiusState]
+    [getAllAttractions, radius]
   );
 
   const handleTextSearch = useCallback(
@@ -132,7 +133,7 @@ function Explore() {
         placesService.current.nearbySearch(
           {
             location: coordinates,
-            radius: radiusState * 1000,
+            radius: radius * 1000,
             type: 'tourist_attraction',
           },
           (results, status, pagination) => {
@@ -144,18 +145,19 @@ function Explore() {
         setLoading(false);
       }
     },
-    [radiusState, tripObject, handleNearbySearch]
+    [radius, tripObject, handleNearbySearch]
   );
 
+  /** when the search radius changes, rehandle nearby search with new radius */
   useEffect(() => {
     if (textSearchResults.current) {
       handleTextSearch('OK');
     }
-  }, [radiusState]);
+  }, [radius]);
 
   function handleScroll(e) {
     const loadMoreFlag =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+      e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
     setLoadMore(loadMoreFlag);
   }
 
@@ -186,8 +188,8 @@ function Explore() {
               </Col>
               <Col md={5} className={styles.sliderContainer}>
                 <RangeSlider
-                  value={radiusState}
-                  onChange={(e) => setRadiusState(e.target.value)}
+                  value={radius}
+                  onChange={(e) => setRadius(e.target.value)}
                   tooltipPlacement="top"
                   tooltip="on"
                   min={1}
