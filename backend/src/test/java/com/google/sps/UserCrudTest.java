@@ -28,15 +28,18 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class UserCrudTest {
-  private final LocalServiceTestHelper helper =
+  private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-  private static final String Email = "testEmail@gmail.com";
-  private static final String Email2 = "testEmail2@gmail.com";
-  private static final Long TripId = Long.parseLong("111222333");
-  private static final ArrayList<String> EmptyTripIds = new ArrayList<String>();
-  private static final ArrayList<String> SingleTripId = new ArrayList<String>() {
-    { add("111222333"); }
-  };
+  private static final String EMAIL = "testEMAIL@gmail.com";
+  private static final String EMAIL_2 = "testEMAIL_2@gmail.com";
+  private static final Long TRIP_ID = 111222333L;
+  private static final ArrayList<String> EMPTY_TRIP_IDS = new ArrayList<String>();
+  private static final ArrayList<String> SINGLE_TRIP_ID =
+      new ArrayList<String>() {
+        {
+          add(Long.toString(TRIP_ID));
+        }
+      };
 
   @Before
   public void setUp() {
@@ -49,36 +52,36 @@ public class UserCrudTest {
   }
 
   @Test
-  public void createUserEmail() {
-    Entity userEntity = UserCrud.createUser(Email);
-    assertEquals(Email, userEntity.getProperty("email").toString());
+  public void createUser_returnsEmailForCreatedUser() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    assertEquals(EMAIL, userEntity.getProperty("email").toString());
   }
 
   @Test
-  public void createUserTripIds() {
-    Entity userEntity = UserCrud.createUser(Email);
-    assertEquals(EmptyTripIds, (ArrayList<String>) userEntity.getProperty("tripIds"));
+  public void createUser_returnsEmptyArrayListOfStrings() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    assertEquals(EMPTY_TRIP_IDS, (ArrayList<String>) userEntity.getProperty("tripIds"));
   }
 
   @Test
-  public void readUserEmail() {
-    Entity userEntity = UserCrud.createUser(Email);
-    Entity readEntity = UserCrud.readEntity("email", Email, "User");
-    assertEquals(Email, readEntity.getProperty("email").toString());
+  public void readEntity_returnsEmailForFoundEntity() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity readEntity = UserCrud.readEntity("email", EMAIL, "User");
+    assertEquals(EMAIL, readEntity.getProperty("email").toString());
   }
 
   @Test
-  public void noUserRead() {
-    Entity userEntity = UserCrud.createUser(Email);
-    assertEquals(null, UserCrud.readEntity("email", Email2, "User"));
+  public void readEntity_returnsNullForMissingEntity() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    assertEquals(null, UserCrud.readEntity("email", EMAIL_2, "User"));
   }
 
   @Test
-  public void addTripId() {
-    Entity userEntity = UserCrud.createUser(Email);
-    UserCrud.addTripId(Email, TripId);
-    userEntity = UserCrud.readEntity("email", Email, "User");
+  public void addTripId_returnsArrayListOfUpdateTripIds() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+    userEntity = UserCrud.readEntity("email", EMAIL, "User");
     ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
-    assertEquals(SingleTripId, tripIds);
+    assertEquals(SINGLE_TRIP_ID, tripIds);
   }
 }
