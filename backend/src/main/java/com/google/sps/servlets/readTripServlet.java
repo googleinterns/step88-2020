@@ -37,7 +37,7 @@ public class readTripServlet extends HttpServlet {
 
     Entity tripEntity = TripCRUD.readTrip(tripId);
     if (tripEntity == null) {
-      throw new IllegalArgumentException("trip not found");
+      throw new IllegalArgumentException("Trip not found");
     }
 
     JsonObject tripJson = TripCRUD.toJson(tripEntity);
