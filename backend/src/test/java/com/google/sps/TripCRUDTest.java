@@ -65,11 +65,12 @@ public class TripCRUDTest {
     assertEquals(tripEntity, readTripEntity);
   }
 
-  @Test(expected = EntityNotFoundException.class)
-  public void readTrip_noTripFoundThrowsError() throws EntityNotFoundException {
+  @Test
+  public void readTrip_noTripFound() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
-    TripCRUD.readTrip(INVALID_TRIP_ID);
+    Entity actual = TripCRUD.readTrip(INVALID_TRIP_ID);
+    assertEquals(null, actual);
   }
 
   @Test
@@ -95,10 +96,11 @@ public class TripCRUDTest {
     assertEquals("\"My Awesome Milan Trip\"", (String) tripFound.getProperty("tripName"));
   }
 
-  @Test(expected = EntityNotFoundException.class)
-  public void updateTrip_noTripFoundThrowsError() throws EntityNotFoundException {
+  @Test
+  public void updateTrip_noTripFound() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
-    TripCRUD.readTrip(INVALID_TRIP_ID);
+    Entity actual = TripCRUD.readTrip(INVALID_TRIP_ID);
+    assertEquals(null, actual);
   }
 }

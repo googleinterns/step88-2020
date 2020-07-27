@@ -35,12 +35,11 @@ public class readTripServlet extends HttpServlet {
       throw new IllegalArgumentException("tripId passed is not valid");
     }
 
-    Entity tripEntity;
-    try {
-      tripEntity = TripCRUD.readTrip(tripId);
-    } catch (EntityNotFoundException e) {
-      return;
+    Entity tripEntity = TripCRUD.readTrip(tripId);
+    if (tripEntity == null) {
+      throw new IllegalArgumentException("trip not found");
     }
+
     JsonObject tripJson = TripCRUD.toJson(tripEntity);
     JsonObject jsonResults = new JsonObject();
     jsonResults.addProperty("tripId", tripId);
