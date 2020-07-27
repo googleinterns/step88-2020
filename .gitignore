@@ -191,6 +191,9 @@ dist
 **/*.backup.*
 **/*.back.*
 
+#api keys
+frontend/src/ApiKeys.js
+
 node_modules
 
 *.sublime*
