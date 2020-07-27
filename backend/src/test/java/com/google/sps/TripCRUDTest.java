@@ -57,23 +57,19 @@ public class TripCRUDTest {
     assertEquals(tripEntity, readTripEntity);
   }
 
-  @Test(expected = EntityNotFoundException.class)
-  public void createTrip_noTripFoundThrowsError() {
-    Entity userEntity = UserCrud.createUser('fakeEMAIL@gamil.com');
-    Entity tripEntity = TripCRUD.createTrip('fakeEMAIL@gamil.com', TRIP_DATA);
-    Entity readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));;
-  }
-
   @Test
   public void readTrip_returnsEntityForTrip() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
-    Entity readTripEntity = new Entity("Trip");
-    try {
-      readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
-    } catch (EntityNotFoundException e) {
-    }
+    Entity readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
     assertEquals(tripEntity, readTripEntity);
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void readTrip_noTripFoundThrowsError() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
+    TripCRUD.readTrip(INVALID_TRIP_ID);
   }
 
   @Test
@@ -95,11 +91,14 @@ public class TripCRUDTest {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     TripCRUD.updateTrip(Long.toString(tripEntity.getKey().getId()), TRIP_DATA_2);
-    Entity tripFound = new Entity("Trip");
-    try {
-      tripFound = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
-    } catch (EntityNotFoundException e) {
-    }
+    Entity tripFound = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
     assertEquals("\"My Awesome Milan Trip\"", (String) tripFound.getProperty("tripName"));
+  }
+
+  @Test(expected = EntityNotFoundException.class)
+  public void updateTrip_noTripFoundThrowsError() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
+    TripCRUD.readTrip(INVALID_TRIP_ID);
   }
 }
