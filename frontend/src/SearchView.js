@@ -6,7 +6,7 @@ import styles from './SearchView.module.css';
 /**
  * Creates Search View component, with saved trips rendered if user is logged in.
  * @param {boolean} loggedIn if the user is logged in.
- * @param {Object} tripIds the datastore entity ids that point to each trip
+ * @param {array} tripIds the datastore entity ids that point to each trip
  */
 function SearchView({ loggedIn, tripIds }) {
   const savedTrips =

@@ -39,13 +39,12 @@ function Authenticator({ children, onChange, setTripIds }) {
   const location = useLocation();
   const redirectUrl = encodeURIComponent(`${location.pathname}${location.search}`);
   const [userEmail, setUserEmail] = useState(null);
-
   useEffect(
     () => {
       fetch(`/api/v1/auth?redirect=${redirectUrl}`)
         .then((response) => response.json())
         .then(({ loggedIn, loginUrl, logoutUrl, userEmail }) => {
-          onChange({ ready: true, loggedIn, loginUrl, logoutUrl, userEmail });
+          onChange({ ready: true, loggedIn, loginUrl, logoutUrl });
           setUserEmail(userEmail);
         });
     },
@@ -54,7 +53,6 @@ function Authenticator({ children, onChange, setTripIds }) {
 
   useEffect(() => {
     if (userEmail) {
-      console.log(userEmail);
       readUser(userEmail).then((userData) => {
         if (userData.tripIds !== 'null') {
           setTripIds(userData.tripIds);
