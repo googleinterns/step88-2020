@@ -66,7 +66,7 @@ public class TripCRUDTest {
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void readTrip_noTripFoundThrowsError() {
+  public void readTrip_noTripFoundThrowsError() throws EntityNotFoundException {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     TripCRUD.readTrip(INVALID_TRIP_ID);
@@ -96,7 +96,7 @@ public class TripCRUDTest {
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void updateTrip_noTripFoundThrowsError() {
+  public void updateTrip_noTripFoundThrowsError() throws EntityNotFoundException {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     TripCRUD.readTrip(INVALID_TRIP_ID);
