@@ -29,30 +29,30 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class TripCRUDTest {
-  private static final LocalServiceTestHelper helper =
+  private static final LocalServiceTestHelper HELPER =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-  private static final String TripData =
+  private static final String TRIP_DATA =
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
-  private static final String TripData2 =
+  private static final String TRIP_DATA_2 =
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
 
-  private static final String Email = "testEmail@gmail.com";
-  private static final String InvalidTripId = "111222333";
+  private static final String EMAIL = "testEMAIL@gmail.com";
+  private static final String INVALID_TRIP_ID = "111222333";
 
   @Before
   public void setUp() {
-    helper.setUp();
+    HELPER.setUp();
   }
 
   @After
   public void tearDown() {
-    helper.tearDown();
+    HELPER.tearDown();
   }
 
   @Test
   public void createTrip_returnsEntityForCreatedTrip() {
-    Entity userEntity = UserCrud.createUser(Email);
-    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     Entity readTripEntity;
     try {
       readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
@@ -64,8 +64,8 @@ public class TripCRUDTest {
 
   @Test
   public void readTrip_returnsEntityForTrip() {
-    Entity userEntity = UserCrud.createUser(Email);
-    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     Entity readTripEntity = new Entity("Trip");
     try {
       readTripEntity = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
@@ -76,23 +76,23 @@ public class TripCRUDTest {
 
   @Test
   public void toEntity_returnsTripEntityFromJsonMatchingTripName() {
-    Entity tripEntityConverted = TripCRUD.toEntity(TripData, "", null);
+    Entity tripEntityConverted = TripCRUD.toEntity(TRIP_DATA, "", null);
     assertEquals("\"My Milan Trip\"", (String) tripEntityConverted.getProperty("tripName"));
   }
 
   @Test
   public void toJson_returnsTripJsonFromEntityMatchingSearchText() {
-    Entity userEntity = UserCrud.createUser(Email);
-    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCRUD.toJson(tripEntity);
     assertEquals("\"Milano\"", tripDataJson.get("searchText").getAsString());
   }
 
   @Test
   public void updateTrip_returnsUpdatedTripNameForUpdatedEntity() {
-    Entity userEntity = UserCrud.createUser(Email);
-    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
-    TripCRUD.updateTrip(Long.toString(tripEntity.getKey().getId()), TripData2);
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
+    TripCRUD.updateTrip(Long.toString(tripEntity.getKey().getId()), TRIP_DATA_2);
     Entity tripFound = new Entity("Trip");
     try {
       tripFound = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
