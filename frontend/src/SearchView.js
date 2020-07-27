@@ -13,9 +13,11 @@ function SearchView({ loggedIn, tripIds }) {
     tripIds.length > 0 ? (
       <SavedTrips trips={tripIds} />
     ) : (
-      <div className={styles.noTrips}>No Saved Trips Found</div>
+      <div className={styles.noTrips}>No saved trips found.</div>
     )
-  ) : null;
+  ) : (
+    <div className={styles.noTrips}>Sign in to view saved trips.</div>
+  );
 
   return (
     <div className={styles.container}>
