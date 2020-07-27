@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.gson.JsonObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,14 +30,15 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class TripCRUDTest {
+
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TripData =
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
+  private static final String TripData2 =
+      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
+
   private static final String Email = "testEmail@gmail.com";
-  private static final Boolean isOptimized = true;
-  private static final String searchText = "Milano";
-  private static final String tripName = "My Milan Trip";
   private static final String InvalidTripId = "111222333";
 
   @Before
@@ -48,22 +50,6 @@ public class TripCRUDTest {
   public void tearDown() {
     helper.tearDown();
   }
-  // need mock tripData
-  // createTrip
-  // read trip isOptimized
-  // read trip searchText
-  // read trip name
-  // read attractions
-  // read attraction name
-  // read attraction routeIndex
-  // read attraction photoReference
-  // read attraction coordinates
-  // user has created tripId
-  // toEntity
-  // setProperties
-  // readTrip
-  // toJson
-  // updateTrip
 
   @Test
   public void createTrip() { // need to create an identical trip entity
@@ -100,5 +86,36 @@ public class TripCRUDTest {
     } catch (EntityNotFoundException e) {
     }
     assertNotEquals(tripEntity, readTripEntity);
+  }
+
+  @Test
+  public void toEntityConverter() {
+    Entity userEntity = UserCrud.createUser(Email);
+    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    Entity tripEntityConverted = TripCRUD.toEntity(TripData, "", null);
+    assertEquals(
+        (String) tripEntity.getProperty("tripName"),
+        (String) tripEntityConverted.getProperty("tripName"));
+  }
+
+  @Test
+  public void toJsonConverter() {
+    Entity userEntity = UserCrud.createUser(Email);
+    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    JsonObject tripDataJson = TripCRUD.toJson(tripEntity);
+    assertEquals("\"Milano\"", tripDataJson.get("searchText").getAsString());
+  }
+
+  @Test
+  public void tripUpdate() {
+    Entity userEntity = UserCrud.createUser(Email);
+    Entity tripEntity = TripCRUD.createTrip(Email, TripData);
+    TripCRUD.updateTrip(Long.toString(tripEntity.getKey().getId()), TripData2);
+    Entity tripFound = new Entity("Trip");
+    try {
+      tripFound = TripCRUD.readTrip(Long.toString(tripEntity.getKey().getId()));
+    } catch (EntityNotFoundException e) {
+    }
+    assertEquals("\"My Awesome Milan Trip\"", (String) tripFound.getProperty("tripName"));
   }
 }
