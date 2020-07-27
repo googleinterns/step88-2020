@@ -17,7 +17,6 @@ package com.google.sps;
 import static org.junit.Assert.assertEquals;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.JsonObject;
@@ -98,8 +97,6 @@ public class TripCRUDTest {
 
   @Test
   public void updateTrip_noTripFound() {
-    Entity userEntity = UserCrud.createUser(EMAIL);
-    Entity tripEntity = TripCRUD.createTrip(EMAIL, TRIP_DATA);
     Entity actual = TripCRUD.readTrip(INVALID_TRIP_ID);
     assertEquals(null, actual);
   }
