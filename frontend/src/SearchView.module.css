@@ -3,3 +3,9 @@
   margin: 15vh auto;
   max-width: 1400px;
 }
+
+.noTrips {
+  color: var(--gray);
+  margin-top: 32px;
+  text-align: center;
+}
