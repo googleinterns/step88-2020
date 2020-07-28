@@ -32,11 +32,13 @@ public class ReadUserServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
     if (email == "" || email == null) {
-      throw new IllegalArgumentException("Email passed is not valid");
+      response.sendError(400, "Email passed is not valid");
+      return;
     }
     Entity userEntity = UserCrud.readEntity("email", email, "User");
     if (userEntity == null) {
-      throw new IllegalArgumentException("Email passed is not linked to user");
+      response.sendError(401, "Email passed is not linked to user");
+      return;
     }
 
     ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
