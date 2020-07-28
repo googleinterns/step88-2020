@@ -31,9 +31,9 @@ public class TripCRUDTest {
   private static final LocalServiceTestHelper HELPER =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TRIP_DATA =
-      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
+      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
   private static final String TRIP_DATA_2 =
-      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"attractions\":[{\"attractionName\":\"Milano Giuseppe\",\"photoReference\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"coordinates\":{\"lat\":1,\"lng\":1}}]}";
+      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
 
   private static final String EMAIL = "testEMAIL@gmail.com";
   private static final String INVALID_TRIP_ID = "111222333";
