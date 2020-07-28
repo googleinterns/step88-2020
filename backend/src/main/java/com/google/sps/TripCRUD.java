@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
 
-/** Class to handles CRU related to the Trip */
+/** Class to handles CRUD related to the Trip */
 public class TripCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 

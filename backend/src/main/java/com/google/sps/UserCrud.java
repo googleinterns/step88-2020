@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Class to handles CRU related to the User */
+/** Class to handles CRUD related to the User */
 public class UserCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
