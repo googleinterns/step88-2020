@@ -25,20 +25,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that creates a new user */
-@WebServlet("/api/v1/createUser")
-public class createUserServlet extends HttpServlet {
+/** Servlet that returns the user data */
+@WebServlet("/api/v1/readUser")
+public class ReadUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
-
-    if (email == "" || email == null || UserCrud.readEntity("email", email, "User") != null) {
+    if (email == "" || email == null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
+    if (userEntity == null) {
+      throw new IllegalArgumentException("Email passed is not linked to user");
+    }
 
-    Entity userEntity = UserCrud.createUser(email);
     ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
-
     JsonObject jsonResults = new JsonObject();
     Gson gson = new Gson();
     jsonResults.addProperty("email", userEntity.getProperty("email").toString());

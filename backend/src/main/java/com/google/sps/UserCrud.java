@@ -9,15 +9,11 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-/** Class to handles CRU related to the User */
+/** Class to handles CRUD related to the User */
 public class UserCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-  /** private constructor */
-  private UserCrud(){};
 
   /**
    * Creates a User Entity
@@ -28,7 +24,7 @@ public class UserCrud {
   public static Entity createUser(String email) {
     Entity userEntity = new Entity("User");
     userEntity.setProperty("email", email);
-    userEntity.setProperty("tripIds", Collections.emptyList());
+    userEntity.setProperty("tripIds", new ArrayList<String>());
     datastore.put(userEntity);
     return userEntity;
   }
