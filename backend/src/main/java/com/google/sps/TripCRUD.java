@@ -34,13 +34,13 @@ public class TripCRUD {
 
   /**
    * Add tripId property to Trip Entity
-   * 
+   *
    * @param id the trip id
    */
   public static void addTripId(String id) {
     Entity tripEntity = TripCRUD.readTrip(id);
     tripEntity.setProperty("tripId", id);
-    datastore.put(tripEntity); 
+    datastore.put(tripEntity);
   }
 
   /**

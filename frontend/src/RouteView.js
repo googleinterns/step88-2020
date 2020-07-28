@@ -9,7 +9,7 @@ import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
-import {createTrip, updateTrip, getTrip} from './tripUtils.js';
+import { createTrip, updateTrip, getTrip } from './tripUtils.js';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -62,10 +62,9 @@ function RouteView({ loggedIn, userEmail }) {
     setIsSaved(true);
     // save to back end database
     tripObject.isOptimized = isOptimized;
-    console.log(tripObject)
+    console.log(tripObject);
     if (!tripObject.id) {
-      createTrip(userEmail, tripObject)
-        .then((tripId) => console.log(tripId));
+      createTrip(userEmail, tripObject).then((tripId) => console.log(tripId));
     } else {
       updateTrip(tripObject.id, tripObject);
     }

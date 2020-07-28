@@ -52,6 +52,6 @@ public class createTripServlet extends HttpServlet {
     System.out.println(tripEntity.getProperty("tripId"));
     jsonResults.addProperty("tripId", 123);
     response.setContentType("application/json;");
-    response.getWriter().println(jsonResults); 
+    response.getWriter().println(jsonResults);
   }
 }
