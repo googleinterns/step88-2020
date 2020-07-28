@@ -69,7 +69,6 @@ public class UserCrudTest {
 
   @Test
   public void readEntity_returnsNullForMissingEntity() {
-
     assertEquals(null, UserCrud.readEntity("email", EMAIL_2, "User"));
   }
 
