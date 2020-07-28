@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
+// comment
 
 /** Class to handles CRU related to the Trip */
 public class TripCRUD {
@@ -29,7 +30,7 @@ public class TripCRUD {
     long id = tripEntity.getKey().getId();
     UserCrud.addTripId(email, id);
     TripCRUD.addTripId(Long.toString(id));
-    return tripEntity;
+    return TripCRUD.readTrip(Long.toString(id));
   }
 
   /**
@@ -72,16 +73,18 @@ public class TripCRUD {
         "isOptimized", Boolean.parseBoolean(jsonObject.get("isOptimized").toString()));
     tripEntity.setProperty("searchText", jsonObject.get("searchText").toString());
     tripEntity.setProperty("tripName", jsonObject.get("tripName").toString());
-    ArrayList<EmbeddedEntity> attractions = new ArrayList<EmbeddedEntity>();
+    tripEntity.setProperty("centerLocation", jsonObject.get("centerLocation").toString());
 
+    ArrayList<EmbeddedEntity> attractions = new ArrayList<EmbeddedEntity>();
     for (JsonElement attractionElement : jsonObject.getAsJsonArray("attractions")) {
       JsonObject attraction = attractionElement.getAsJsonObject();
       EmbeddedEntity embeddedAttraction = new EmbeddedEntity();
-      embeddedAttraction.setProperty("attractionName", attraction.get("attractionName").toString());
-      embeddedAttraction.setProperty("photoReference", attraction.get("photoReference").toString());
+      embeddedAttraction.setProperty("name", attraction.get("name").toString());
+      embeddedAttraction.setProperty("photoUrl", attraction.get("photoUrl").toString());
       embeddedAttraction.setProperty(
           "routeIndex", Integer.parseInt(attraction.get("routeIndex").toString()));
-      embeddedAttraction.setProperty("coordinates", attraction.get("coordinates").toString());
+      embeddedAttraction.setProperty("lat", attraction.get("lat").toString());
+      embeddedAttraction.setProperty("lng", attraction.get("lng").toString());
       attractions.add(embeddedAttraction);
     }
     tripEntity.setProperty("attractions", attractions);
@@ -118,17 +121,18 @@ public class TripCRUD {
         "isOptimized", Boolean.parseBoolean(tripEntity.getProperty("isOptimized").toString()));
     jsonTrip.addProperty("searchText", tripEntity.getProperty("searchText").toString());
     jsonTrip.addProperty("tripName", tripEntity.getProperty("tripName").toString());
+    jsonTrip.addProperty("centerLocation", tripEntity.getProperty("centerLocation").toString());
+
     ArrayList<JsonObject> attractions = new ArrayList<JsonObject>();
     for (EmbeddedEntity attraction :
         (ArrayList<EmbeddedEntity>) tripEntity.getProperty("attractions")) {
       JsonObject attractionJson = new JsonObject();
-      attractionJson.addProperty(
-          "attractionName", attraction.getProperty("attractionName").toString());
-      attractionJson.addProperty(
-          "photoReference", attraction.getProperty("photoReference").toString());
+      attractionJson.addProperty("name", attraction.getProperty("name").toString());
+      attractionJson.addProperty("photoUrl", attraction.getProperty("photoUrl").toString());
       attractionJson.addProperty(
           "routeIndex", Integer.parseInt(attraction.getProperty("routeIndex").toString()));
-      attractionJson.addProperty("coordinates", attraction.getProperty("coordinates").toString());
+      attractionJson.addProperty("lat", attraction.getProperty("lat").toString());
+      attractionJson.addProperty("lng", attraction.getProperty("lng").toString());
       attractions.add(attractionJson);
     }
     jsonTrip.addProperty("attractions", attractions.toString());
