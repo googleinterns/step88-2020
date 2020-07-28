@@ -34,7 +34,7 @@ function Explore() {
         }
   );
   const [selectedAttractions, setSelectedAttractions] = useState(
-    tripObject.attractions
+    tripObject.tripId ? JSON.parse(tripObject.attractions) : tripObject.attractions
   );
 
   function loadMoreReducer(state, action) {
@@ -108,6 +108,8 @@ function Explore() {
     setLoadMore(loadMore);
   }
 
+  console.log(state.attractions);
+  console.log(selectedAttractions);
   return (
     <Container className={styles.exploreContainer}>
       <Row>
@@ -239,7 +241,6 @@ function Explore() {
   function createAttraction(name, latLng, photoUrl, selected) {
     return {
       name,
-      description: 'Insert description here.',
       lat: latLng.lat(),
       lng: latLng.lng(),
       photoUrl,

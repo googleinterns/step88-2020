@@ -11,11 +11,10 @@ import { Draggable } from 'react-beautiful-dnd';
 /**
  * Return a card component representing a place the user has selected.
  * @param {string} location the name of the place selected
- * @param {string} description a description of @param location
  * @param {string} image image source of @param location
  * @param {number} index index of location in route list
  */
-function LocationCard({ location, description, image, index }) {
+function LocationCard({ location, image, index }) {
   // ref: https://egghead.io/lessons/react-reorder-a-list-with-react-beautiful-dnd
   return (
     <Draggable draggableId={`draggable-${index}`} index={index}>

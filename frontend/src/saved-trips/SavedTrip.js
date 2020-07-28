@@ -10,25 +10,30 @@ import { getTrip } from '../tripUtils.js';
  * Creates single saved trip.
  */
 function SavedTrip({ tripId }) {
-  const [tripData, setTripData] = useState({});
+  const [tripObject, setTripObject] = useState({});
   useEffect(() => {
-    getTrip(tripId).then((trip) => {
-      console.log(JSON.parse(trip.tripData));
-      setTripData(JSON.parse(trip.tripData));
-    });
+    getTrip(tripId).then((trip) => setTripObject(JSON.parse(trip.tripData)));
   }, [tripId]);
 
   return (
     <div className={styles.tripContainer}>
-      <ListGroup.Item action href={`/route?id=${tripId}`} className={styles.listItem}>
-        {tripData.tripName &&
-          tripData.tripName.substring(1, tripData.tripName.length - 1)}
+      <ListGroup.Item
+        action
+        href={`/route?trip=${encodeURIComponent(JSON.stringify(tripObject))}`}
+        className={styles.listItem}
+      >
+        {tripObject.tripName &&
+          tripObject.tripName.substring(1, tripObject.tripName.length - 1)}
       </ListGroup.Item>
       <div className={styles.iconContainer}>
-        <a href="/explore" title="Edit" className={styles.icon}>
+        <a
+          href={`/explore?trip=${encodeURIComponent(JSON.stringify(tripObject))}`}
+          title="Edit"
+          className={styles.icon}
+        >
           <FontAwesomeIcon icon={faPencilAlt} />
         </a>
-        <a href="/" title="Share" className={styles.icon}>
+        <a href="\" title="Share" className={styles.icon}>
           <FontAwesomeIcon icon={faShare} />
         </a>
       </div>

@@ -8,7 +8,6 @@ import SavedTrip from './SavedTrip.js';
  * @param {string[]} tripIds - a list of tripIds
  */
 function SavedTrips({ tripIds }) {
-  console.log(tripIds);
   const tripList = tripIds.map((tripId) => <SavedTrip key={tripId} tripId={tripId} />);
 
   return (

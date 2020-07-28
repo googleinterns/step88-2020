@@ -13,7 +13,11 @@ import styles from './TripName.module.css';
  */
 function TripName({ tripObject, setTripObject }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(tripObject.tripName || '');
+  const [name, setName] = useState(
+    tripObject.tripId
+      ? tripObject.tripName.substring(1, tripObject.tripName.length - 1)
+      : tripObject.tripName
+  );
 
   function handleSave(e) {
     e.preventDefault();
