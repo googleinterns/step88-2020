@@ -1,7 +1,7 @@
 import React from 'react';
-import { Map as GoogleMap, GoogleApiWrapper } from 'google-maps-react';
+import { Map as GoogleMap } from 'google-maps-react';
+import { withGoogleApi, MAPS_API_KEY } from '../googleApiUtils';
 import styles from './Map.module.css';
-const MAPS_API_KEY = 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg';
 const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
 
 /**
@@ -31,7 +31,6 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         const content = `
           <div>
             <h4 class=${styles.infoWindowName}>${attraction.name}</h4>
-            <div class=${styles.infoWindowDescription}>Short description of attraction if desired</div>
             <div>
               <img class=${styles.infoWindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
@@ -49,7 +48,7 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
         google={google}
         onReady={onPinsReady}
         center={centerLocation}
-        zoom={14}
+        zoom={13}
       />
     );
   }
@@ -66,13 +65,10 @@ function Map({ attractions, mode, centerLocation, google, onReady, view }) {
     <iframe
       className={styles.map}
       title="trip-map"
-      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}`}
+      src={`${MAPS_EMBED_URL}?key=${MAPS_API_KEY}&origin=${origin}&destination=${destination}&${waypointsParam}&zoom=13`}
       allowFullScreen
     ></iframe>
   );
 }
 
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDD_xK2HDMKPmDrsHndH5SAK9Jl-k5rHdg',
-  libraries: ['places'],
-})(Map);
+export default withGoogleApi(Map);

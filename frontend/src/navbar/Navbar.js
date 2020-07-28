@@ -5,6 +5,7 @@ import styles from './Navbar.module.css';
 
 import BackButton from './BackButton.js';
 import googleLogo from './google-logo.png';
+import logo from './logo.png';
 
 /**
  * Creates Navbar component with login button.
@@ -14,6 +15,9 @@ function Navbar({ authState }) {
     <Nav className={styles.navbar}>
       <Nav.Item>
         <Switch>
+          <Route exact path="/">
+            <img src={logo} alt="gRoutes logo" className={styles.gRoutesLogo} />
+          </Route>
           <Route path="/explore">
             <Nav.Link href="/">
               <BackButton text="Back to Search" />

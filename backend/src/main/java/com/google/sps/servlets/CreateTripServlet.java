@@ -15,37 +15,35 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.sps.TripCrud;
 import com.google.sps.UserCrud;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns the user data */
-@WebServlet("/api/v1/readUser")
-public class readUserServlet extends HttpServlet {
+/** Servlet that creates a new trip */
+@WebServlet("/api/v1/createTrip")
+public class CreateTripServlet extends HttpServlet {
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
+
     if (email == "" || email == null) {
       throw new IllegalArgumentException("Email passed is not valid");
     }
+
+    String tripData = request.getParameter("tripData");
+    if (tripData == "" || tripData == null) {
+      throw new IllegalArgumentException("Trip data passed is not valid");
+    }
+
     Entity userEntity = UserCrud.readEntity("email", email, "User");
     if (userEntity == null) {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
-    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
-    JsonObject jsonResults = new JsonObject();
-    Gson gson = new Gson();
-    jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    jsonResults.addProperty("tripIds", gson.toJson(tripIds));
-
-    response.setContentType("application/json;");
-    response.getWriter().println(jsonResults);
+    TripCrud.createTrip(email, tripData);
   }
 }
