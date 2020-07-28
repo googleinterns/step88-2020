@@ -14,7 +14,7 @@
 
 package com.google.sps;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals; /*comment*/
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
