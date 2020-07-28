@@ -1,13 +1,11 @@
-import { fetchJson } from './fetchJson.js';
+import { fetchJson } from './FetchJson.js';
 
 export const createUser = async (email) => {
   const url = `/api/v1/createUser?email=${email}`;
-  const json = await fetchJson(url);
-  return json;
+  await fetch(url, { method: 'POST' });
 };
 
 export const readUser = async (email) => {
   const url = `/api/v1/readUser?email=${email}`;
-  const json = await fetchJson(url);
-  return json;
+  return await fetchJson(url);
 };
