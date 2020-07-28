@@ -123,9 +123,13 @@ public class TripCrud {
    * @param tripId id of the trip to find
    * @param tripData string representation of tripData json
    */
-  public static void updateTrip(String tripId, String tripData) throws EntityNotFoundException {
+  public static void updateTrip(String tripId, String tripData) {
     Entity tripEntity;
-    tripEntity = TripCrud.readTrip(tripId);
+    try {
+      tripEntity = TripCrud.readTrip(tripId);
+    } catch (EntityNotFoundException e) {
+      return;
+    }
     setProperties(tripEntity, tripData);
     datastore.put(tripEntity);
   }
