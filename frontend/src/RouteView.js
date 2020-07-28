@@ -22,6 +22,7 @@ import BackButton from './navbar/BackButton.js';
  */
 function RouteView({ loggedIn }) {
   const [isOptimized, setIsOptimized] = useState(false);
+  const [isOptimizing, setIsOptimizing] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -43,6 +44,7 @@ function RouteView({ loggedIn }) {
   }, [isOptimized, optimizedOrder]);
 
   async function optimize() {
+    setIsOptimizing(true);
     if (!optimizedOrder) {
       const response = await fetch('/api/v1/optimize', {
         method: 'POST',
@@ -52,6 +54,7 @@ function RouteView({ loggedIn }) {
       setOptimizedOrder(json);
     }
     setIsOptimized(true);
+    setIsOptimizing(false);
   }
 
   function save() {
@@ -112,12 +115,12 @@ function RouteView({ loggedIn }) {
       {loggedIn && (
         <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
       )}
-      <Container>
-        <Row>
-          <TripName />
-        </Row>
-        <Row>
-          <Col>
+      <div className={styles.container}>
+        <Row className={styles.row}>
+          <Col sm={4}>
+            <Row className={styles.row}>
+              <TripName />
+            </Row>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>
@@ -127,21 +130,24 @@ function RouteView({ loggedIn }) {
                   <OptimizeButton
                     isOptimized={isOptimized}
                     optimize={optimize}
-                    isDisabled={attractions.length <= 1}
+                    isDisabled={attractions.length <= 1 || isOptimizing}
+                    isOptimizing={isOptimizing}
                   />
                 </Col>
               </Container>
             </Row>
           </Col>
-          <Col>
-            <Map
-              mode="directions"
-              attractions={attractions}
-              centerLocation={tripObject.centerLocation}
-            />
+          <Col sm={8}>
+            <div className={styles.mapDiv}>
+              <Map
+                mode="directions"
+                attractions={attractions}
+                centerLocation={tripObject.centerLocation}
+              />
+            </div>
           </Col>
         </Row>
-      </Container>
+      </div>
     </>
   );
 }
