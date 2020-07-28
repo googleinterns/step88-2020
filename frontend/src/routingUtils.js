@@ -17,6 +17,10 @@ export const getQueryParameters = (query) => {
  */
 export const handleRouting = (history, page, tripObject, attractions) => {
   tripObject.attractions = attractions;
+  console.log('trip obj to be stringified in routing');
+  console.log(tripObject);
   const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
+  console.log('pushing to history');
+  console.log(`/${page}${url}`);
   history.push(`/${page}${url}`);
 };

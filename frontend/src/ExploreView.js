@@ -34,7 +34,7 @@ function Explore() {
         }
   );
   const [selectedAttractions, setSelectedAttractions] = useState(
-    tripObject.tripId ? JSON.parse(tripObject.attractions) : tripObject.attractions
+    tripObject.attractions
   );
 
   function loadMoreReducer(state, action) {
@@ -108,8 +108,6 @@ function Explore() {
     setLoadMore(loadMore);
   }
 
-  console.log(state.attractions);
-  console.log(selectedAttractions);
   return (
     <Container className={styles.exploreContainer}>
       <Row>
@@ -177,6 +175,7 @@ function Explore() {
               attractions={selectedAttractions}
               mode="pins"
               centerLocation={tripObject.centerLocation}
+              parseJson={tripObject.tripId}
               key={selectedAttractions}
             />
           </div>
@@ -220,9 +219,19 @@ function Explore() {
         const name = attraction.name;
         const photoUrl = attraction.photos[0].getUrl();
         const latLng = attraction.geometry.location;
-        const isSelected = selectedAttractions.some(
-          (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
-        );
+        let isSelected;
+        if (tripObject.tripId) {
+          isSelected = selectedAttractions.some(
+            (newAttraction) =>
+              newAttraction.name.substring(1, newAttraction.name.length - 1) ===
+              attraction.name
+          );
+        } else {
+          isSelected = selectedAttractions.some(
+            (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
+          );
+        }
+
         const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
         newAllAttractions.push(newAttraction);
       }
