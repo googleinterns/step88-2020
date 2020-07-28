@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/api/v1/createTrip")
 public class createTripServlet extends HttpServlet {
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
 
     if (email == "" || email == null) {
@@ -49,9 +49,8 @@ public class createTripServlet extends HttpServlet {
 
     // return tripId of created trip
     JsonObject jsonResults = new JsonObject();
-    System.out.println(tripEntity.getProperty("tripId"));
-    jsonResults.addProperty("tripId", 123);
+    jsonResults.addProperty("tripId", (String) tripEntity.getProperty("tripId"));
     response.setContentType("application/json;");
-    response.getWriter().println(jsonResults); 
+    response.getWriter().println(jsonResults);
   }
 }
