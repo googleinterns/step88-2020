@@ -83,9 +83,15 @@ public class TripCrud {
    * @throws EntityNotFoundException if trip entity is not found
    * @return Trip entity
    */
-  public static Entity readTrip(String tripId) throws EntityNotFoundException {
+  public static Entity readTrip(String tripId) {
     Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
-    return datastore.get(entityKey);
+    Entity tripEntity;
+    try {
+      tripEntity = datastore.get(entityKey);
+    } catch (EntityNotFoundException e) {
+      return null;
+    }
+    return tripEntity;
   }
 
   /**
@@ -124,10 +130,8 @@ public class TripCrud {
    * @param tripData string representation of tripData json
    */
   public static void updateTrip(String tripId, String tripData) {
-    Entity tripEntity;
-    try {
-      tripEntity = TripCrud.readTrip(tripId);
-    } catch (EntityNotFoundException e) {
+    Entity tripEntity = TripCrud.readTrip(tripId);
+    if (tripEntity == null) {
       return;
     }
     setProperties(tripEntity, tripData);
