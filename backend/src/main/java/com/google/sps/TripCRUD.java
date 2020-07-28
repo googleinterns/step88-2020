@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 
 /** Class to handles CRU related to the Trip */
-public class TripCRUD {
+public class TripCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /**
@@ -125,7 +125,7 @@ public class TripCRUD {
    */
   public static void updateTrip(String tripId, String tripData) throws EntityNotFoundException {
     Entity tripEntity;
-    tripEntity = TripCRUD.readTrip(tripId);
+    tripEntity = TripCrud.readTrip(tripId);
     setProperties(tripEntity, tripData);
     datastore.put(tripEntity);
   }

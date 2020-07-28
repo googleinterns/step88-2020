@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that creates a new user */
 @WebServlet("/api/v1/createUser")
-public class createUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
