@@ -56,8 +56,7 @@ function Authenticator({ children, onChange, setTripIds }) {
       readUser(userEmail).then((userData) => {
         // Empty list representation in datastore
         if (userData.tripIds !== 'null') {
-          // setTripIds(userData.tripIds);
-          console.log(userData.tripIds);
+          setTripIds(JSON.parse(userData.tripIds));
         }
       });
     }

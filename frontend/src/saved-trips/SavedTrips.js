@@ -5,12 +5,11 @@ import SavedTrip from './SavedTrip.js';
 
 /**
  * Creates list of saved trips. For protyping purposes, only the name of the trip will be passed in, and the index will be used as a key.
- * @param {string[]} trips - a list of the names of the trips
+ * @param {string[]} tripIds - a list of tripIds
  */
-function SavedTrips({ trips }) {
-  const tripList = trips.map((trip, index) => (
-    <SavedTrip key={index} id={index} name={trip} />
-  ));
+function SavedTrips({ tripIds }) {
+  console.log(tripIds);
+  const tripList = tripIds.map((tripId) => <SavedTrip key={tripId} tripId={tripId} />);
 
   return (
     <div className={styles.container}>

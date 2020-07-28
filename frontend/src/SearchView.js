@@ -11,7 +11,7 @@ import styles from './SearchView.module.css';
 function SearchView({ loggedIn, tripIds }) {
   const savedTrips = loggedIn ? (
     tripIds.length > 0 ? (
-      <SavedTrips trips={tripIds} />
+      <SavedTrips tripIds={tripIds} />
     ) : (
       <div className={styles.noTrips}>No saved trips found.</div>
     )
