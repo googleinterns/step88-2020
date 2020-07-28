@@ -15,7 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.TripCRUD;
+import com.google.sps.TripCrud;
 import com.google.sps.UserCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that creates a new trip */
 @WebServlet("/api/v1/createTrip")
-public class createTripServlet extends HttpServlet {
+public class CreateTripServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String email = request.getParameter("email");
@@ -44,6 +44,6 @@ public class createTripServlet extends HttpServlet {
       throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
-    TripCRUD.createTrip(email, tripData);
+    TripCrud.createTrip(email, tripData);
   }
 }
