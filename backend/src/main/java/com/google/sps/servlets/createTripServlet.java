@@ -49,8 +49,7 @@ public class createTripServlet extends HttpServlet {
 
     // return tripId of created trip
     JsonObject jsonResults = new JsonObject();
-    System.out.println(tripEntity.getProperty("tripId"));
-    jsonResults.addProperty("tripId", 123);
+    jsonResults.addProperty("tripId", (String) tripEntity.getProperty("tripId"));
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
   }
