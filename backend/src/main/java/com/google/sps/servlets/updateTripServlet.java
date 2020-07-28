@@ -14,7 +14,7 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.TripCRUD;
+import com.google.sps.TripCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that updates a trip */
 @WebServlet("/api/v1/updateTrip")
-public class updateTripServlet extends HttpServlet {
+public class UpdateTripServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String tripId = request.getParameter("tripId");
@@ -33,6 +33,6 @@ public class updateTripServlet extends HttpServlet {
       throw new IllegalArgumentException("trip passed is not valid");
     }
 
-    TripCRUD.updateTrip(tripId, tripData);
+    TripCrud.updateTrip(tripId, tripData);
   }
 }
