@@ -15,36 +15,36 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.sps.TripCRUD;
+import com.google.sps.UserCrud;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns a trip data */
-@WebServlet("/api/v1/readTrip")
-public class readTripServlet extends HttpServlet {
+/** Servlet that returns the user data */
+@WebServlet("/api/v1/readUser")
+public class ReadUserServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String tripId = request.getParameter("tripId");
-
-    if (tripId == "" || tripId == null) {
-      throw new IllegalArgumentException("tripId passed is not valid");
+    String email = request.getParameter("email");
+    if (email == "" || email == null) {
+      throw new IllegalArgumentException("Email passed is not valid");
+    }
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
+    if (userEntity == null) {
+      throw new IllegalArgumentException("Email passed is not linked to user");
     }
 
-    Entity tripEntity;
-    try {
-      tripEntity = TripCRUD.readTrip(tripId);
-    } catch (EntityNotFoundException e) {
-      return;
-    }
-    JsonObject tripJson = TripCRUD.toJson(tripEntity);
+    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     JsonObject jsonResults = new JsonObject();
-    jsonResults.addProperty("tripId", tripId);
-    jsonResults.addProperty("tripData", tripJson.toString());
+    Gson gson = new Gson();
+    jsonResults.addProperty("email", userEntity.getProperty("email").toString());
+    jsonResults.addProperty("tripIds", gson.toJson(tripIds));
+
     response.setContentType("application/json;");
     response.getWriter().println(jsonResults);
   }

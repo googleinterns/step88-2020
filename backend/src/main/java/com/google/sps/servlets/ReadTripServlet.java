@@ -15,37 +15,33 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.sps.UserCrud;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.sps.TripCrud;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns the user data */
-@WebServlet("/api/v1/readUser")
-public class readUserServlet extends HttpServlet {
+/** Servlet that returns a trip data */
+@WebServlet("/api/v1/readTrip")
+public class ReadTripServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String email = request.getParameter("email");
-    if (email == "" || email == null) {
-      throw new IllegalArgumentException("Email passed is not valid");
-    }
-    Entity userEntity = UserCrud.readEntity("email", email, "User");
-    if (userEntity == null) {
-      throw new IllegalArgumentException("Email passed is not linked to user");
+    String tripId = request.getParameter("tripId");
+
+    if (tripId == "" || tripId == null) {
+      throw new IllegalArgumentException("tripId passed is not valid");
     }
 
-    ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
-    JsonObject jsonResults = new JsonObject();
-    Gson gson = new Gson();
-    jsonResults.addProperty("email", userEntity.getProperty("email").toString());
-    jsonResults.addProperty("tripIds", gson.toJson(tripIds));
+    Entity tripEntity;
+    try {
+      tripEntity = TripCrud.readTrip(tripId);
+    } catch (EntityNotFoundException e) {
+      throw new IllegalArgumentException("Trip not found");
+    }
 
     response.setContentType("application/json;");
-    response.getWriter().println(jsonResults);
+    response.getWriter().println(TripCrud.toJson(tripEntity).toString());
   }
 }
