@@ -9,7 +9,7 @@ import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
-import { createTrip, updateTrip, getTrip } from './tripUtils.js';
+import { createTrip, updateTrip } from './tripUtils.js';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
@@ -35,7 +35,9 @@ function RouteView({ loggedIn, userEmail }) {
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
   const history = useHistory();
-  const tripObject = JSON.parse(decodeURIComponent(query.trip));
+  const [tripObject, setTripObject] = useState(
+    JSON.parse(decodeURIComponent(query.trip))
+  );
   const [attractions, setAttractions] = useState(tripObject.attractions);
 
   useEffect(() => {
@@ -56,23 +58,19 @@ function RouteView({ loggedIn, userEmail }) {
     }
     setIsOptimized(true);
     setIsOptimizing(false);
+    setIsSaved(false);
   }
 
   function save() {
-    setIsSaved(true);
-    // save to back end database
     tripObject.isOptimized = isOptimized;
-    console.log(tripObject);
     if (!tripObject.tripId) {
-      console.log('create');
       createTrip(userEmail, tripObject)
         .then((res) => res.json())
-        .then((json) => (tripObject.tripId = json.tripId));
+        .then((json) => setTripObject({ ...tripObject, tripId: json.tripId }));
     } else {
-      console.log('update');
       updateTrip(tripObject.tripId, tripObject);
     }
-    console.log(tripObject);
+    setIsSaved(true);
   }
 
   function onManualPlaceChange(newAttractions) {
@@ -132,7 +130,7 @@ function RouteView({ loggedIn, userEmail }) {
         <Row className={styles.row}>
           <Col sm={4}>
             <Row className={styles.row}>
-              <TripName />
+              <TripName tripObject={tripObject} setTripObject={setTripObject} />
             </Row>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
