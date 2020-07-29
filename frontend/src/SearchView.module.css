@@ -1,11 +1,17 @@
 .container {
   height: 100%;
-  margin: 15vh auto;
+  margin: auto;
+  margin-top: 15vh;
   max-width: 1400px;
+  text-align: center;
 }
 
 .noTrips {
   color: var(--gray);
   margin-top: 32px;
   text-align: center;
+}
+
+.infographic {
+  height: 220px;
 }

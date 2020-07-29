@@ -2,6 +2,7 @@ import React from 'react';
 import SavedTrips from './saved-trips/SavedTrips.js';
 import Search from './search/Search.js';
 import styles from './SearchView.module.css';
+import traveler from './traveler.svg';
 
 /**
  * Creates Search View component, with saved trips rendered if user is logged in.
@@ -21,10 +22,9 @@ function SearchView({ loggedIn, tripIds }) {
 
   return (
     <div className={styles.container}>
-      <div>
-        <Search />
-        {savedTrips}
-      </div>
+      <Search />
+      {savedTrips}
+      <img src={traveler} className={styles.infographic} />
     </div>
   );
 }
