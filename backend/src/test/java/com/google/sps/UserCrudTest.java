@@ -77,7 +77,6 @@ public class UserCrudTest {
     Entity userEntity = UserCrud.createUser(EMAIL);
     UserCrud.addTripId(EMAIL, TRIP_ID);
     userEntity = UserCrud.readEntity("email", EMAIL, "User");
-    // ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     assertEquals(SINGLE_TRIP_ID, userEntity.getProperty("tripIds"));
   }
 }
