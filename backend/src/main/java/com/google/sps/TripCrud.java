@@ -15,9 +15,13 @@ import java.util.ArrayList;
 /** Class to handles CRU related to the Trip */
 public class TripCrud {
   private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
   /**
-   * * Create a new trip * * @param email email of user * @param tripData json of tripData as string
-   * * @return tripEntity a trip entity
+   * Create a new trip
+   *
+   * @param email email of user
+   * @param tripData json of tripData as string
+   * @return tripEntity a trip entity
    */
   public static Entity createTrip(String email, String tripData) {
     Entity tripEntity = toEntity(tripData, "", null);
@@ -27,25 +31,37 @@ public class TripCrud {
     TripCrud.addTripId(Long.toString(id));
     return TripCrud.readTrip(Long.toString(id));
   }
-  /** * Add tripId property to Trip Entity * * @param id the trip id */
+
+  /**
+   * Add tripId property to Trip Entity
+   *
+   * @param id the trip id
+   */
   public static void addTripId(String id) {
     Entity tripEntity = TripCrud.readTrip(id);
     tripEntity.setProperty("tripId", id);
     datastore.put(tripEntity);
   }
+
   /**
-   * * Converts string tripData to Trip Entity * * @param tripData tripData string representation of
-   * a trip json * @param tripId trip id * @param tripKey trip key, can be null * @return tripEntity
-   * from tripData
+   * Converts string tripData to Trip Entity
+   *
+   * @param tripData tripData string representation of a trip json
+   * @param tripId trip id
+   * @param tripKey trip key, can be null
+   * @return tripEntity from tripData
    */
   public static Entity toEntity(String tripData, String tripId, Key tripKey) {
     Entity tripEntity = tripId == "" ? new Entity("Trip") : new Entity("Trip", tripId, tripKey);
     setProperties(tripEntity, tripData);
     return tripEntity;
   }
+
   /**
-   * * Mutates trip entity properties given string representation of tripData json * * @param
-   * tripEntity Trip Entity * @param tripData tripData string representation of a trip json
+   * Mutates trip entity properties given string representation of tripData json
+   *
+   * @param tripEntity Trip Entity
+   * @param tripData tripData string representation of a trip json
    */
   private static void setProperties(Entity tripEntity, String tripData) {
     JsonParser parser = new JsonParser();
@@ -70,9 +86,12 @@ public class TripCrud {
     }
     tripEntity.setProperty("attractions", attractions);
   }
+
   /**
-   * * Finds a trip entity by id * * @param tripId id of the trip to find * @throws
-   * EntityNotFoundException if trip entity is not found * @return Trip entity
+   * Finds a trip entity by id
+   *
+   * @param tripId id of the trip to find
+   * @return Trip entity if found, null if EntityNotFoundException is caught
    */
   public static Entity readTrip(String tripId) {
     Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
@@ -84,8 +103,12 @@ public class TripCrud {
     }
     return tripEntity;
   }
+
   /**
-   * * Converts Trip Entity to Json * * @param tripEntity Trip Entity * @return JsonObject of trip
+   * Converts Trip Entity to Json
+   *
+   * @param tripEntity Trip Entity
+   * @return JsonObject of trip
    */
   public static JsonObject toJson(Entity tripEntity) {
     JsonObject jsonTrip = new JsonObject();
@@ -110,9 +133,12 @@ public class TripCrud {
     jsonTrip.addProperty("attractions", attractions.toString());
     return jsonTrip;
   }
+
   /**
-   * * Updates a trip's properties * * @param tripId id of the trip to find * @param tripData string
-   * representation of tripData json
+   * Updates a trip's properties
+   *
+   * @param tripId id of the trip to find
+   * @param tripData string representation of tripData json
    */
   public static void updateTrip(String tripId, String tripData) {
     Entity tripEntity = TripCrud.readTrip(tripId);
