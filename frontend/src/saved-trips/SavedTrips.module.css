@@ -10,6 +10,11 @@
   opacity: 0.5;
 }
 
+.icon:hover {
+  color: var(--blue);
+  cursor: pointer;
+}
+
 .iconContainer {
   align-items: center;
   display: flex;
