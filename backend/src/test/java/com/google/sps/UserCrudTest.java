@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,13 +82,14 @@ public class UserCrudTest {
     assertEquals(SINGLE_TRIP_ID, userEntity.getProperty("tripIds"));
   }
 
-  @Test(expected = Exception.class)
-  public void createUser_throwsErrorForSameEmailTwice() {
+  @Test
+  public void createUser_returnsNullForSameEmailTwice() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity duplicateUserEntity = UserCrud.createUser(EMAIL);
+    assertEquals(duplicateUserEntity, null);
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = IllegalArgumentException.class)
   public void addTripId_throwsErrorForSameTripIdTwice() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     UserCrud.addTripId(EMAIL, TRIP_ID);

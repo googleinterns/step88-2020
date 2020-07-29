@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,11 @@ public class UserCrud {
    * @return User Entity
    */
   public static Entity createUser(String email) {
-    Entity userEntity = new Entity("User");
+    Entity userEntity = UserCrud.readEntity("email", email, "User");
+    if (userEntity != null) {
+      return null;
+    }
+    userEntity = new Entity("User");
     userEntity.setProperty("email", email);
     userEntity.setProperty("tripIds", new ArrayList<String>());
     datastore.put(userEntity);
@@ -53,11 +58,14 @@ public class UserCrud {
    * @param email user email
    * @param tripId trip id
    */
-  public static void addTripId(String email, Long tripId) {
+  public static void addTripId(String email, Long tripId) throws IllegalArgumentException {
     Entity userEntity = UserCrud.readEntity("email", email, "User");
     ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     if (tripIds == null) {
       tripIds = new ArrayList<String>();
+    }
+    if (tripIds.contains(Long.toString(tripId))) {
+      throw new IllegalArgumentException("Duplicate tripId");
     }
     tripIds.add(Long.toString(tripId));
     userEntity.setProperty("tripIds", tripIds);
