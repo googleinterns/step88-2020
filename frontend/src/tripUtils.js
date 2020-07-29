@@ -1,4 +1,4 @@
-import { fetchJson } from './FetchJson.js';
+import { fetchJson } from './fetchJson.js';
 
 export const createTrip = async (email, tripData) => {
   const url = `/api/v1/createTrip?email=${email}&tripData=${JSON.stringify(tripData)}`;
