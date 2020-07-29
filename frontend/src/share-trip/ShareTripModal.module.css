@@ -36,6 +36,7 @@
 }
 
 .modalText {
+  color: var(--gray);
   margin-bottom: 10px;
 }
 
