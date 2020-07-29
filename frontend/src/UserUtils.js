@@ -1,4 +1,4 @@
-import { fetchJson } from './FetchJson.js';
+import { fetchJson } from './fetchJson.js';
 
 export const createUser = async (email) => {
   const url = `/api/v1/createUser?email=${email}`;
