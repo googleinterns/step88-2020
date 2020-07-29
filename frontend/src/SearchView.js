@@ -24,7 +24,7 @@ function SearchView({ loggedIn, tripIds }) {
     <div className={styles.container}>
       <Search />
       {savedTrips}
-      <img src={traveler} className={styles.infographic} />
+      <img src={traveler} className={styles.illustration} alt="traveler graphic" />
     </div>
   );
 }
