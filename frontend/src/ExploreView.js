@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
+import React, { useState, useEffect, useRef, useReducer, useCallback } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
+import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
+import RangeSlider from 'react-bootstrap-range-slider';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -36,19 +38,36 @@ function Explore() {
   const [selectedAttractions, setSelectedAttractions] = useState(
     tripObject.attractions
   );
+  const [radius, setRadius] = useState(8);
+  const [loadMore, setLoadMore] = useState(false);
+  const getNextPage = useRef(null);
+  const placesService = useRef(null);
+  const nearbySearchResults = useRef(null);
+  const textSearchResults = useRef(null);
+  const history = useHistory();
 
-  function loadMoreReducer(state, action) {
-    const newAllAttractions = Array.from(state.attractions);
+  function reducer(state, action) {
+    let newAllAttractions;
+    if (action.radius !== state.radius || !getNextPage.current) {
+      newAllAttractions = [];
+    } else if (!loadMore && action.radius === state.radius) {
+      return { attractions: state.attractions, radius: state.radius };
+    } else {
+      newAllAttractions = Array.from(state.attractions);
+    }
     for (const attraction of action.attractions) {
       newAllAttractions.push(attraction);
     }
-    return { attractions: newAllAttractions };
+    return { attractions: newAllAttractions, radius: action.radius };
   }
-  const [state, dispatch] = useReducer(loadMoreReducer, { attractions: [] });
+  const [state, dispatch] = useReducer(reducer, {
+    attractions: [],
+    radius: radius,
+  });
 
-  const [loadMore, setLoadMore] = useState(false);
-  const getNextPage = useRef(null);
-  const history = useHistory();
+  useEffect(() => {
+    tripObject.selectedAttractions = selectedAttractions;
+  }, [selectedAttractions, tripObject]);
 
   useEffect(() => {
     if (loadMore && getNextPage.current) {
@@ -60,10 +79,62 @@ function Explore() {
     setTripObject({ ...tripObject, attractions: selectedAttractions });
   }, [selectedAttractions]);
 
-  const onMapReady = (google, map) => {
-    const handleTextSearch = (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const coordinates = results[0].geometry.location;
+  /**
+   * Get the photo url of each attraction object
+   * @param {object[]} attractions array of objects from Places Request
+   * @return {object[]} array of all attractions
+   */
+  const getAllAttractions = useCallback(
+    (attractions) => {
+      const newAllAttractions = [];
+      for (const attraction of attractions) {
+        if (attraction.photos) {
+          const name = attraction.name;
+          const photoUrl = attraction.photos[0].getUrl();
+          const latLng = attraction.geometry.location;
+          let isSelected;
+          if (tripObject.tripId) {
+            isSelected = selectedAttractions.some(
+              (newAttraction) => newAttraction.name === attraction.name
+            );
+          } else {
+            isSelected = selectedAttractions.some(
+              (newAttraction) =>
+                newAttraction.photoUrl === attraction.photos[0].getUrl()
+            );
+          }
+          const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
+          newAllAttractions.push(newAttraction);
+        }
+      }
+      return newAllAttractions;
+    },
+    [selectedAttractions, tripObject]
+  );
+
+  const handleNearbySearch = useCallback(
+    (status, pagination) => {
+      if (status === 'OK' && getNextPage.current !== false) {
+        dispatch({
+          attractions: getAllAttractions(nearbySearchResults.current),
+          radius: radius,
+        });
+        getNextPage.current = pagination.hasNextPage
+          ? () => {
+              pagination.nextPage();
+            }
+          : false;
+      } else {
+        setLoading(false);
+      }
+    },
+    [getAllAttractions, radius]
+  );
+
+  const handleTextSearch = useCallback(
+    (status) => {
+      if (status === 'OK') {
+        const coordinates = textSearchResults.current[0].geometry.location;
         setTripObject({
           ...tripObject,
           centerLocation: {
@@ -71,51 +142,75 @@ function Explore() {
             lng: coordinates.lng(),
           },
         });
-        placesService.nearbySearch(
+        placesService.current.nearbySearch(
           {
             location: coordinates,
-            radius: 8000,
+            radius: radius * 1000,
             type: 'tourist_attraction',
           },
-          handleNearbySearch
+          (results, status, pagination) => {
+            nearbySearchResults.current = results;
+            handleNearbySearch(status, pagination);
+          }
         );
       } else {
         setLoading(false);
       }
-    };
+    },
+    [radius, tripObject, handleNearbySearch]
+  );
 
-    const handleNearbySearch = (results, status, pagination) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        dispatch({ attractions: getAllAttractions(results) });
-        getNextPage.current = pagination.hasNextPage
-          ? () => {
-              pagination.nextPage();
-            }
-          : null;
-      } else {
-        setLoading(false);
-      }
-    };
+  /** when the search radius changes, rehandle nearby search with new radius */
+  useEffect(() => {
+    if (textSearchResults.current) {
+      handleTextSearch('OK');
+    }
+  }, [radius]);
 
-    const placesService = new google.maps.places.PlacesService(map);
-    placesService.textSearch(
+  function handleScroll(e) {
+    const loadMoreFlag =
+      e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
+    setLoadMore(loadMoreFlag);
+  }
+
+  const onMapReady = (google, map) => {
+    placesService.current = new google.maps.places.PlacesService(map);
+    placesService.current.textSearch(
       {
         query: tripObject.searchText,
       },
-      handleTextSearch
+      (results, status) => {
+        textSearchResults.current = results;
+        handleTextSearch(status);
+      }
     );
   };
-
-  function handleScroll(e) {
-    const loadMore =
-      e.target.scrollHeight - e.target.scrollTop >= e.target.clientHeight;
-    setLoadMore(loadMore);
-  }
 
   return (
     <Container className={styles.exploreContainer}>
       <Row>
         <Col sm={6}>
+          <Container className={styles.exploreViewHeader}>
+            <Row>
+              <Col md={5} className={styles.searchResultsTxt}>
+                Results for: <span>{`${tripObject.searchText}`}</span>
+              </Col>
+              <Col md={2} className={styles.sliderLabel}>
+                Search radius:
+              </Col>
+              <Col md={5} className={styles.sliderContainer}>
+                <RangeSlider
+                  value={radius}
+                  onChange={(e) => setRadius(e.target.value)}
+                  tooltipPlacement="top"
+                  tooltip="on"
+                  min={1}
+                  max={10}
+                  disabled={selectedAttractions.length > 0}
+                />
+              </Col>
+            </Row>
+          </Container>
           {selectedAttractions.length < 8 || (
             <p className={styles.p}>You may select up to 8 attractions.</p>
           )}
@@ -208,36 +303,6 @@ function Explore() {
       selectedAttractionsCopy.splice(targetAttrIndexInSelected, 1);
       setSelectedAttractions(selectedAttractionsCopy);
     }
-  }
-
-  /**
-   * Get the photo url of each attraction object
-   * @param {object[]} attractions array of objects from Places Request
-   * @return {object[]} array of all attractions
-   */
-  function getAllAttractions(attractions) {
-    const newAllAttractions = [];
-    for (const attraction of attractions) {
-      if ('photos' in attraction) {
-        const name = attraction.name;
-        const photoUrl = attraction.photos[0].getUrl();
-        const latLng = attraction.geometry.location;
-        let isSelected;
-        if (tripObject.tripId) {
-          isSelected = selectedAttractions.some(
-            (newAttraction) => newAttraction.name === attraction.name
-          );
-        } else {
-          isSelected = selectedAttractions.some(
-            (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
-          );
-        }
-
-        const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
-        newAllAttractions.push(newAttraction);
-      }
-    }
-    return newAllAttractions;
   }
 
   /**

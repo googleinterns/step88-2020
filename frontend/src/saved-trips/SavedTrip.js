@@ -42,7 +42,7 @@ function SavedTrip({ tripId }) {
   });
 
   useEffect(() => {
-    getTrip(tripId).then((trip) => setTripObject(JSON.parse(trip.tripData)));
+    getTrip(tripId).then((trip) => setTripObject(trip));
   }, [tripId]);
 
   return (

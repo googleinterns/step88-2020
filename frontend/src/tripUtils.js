@@ -4,7 +4,7 @@ export const createTrip = async (email, tripData) => {
   const url = `/api/v1/createTrip?email=${email}&tripData=${encodeURIComponent(
     JSON.stringify(tripData)
   )}`;
-  return await fetch(url, { method: 'POST' });
+  return await fetch(url, { method: 'GET' });
 };
 
 export const getTrip = async (tripId) => {

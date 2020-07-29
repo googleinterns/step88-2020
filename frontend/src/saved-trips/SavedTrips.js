@@ -1,6 +1,9 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import styles from './SavedTrips.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUmbrellaBeach } from '@fortawesome/free-solid-svg-icons';
+
 import SavedTrip from './SavedTrip.js';
 
 /**
@@ -12,7 +15,10 @@ function SavedTrips({ tripIds }) {
 
   return (
     <div className={styles.container}>
-      <h3>Saved Trips:</h3>
+      <h3 className={styles.header}>
+        <FontAwesomeIcon icon={faUmbrellaBeach} className={styles.headerIcon} />
+        Saved Trips
+      </h3>
       <ListGroup>{tripList}</ListGroup>
     </div>
   );

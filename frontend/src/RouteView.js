@@ -57,10 +57,12 @@ function RouteView({ loggedIn, userEmail }) {
   function save() {
     tripObject.isOptimized = isOptimized;
     if (!tripObject.tripId) {
+      console.log('create trip');
       createTrip(userEmail, tripObject)
         .then((res) => res.json())
         .then((json) => setTripObject({ ...tripObject, tripId: json.tripId }));
     } else {
+      console.log('update');
       updateTrip(tripObject.tripId, tripObject);
     }
     setIsSaved(true);

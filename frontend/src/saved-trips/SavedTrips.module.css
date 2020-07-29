@@ -4,6 +4,17 @@
   width: 80%;
 }
 
+.header {
+  color: var(--gray);
+  margin-bottom: 12px;
+}
+
+.headerIcon {
+  color: var(--blue);
+  margin-right: 16px;
+  opacity: 0.8;
+}
+
 .icon {
   color: black;
   margin: 8px;
