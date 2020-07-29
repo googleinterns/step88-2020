@@ -5,8 +5,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import Map from '../map/Map';
+import { withGoogleApi } from '../googleApiUtils';
 
 /**
  * Creates Search component with search bar.
@@ -15,7 +14,6 @@ function Search() {
   const history = useHistory();
   const [predictions, setPredictions] = useState([]);
   const options = predictions.map((prediction) => prediction.description);
-  const onMapReady = (google, map) => {};
 
   const handleInput = (input) => {
     const sessionToken = new window.google.maps.places.AutocompleteSessionToken();
@@ -25,8 +23,25 @@ function Search() {
         input,
         sessionToken,
       },
-      setPredictions
+      (newPredictions, status) => {
+        if (status === 'OK') {
+          setPredictions(newPredictions);
+        }
+      }
     );
+  };
+
+  const handleSearch = (text) => {
+    if (text) {
+      history.push(`/explore?search=${text[0]}`);
+    }
+  };
+
+  const handleOnKeyDown = (e) => {
+    const isEnter = e.keyCode === 13;
+    if (isEnter) {
+      handleSearch(options);
+    }
   };
 
   return (
@@ -34,12 +49,7 @@ function Search() {
       <div className={styles.whereTo}>
         <h1 className={styles.text}>
           <span className={styles.grey}>g</span>
-          <span className={styles.blue}>R</span>
-          <span className={styles.blue}>o</span>
-          <span className={styles.blue}>u</span>
-          <span className={styles.blue}>t</span>
-          <span className={styles.blue}>e</span>
-          <span className={styles.blue}>s</span>
+          <span className={styles.blue}>Routes</span>
         </h1>
       </div>
       <Container className={styles.barContainer}>
@@ -47,29 +57,16 @@ function Search() {
         <Typeahead
           type="text"
           className={styles.searchBar}
-          onInputChange={(text) => {
-            handleInput(text);
-          }}
-          onChange={(text) => {
-            if (text !== '') {
-              history.push(`/explore?search=${text[0]}`);
-            }
-          }}
+          onInputChange={handleInput}
+          onChange={handleSearch}
           options={options}
           placeholder="Where to?"
           id="Where to?"
+          onKeyDown={handleOnKeyDown}
         />
-        <div className={styles.mapContainer}>
-          <Map
-            onReady={onMapReady}
-            attractions={[]}
-            mode="pins"
-            centerLocation={{ lat: 0, lng: 0 }}
-          />
-        </div>
       </Container>
     </div>
   );
 }
 
-export default Search;
+export default withGoogleApi(Search);

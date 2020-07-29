@@ -1,6 +1,6 @@
 .tripNameContainer {
   width: 200px;
-  height: 100px;
+  height: 70px;
 }
 
 .tripNameContainer :global(.form-group) {
