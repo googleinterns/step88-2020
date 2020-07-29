@@ -2,20 +2,8 @@
   color: var(--blue);
 }
 
-.green {
-  color: var(--green);
-}
-
 .grey {
   color: var(--gray);
-}
-
-.red {
-  color: var(--red);
-}
-
-.yellow {
-  color: var(--yellow);
 }
 
 .form {
@@ -53,14 +41,15 @@
   width: 500px;
 }
 
-.mapContainer {
-  display: none;
-}
-
 .searchIcon {
   color: var(--gray);
   left: 26px;
   position: absolute;
   top: 12px;
   z-index: 10;
+}
+
+mark {
+  background: none;
+  font-weight: 700;
 }
