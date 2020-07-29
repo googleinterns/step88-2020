@@ -56,6 +56,10 @@ function Explore() {
     }
   }, [loadMore, getNextPage]);
 
+  useEffect(() => {
+    setTripObject({ ...tripObject, attractions: selectedAttractions });
+  }, [selectedAttractions]);
+
   const onMapReady = (google, map) => {
     const handleTextSearch = (results, status) => {
       if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -175,7 +179,6 @@ function Explore() {
               attractions={selectedAttractions}
               mode="pins"
               centerLocation={tripObject.centerLocation}
-              parseJson={tripObject.tripId}
               key={selectedAttractions}
             />
           </div>
@@ -192,7 +195,7 @@ function Explore() {
    */
   function toggleSelection(targetAttraction) {
     const targetAttrIndexInSelected = selectedAttractions.findIndex(
-      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
+      (attraction) => attraction.name === targetAttraction.name
     );
 
     targetAttraction.selected = !targetAttraction.selected;
@@ -222,9 +225,7 @@ function Explore() {
         let isSelected;
         if (tripObject.tripId) {
           isSelected = selectedAttractions.some(
-            (newAttraction) =>
-              newAttraction.name.substring(1, newAttraction.name.length - 1) ===
-              attraction.name
+            (newAttraction) => newAttraction.name === attraction.name
           );
         } else {
           isSelected = selectedAttractions.some(

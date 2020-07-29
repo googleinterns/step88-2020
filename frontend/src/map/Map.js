@@ -9,41 +9,30 @@ const MAPS_EMBED_URL = 'https://www.google.com/maps/embed/v1/directions';
  * @param {list} attractions list of locations to route between
  * @param {string} mode either 'pins' or 'directions' to put on the map
  * @param {Object} centerLocation the center of the map, the location of the attraction the user initially searched
- * @param {boolean} parseJson whether or not JSON.parse is needed
  */
 
-function Map({ attractions, mode, centerLocation, google, onReady, view, parseJson }) {
+function Map({ attractions, mode, centerLocation, google, onReady, view }) {
   const onPinsReady = (mapProps, map) => {
     onReady(google, map);
     const infowindow = new google.maps.InfoWindow();
     for (const attraction of attractions) {
       const location = {
-        lat: parseJson ? JSON.parse(attraction.lat) : attraction.lat,
-        lng: parseJson ? JSON.parse(attraction.lng) : attraction.lng,
+        lat: attraction.lat,
+        lng: attraction.lng,
       };
       const marker = new google.maps.Marker({
         position: location,
         map,
-        title: parseJson
-          ? attraction.name.substring(1, attraction.name.length - 1)
-          : attraction.name,
+        title: attraction.name,
       });
       //TODO: clean up listeners -> potential memory leak
       marker.addListener('click', () => {
         infowindow.close();
         const content = `
           <div>
-            <h4 class=${styles.infoWindowName}>${
-          parseJson
-            ? attraction.name.substring(1, attraction.name.length - 1)
-            : attraction.name
-        }</h4>
+            <h4 class=${styles.infoWindowName}>${attraction.name}</h4>
             <div>
-              <img class=${styles.infoWindowImg} src="${
-          parseJson
-            ? attraction.photoUrl.substring(1, attraction.photoUrl.length - 1)
-            : attraction.photoUrl
-        }" alt="${attraction.name} Image" />
+              <img class=${styles.infoWindowImg} src="${attraction.photoUrl}" alt="${attraction.name} Image" />
             </div>
           </div>
         `;

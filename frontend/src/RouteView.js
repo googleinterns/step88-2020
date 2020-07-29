@@ -38,11 +38,7 @@ function RouteView({ loggedIn, userEmail }) {
   const [tripObject, setTripObject] = useState(
     JSON.parse(decodeURIComponent(query.trip))
   );
-  console.log('trip obj in route view');
-  console.log(tripObject);
-  const [attractions, setAttractions] = useState(
-    tripObject.tripId ? JSON.parse(tripObject.attractions) : tripObject.attractions
-  );
+  const [attractions, setAttractions] = useState(tripObject.attractions);
 
   useEffect(() => {
     if (isOptimized) {
@@ -137,11 +133,7 @@ function RouteView({ loggedIn, userEmail }) {
               <TripName tripObject={tripObject} setTripObject={setTripObject} />
             </Row>
             <Row className={styles.routeListContainer}>
-              <Route
-                places={attractions}
-                onManualPlaceChange={onManualPlaceChange}
-                parseJson={tripObject.tripId}
-              />
+              <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
             </Row>
             <Row>
               <Container>
