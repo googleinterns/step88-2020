@@ -28,7 +28,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class TripCrudTest {
-  private static final LocalServiceTestHelper HELPER =
+  private static final LocalServiceTestHelper DATASTORE_SERVICE_HELPER =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TRIP_DATA =
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
@@ -40,12 +40,12 @@ public class TripCrudTest {
 
   @Before
   public void setUp() {
-    HELPER.setUp();
+    DATASTORE_SERVICE_HELPER.setUp();
   }
 
   @After
   public void tearDown() {
-    HELPER.tearDown();
+    DATASTORE_SERVICE_HELPER.tearDown();
   }
 
   @Test
