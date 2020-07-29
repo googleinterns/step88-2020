@@ -5,7 +5,7 @@ import ExploreView from './ExploreView.js';
 import RouteView from './RouteView.js';
 import Navbar from './navbar/Navbar.js';
 
-import { readUser } from './UserUtils.js';
+import { readUser } from './userUtils.js';
 
 function App() {
   const [authState, setAuthState] = useState({ ready: false, loggedIn: false });
