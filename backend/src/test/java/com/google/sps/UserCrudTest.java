@@ -80,4 +80,22 @@ public class UserCrudTest {
     // ArrayList<String> tripIds = (ArrayList<String>) userEntity.getProperty("tripIds");
     assertEquals(SINGLE_TRIP_ID, userEntity.getProperty("tripIds"));
   }
+
+  @Test(expected = Exception.class)
+  public void createUser_throwsErrorForSameEmailTwice() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity duplicateUserEntity = UserCrud.createUser(EMAIL);
+  }
+
+  @Test(expected = Exception.class)
+  public void addTripId_throwsErrorForSameTripIdTwice() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+  }
+
+  @Test(expected = Exception.class)
+  public void addTripId_throwsErrorForEmailThatDoesNotExist() {
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+  }
 }
