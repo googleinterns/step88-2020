@@ -8,6 +8,7 @@
 
 .noTrips {
   color: var(--gray);
+  height: 42vh;
   margin-top: 32px;
   text-align: center;
 }
