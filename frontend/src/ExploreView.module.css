@@ -14,7 +14,7 @@
 .attractionImagesContainer {
   display: flex;
   flex-wrap: wrap;
-  height: 75vh;
+  height: calc(100vh - 270px);
   justify-content: center;
   overflow-y: auto;
 }
