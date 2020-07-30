@@ -5,6 +5,7 @@
 .attractionContainer {
   height: 12vw;
   margin: 10px;
+  min-height: 85px;
 }
 
 .attractionContainer:hover {
@@ -23,6 +24,8 @@
   height: 12vw;
   object-fit: cover;
   width: 12vw;
+  min-height: 85px;
+  min-width: 85px;
 }
 
 .centerCheck {
@@ -68,6 +71,7 @@
   display: none;
   font-weight: 500;
   text-align: left;
+  font-size: 2.5vmin;
 }
 
 .attractionContainer:hover .attractionNameOverlay,
