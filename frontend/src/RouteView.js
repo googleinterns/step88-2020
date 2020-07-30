@@ -9,7 +9,7 @@ import styles from './RouteView.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
-import { createTrip, updateTrip } from './TripUtils.js';
+import { createTrip, updateTrip } from './tripUtils.js';
 
 import Map from './map/Map.js';
 import Route from './route/Route.js';
