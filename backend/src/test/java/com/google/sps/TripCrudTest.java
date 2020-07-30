@@ -34,6 +34,7 @@ public class TripCrudTest {
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
   private static final String TRIP_DATA_2 =
       "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
+  private static final String BAD_TRIP_DATA = "{\"isOptimized\":true,\"searchText\":\"Milano\"}";
 
   private static final String EMAIL = "testEMAIL@gmail.com";
   private static final String INVALID_TRIP_ID = "111222333";
@@ -99,5 +100,33 @@ public class TripCrudTest {
   public void updateTrip_noTripFound() {
     Entity actual = TripCrud.readTrip(INVALID_TRIP_ID);
     assertEquals(null, actual);
+  }
+
+  @Test(expected = Exception.class)
+  public void createTrip_throwsExceptionWithoutCreatingUser() {
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+  }
+
+  @Test(expected = Exception.class)
+  public void toJson_throwsExceptionForMissingTrip() {
+    TripCrud.toJson(new Entity(""));
+  }
+
+  @Test(expected = Exception.class)
+  public void createTrip_throwsExceptionForMissingTripInfo() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, BAD_TRIP_DATA);
+  }
+
+  @Test(expected = Exception.class)
+  public void toEntity_throwsExceptionForMissingTripInfo() {
+    Entity tripEntityConverted = TripCrud.toEntity(BAD_TRIP_DATA, "", null);
+  }
+
+  @Test(expected = Exception.class)
+  public void updateTrip_throwsExceptionForMissingTripInfo() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    TripCrud.updateTrip(Long.toString(tripEntity.getKey().getId()), BAD_TRIP_DATA);
   }
 }
