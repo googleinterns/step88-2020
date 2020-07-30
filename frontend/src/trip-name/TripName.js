@@ -10,8 +10,9 @@ import styles from './TripName.module.css';
  * Returns the trip name component that the user can edit and save.
  * @param {object} tripObject json object with all trip data
  * @param {function} setTripObject function to update tripObject
+ * @param {function} setIsSaved function to set saving status of trip
  */
-function TripName({ tripObject, setTripObject }) {
+function TripName({ tripObject, setTripObject, setIsSaved }) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(tripObject.tripName);
 
@@ -19,6 +20,7 @@ function TripName({ tripObject, setTripObject }) {
     e.preventDefault();
     setIsEditing(false);
     setTripObject({ ...tripObject, tripName: name });
+    setIsSaved(false);
   }
 
   function handleChange(e) {

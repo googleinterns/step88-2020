@@ -97,7 +97,11 @@ function RouteView({ loggedIn, userEmail }) {
         <Row className={styles.row}>
           <Col sm={4}>
             <Row className={styles.row}>
-              <TripName tripObject={tripObject} setTripObject={setTripObject} />
+              <TripName
+                tripObject={tripObject}
+                setTripObject={setTripObject}
+                setIsSaved={setIsSaved}
+              />
             </Row>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
