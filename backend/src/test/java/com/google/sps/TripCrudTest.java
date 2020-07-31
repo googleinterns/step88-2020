@@ -15,6 +15,7 @@
 package com.google.sps;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -37,7 +38,7 @@ public class TripCrudTest {
   private static final String BAD_TRIP_DATA = "{\"isOptimized\":true,\"searchText\":\"Milano\"}";
 
   private static final String EMAIL = "testEMAIL@gmail.com";
-  private static final String INVALID_TRIP_ID = "111222333";
+  private static final Long INVALID_TRIP_ID = 111222333L;
 
   @Before
   public void setUp() {
@@ -53,15 +54,8 @@ public class TripCrudTest {
   public void createTrip_returnsEntityForCreatedTrip() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
-    Entity readTripEntity = TripCrud.readTrip(Long.toString(tripEntity.getKey().getId()));
-    assertEquals(tripEntity, readTripEntity);
-  }
+    Entity readTripEntity = TripCrud.readTrip(tripEntity.getKey().getId());
 
-  @Test
-  public void readTrip_returnsEntityForTrip() {
-    Entity userEntity = UserCrud.createUser(EMAIL);
-    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
-    Entity readTripEntity = TripCrud.readTrip(Long.toString(tripEntity.getKey().getId()));
     assertEquals(tripEntity, readTripEntity);
   }
 
@@ -70,12 +64,14 @@ public class TripCrudTest {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     Entity actual = TripCrud.readTrip(INVALID_TRIP_ID);
-    assertEquals(null, actual);
+
+    assertNull(actual);
   }
 
   @Test
   public void toEntity_returnsTripEntityFromJsonMatchingTripName() {
-    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, "", null);
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+
     assertEquals("\"My Milan Trip\"", (String) tripEntityConverted.getProperty("tripName"));
   }
 
@@ -84,6 +80,7 @@ public class TripCrudTest {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+
     assertEquals("\"Milano\"", tripDataJson.get("searchText").getAsString());
   }
 
@@ -91,42 +88,44 @@ public class TripCrudTest {
   public void updateTrip_returnsUpdatedTripNameForUpdatedEntity() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
-    TripCrud.updateTrip(Long.toString(tripEntity.getKey().getId()), TRIP_DATA_2);
-    Entity tripFound = TripCrud.readTrip(Long.toString(tripEntity.getKey().getId()));
+    TripCrud.updateTrip(tripEntity.getKey().getId(), TRIP_DATA_2);
+    Entity tripFound = TripCrud.readTrip(tripEntity.getKey().getId());
+
     assertEquals("\"My Awesome Milan Trip\"", (String) tripFound.getProperty("tripName"));
   }
 
   @Test
   public void updateTrip_noTripFound() {
     Entity actual = TripCrud.readTrip(INVALID_TRIP_ID);
-    assertEquals(null, actual);
+
+    assertNull(actual);
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = NullPointerException.class)
   public void createTrip_throwsExceptionWithoutCreatingUser() {
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = IllegalArgumentException.class)
   public void toJson_throwsExceptionForMissingTrip() {
     TripCrud.toJson(new Entity(""));
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = NullPointerException.class)
   public void createTrip_throwsExceptionForMissingTripInfo() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, BAD_TRIP_DATA);
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = NullPointerException.class)
   public void toEntity_throwsExceptionForMissingTripInfo() {
-    Entity tripEntityConverted = TripCrud.toEntity(BAD_TRIP_DATA, "", null);
+    Entity tripEntityConverted = TripCrud.toEntity(BAD_TRIP_DATA, null, null);
   }
 
-  @Test(expected = Exception.class)
+  @Test(expected = NullPointerException.class)
   public void updateTrip_throwsExceptionForMissingTripInfo() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
-    TripCrud.updateTrip(Long.toString(tripEntity.getKey().getId()), BAD_TRIP_DATA);
+    TripCrud.updateTrip(tripEntity.getKey().getId(), BAD_TRIP_DATA);
   }
 }

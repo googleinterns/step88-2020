@@ -34,7 +34,7 @@ public class ReadTripServlet extends HttpServlet {
       throw new IllegalArgumentException("tripId passed is not valid");
     }
 
-    Entity tripEntity = TripCrud.readTrip(tripId);
+    Entity tripEntity = TripCrud.readTrip(Long.parseLong(tripId));
     if (tripEntity == null) {
       throw new IllegalArgumentException("Trip not found");
     }

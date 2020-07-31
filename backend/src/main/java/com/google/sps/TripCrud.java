@@ -24,12 +24,12 @@ public class TripCrud {
    * @return tripEntity a trip entity
    */
   public static Entity createTrip(String email, String tripData) {
-    Entity tripEntity = toEntity(tripData, "", null);
+    Entity tripEntity = toEntity(tripData, null, null);
     datastore.put(tripEntity);
-    long id = tripEntity.getKey().getId();
+    Long id = tripEntity.getKey().getId();
     UserCrud.addTripId(email, id);
-    TripCrud.addTripId(Long.toString(id));
-    return TripCrud.readTrip(Long.toString(id));
+    TripCrud.addTripId(id);
+    return TripCrud.readTrip(id);
   }
 
   /**
@@ -37,7 +37,7 @@ public class TripCrud {
    *
    * @param id the trip id
    */
-  public static void addTripId(String id) {
+  private static void addTripId(Long id) {
     Entity tripEntity = TripCrud.readTrip(id);
     tripEntity.setProperty("tripId", id);
     datastore.put(tripEntity);
@@ -51,8 +51,8 @@ public class TripCrud {
    * @param tripKey trip key, can be null
    * @return tripEntity from tripData
    */
-  public static Entity toEntity(String tripData, String tripId, Key tripKey) {
-    Entity tripEntity = tripId == "" ? new Entity("Trip") : new Entity("Trip", tripId, tripKey);
+  public static Entity toEntity(String tripData, Long tripId, Key tripKey) {
+    Entity tripEntity = tripId == null ? new Entity("Trip") : new Entity("Trip", tripId, tripKey);
     setProperties(tripEntity, tripData);
     return tripEntity;
   }
@@ -67,8 +67,7 @@ public class TripCrud {
     JsonParser parser = new JsonParser();
     JsonElement jsonElement = parser.parse(tripData);
     JsonObject jsonObject = jsonElement.getAsJsonObject();
-    tripEntity.setProperty(
-        "isOptimized", Boolean.parseBoolean(jsonObject.get("isOptimized").toString()));
+    tripEntity.setProperty("isOptimized", jsonObject.get("isOptimized").getAsBoolean());
     tripEntity.setProperty("searchText", jsonObject.get("searchText").toString());
     tripEntity.setProperty("tripName", jsonObject.get("tripName").toString());
     tripEntity.setProperty("centerLocation", jsonObject.get("centerLocation").toString());
@@ -78,8 +77,7 @@ public class TripCrud {
       EmbeddedEntity embeddedAttraction = new EmbeddedEntity();
       embeddedAttraction.setProperty("name", attraction.get("name").toString());
       embeddedAttraction.setProperty("photoUrl", attraction.get("photoUrl").toString());
-      embeddedAttraction.setProperty(
-          "routeIndex", Integer.parseInt(attraction.get("routeIndex").toString()));
+      embeddedAttraction.setProperty("routeIndex", attraction.get("routeIndex").getAsInt());
       embeddedAttraction.setProperty("lat", attraction.get("lat").toString());
       embeddedAttraction.setProperty("lng", attraction.get("lng").toString());
       attractions.add(embeddedAttraction);
@@ -93,8 +91,8 @@ public class TripCrud {
    * @param tripId id of the trip to find
    * @return Trip entity if found, null if EntityNotFoundException is caught
    */
-  public static Entity readTrip(String tripId) {
-    Key entityKey = KeyFactory.createKey("Trip", Long.parseLong(tripId));
+  public static Entity readTrip(Long tripId) {
+    Key entityKey = KeyFactory.createKey("Trip", tripId);
     Entity tripEntity;
     try {
       tripEntity = datastore.get(entityKey);
@@ -140,7 +138,7 @@ public class TripCrud {
    * @param tripId id of the trip to find
    * @param tripData string representation of tripData json
    */
-  public static void updateTrip(String tripId, String tripData) {
+  public static void updateTrip(Long tripId, String tripData) {
     Entity tripEntity = TripCrud.readTrip(tripId);
     if (tripEntity == null) {
       return;
