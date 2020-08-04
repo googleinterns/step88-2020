@@ -1,5 +1,10 @@
 # Packaged BEANS
-[Design Document](https://docs.google.com/document/d/1wenfQkW7sKlqayKXsfdZ1LymAdhfE1ORGSWT_-pbG0Q/edit?ts=5ee37a05#)
+[Design Document](https://docs.google.com/document/d/1wenfQkW7sKlqayKXsfdZ1LymAdhfE1ORGSWT_-pbG0Q/edit?ts=5ee37a05#) <br />
+[Presentation](https://docs.google.com/presentation/d/16ic7o87Vzr8WgynWzaA1X_6zTZmoAjh93ASoStsMZEY/edit?ts=5f23316b#slide=id.g8b4189aea4_13_896)
+
+## Demo
+[insert demo here]
+
 ## General Setup
 ```
 cd fontend
@@ -15,10 +20,6 @@ Then Run:
 `$cat > backend/target/step-react-demo-1/.env`  
 `$MAPS_API_KEY=[INSERT KEY HERE]` **Note: no quotes here  
 Then press `Cntrl + D`  
-
-## Development Resources
-* [React Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/)
-* [Markdown Guide](https://guides.github.com/features/mastering-markdown/)
 
 ## React Frontend with Java Servlet Backend
 Based on [chen-dawn/react-servlet-test](https://github.com/chen-dawn/react-servlet-test).
