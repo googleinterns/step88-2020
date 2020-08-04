@@ -3,7 +3,7 @@
 [Presentation](https://docs.google.com/presentation/d/16ic7o87Vzr8WgynWzaA1X_6zTZmoAjh93ASoStsMZEY/edit?ts=5f23316b#slide=id.g8b4189aea4_13_896)
 
 ## Demo
-[insert demo here]
+![](https://github.com/googleinterns/step88-2020/blob/update-readme/demo.gif)
 
 ## General Setup
 ```
