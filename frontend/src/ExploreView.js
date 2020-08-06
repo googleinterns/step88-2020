@@ -29,14 +29,14 @@ function Explore() {
       ? JSON.parse(decodeURIComponent(query.trip))
       : {
           centerLocation: {},
-          selectedAttractions: [],
+          attractions: [],
           searchText,
-          tripId: '',
+          tripId: null,
           tripName: 'Trip Name',
         }
   );
   const [selectedAttractions, setSelectedAttractions] = useState(
-    tripObject.selectedAttractions
+    tripObject.attractions
   );
   const [radius, setRadius] = useState(8);
   const [loadMore, setLoadMore] = useState(false);

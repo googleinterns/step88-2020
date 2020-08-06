@@ -15,7 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.gson.JsonObject;
 import com.google.sps.TripCrud;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -34,13 +34,15 @@ public class ReadTripServlet extends HttpServlet {
       throw new IllegalArgumentException("tripId passed is not valid");
     }
 
-    Entity tripEntity;
-    try {
-      tripEntity = TripCrud.readTrip(tripId);
-    } catch (EntityNotFoundException e) {
+    Entity tripEntity = TripCrud.readTrip(Long.parseLong(tripId));
+    if (tripEntity == null) {
       throw new IllegalArgumentException("Trip not found");
     }
 
+    JsonObject tripJson = TripCrud.toJson(tripEntity);
+    JsonObject jsonResults = new JsonObject();
+    jsonResults.addProperty("tripId", tripId);
+    jsonResults.addProperty("tripData", tripJson.toString());
     response.setContentType("application/json;");
     response.getWriter().println(TripCrud.toJson(tripEntity).toString());
   }

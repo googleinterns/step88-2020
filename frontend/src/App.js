@@ -27,7 +27,7 @@ function App() {
             <ExploreView />
           </Route>
           <Route path="/route">
-            <RouteView loggedIn={authState.loggedIn} />
+            <RouteView loggedIn={authState.loggedIn} userEmail={authState.userEmail} />
           </Route>
         </Switch>
       </Authenticator>
@@ -44,7 +44,7 @@ function Authenticator({ children, onChange, setTripIds }) {
       fetch(`/api/v1/auth?redirect=${redirectUrl}`)
         .then((response) => response.json())
         .then(({ loggedIn, loginUrl, logoutUrl, userEmail }) => {
-          onChange({ ready: true, loggedIn, loginUrl, logoutUrl });
+          onChange({ ready: true, loggedIn, loginUrl, logoutUrl, userEmail });
           setUserEmail(userEmail);
         });
     },
