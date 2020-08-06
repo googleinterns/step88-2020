@@ -28,7 +28,8 @@ function Explore() {
     'trip' in query
       ? JSON.parse(decodeURIComponent(query.trip))
       : {
-          centerLocation: {},
+          centerLat: 0,
+          centerLng: 0,
           attractions: [],
           searchText,
           tripId: null,
@@ -137,10 +138,8 @@ function Explore() {
         const coordinates = textSearchResults.current[0].geometry.location;
         setTripObject({
           ...tripObject,
-          centerLocation: {
-            lat: coordinates.lat(),
-            lng: coordinates.lng(),
-          },
+          centerLat: coordinates.lat(),
+          centerLng: coordinates.lng(),
         });
         placesService.current.nearbySearch(
           {
@@ -273,7 +272,7 @@ function Explore() {
               onReady={onMapReady}
               attractions={selectedAttractions}
               mode="pins"
-              centerLocation={tripObject.centerLocation}
+              centerLocation={{ lat: tripObject.centerLat, lng: tripObject.centerLng }}
               key={selectedAttractions}
             />
           </div>

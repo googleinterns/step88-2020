@@ -19,7 +19,7 @@ function ShareTripModal({ showShareModal, setShowShareModal, tripName, url }) {
 
   const textAreaRef = useRef(null);
 
-  function copyToClipboard(e) {
+  function copyToClipboard() {
     textAreaRef.current.select();
     document.execCommand('copy');
   }
@@ -39,7 +39,7 @@ function ShareTripModal({ showShareModal, setShowShareModal, tripName, url }) {
               Copy link to share trip{' '}
               <span className={styles.tripName}>{tripName}</span>.
             </div>
-            <input ref={textAreaRef} value={url} className={styles.copyText} />
+            <input ref={textAreaRef} value={url} className={styles.copyText} readOnly />
             <FontAwesomeIcon
               icon={faClone}
               onClick={copyToClipboard}

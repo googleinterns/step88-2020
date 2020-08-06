@@ -120,7 +120,10 @@ function RouteView({ loggedIn, userEmail }) {
               <Map
                 mode="directions"
                 attractions={attractions}
-                centerLocation={tripObject.centerLocation}
+                centerLocation={{
+                  lat: tripObject.centerLat,
+                  lng: tripObject.centerLng,
+                }}
               />
             </div>
           </Col>
