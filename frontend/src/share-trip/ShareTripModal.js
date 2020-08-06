@@ -29,7 +29,7 @@ function ShareTripModal({ showShareModal, setShowShareModal, tripName, url }) {
       <Modal.Header closeButton>
         <Modal.Title className={styles.title}>
           <FontAwesomeIcon icon={faUmbrellaBeach} className={styles.titleIcon} />
-          {`Share ${tripName}`}
+          Share {tripName}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
