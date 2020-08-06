@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,5 +79,24 @@ public class UserCrudTest {
     UserCrud.addTripId(EMAIL, TRIP_ID);
     userEntity = UserCrud.readEntity("email", EMAIL, "User");
     assertEquals(SINGLE_TRIP_ID, userEntity.getProperty("tripIds"));
+  }
+
+  @Test
+  public void createUser_returnsNullForSameEmailTwice() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity duplicateUserEntity = UserCrud.createUser(EMAIL);
+    assertEquals(duplicateUserEntity, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addTripId_throwsErrorForSameTripIdTwice() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+    UserCrud.addTripId(EMAIL, TRIP_ID);
+  }
+
+  @Test(expected = Exception.class)
+  public void addTripId_throwsErrorForEmailThatDoesNotExist() {
+    UserCrud.addTripId(EMAIL, TRIP_ID);
   }
 }

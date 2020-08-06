@@ -33,6 +33,6 @@ public class UpdateTripServlet extends HttpServlet {
       throw new IllegalArgumentException("trip passed is not valid");
     }
 
-    TripCrud.updateTrip(tripId, tripData);
+    TripCrud.updateTrip(Long.parseLong(tripId), tripData);
   }
 }

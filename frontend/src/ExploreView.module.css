@@ -5,6 +5,7 @@
 .attractionContainer {
   height: 12vw;
   margin: 10px;
+  min-height: 85px;
 }
 
 .attractionContainer:hover {
@@ -14,13 +15,15 @@
 .attractionImagesContainer {
   display: flex;
   flex-wrap: wrap;
-  height: 75vh;
+  height: calc(100vh - 270px);
   justify-content: center;
   overflow-y: auto;
 }
 
 .attraction {
   height: 12vw;
+  min-height: 85px;
+  min-width: 85px;
   object-fit: cover;
   width: 12vw;
 }
@@ -66,6 +69,7 @@
 .attractionNameOverlay {
   color: white;
   display: none;
+  font-size: 2.5vmin;
   font-weight: 500;
   text-align: left;
 }
