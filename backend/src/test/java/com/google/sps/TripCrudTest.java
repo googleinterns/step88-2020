@@ -24,7 +24,6 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
@@ -37,9 +36,9 @@ public class TripCrudTest {
   private static final LocalServiceTestHelper DATASTORE_SERVICE_HELPER =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TRIP_DATA =
-      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
+      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Milan Trip\",\"centerLng\":0,\"centerLat\":0,\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
   private static final String TRIP_DATA_2 =
-      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"centerLocation\":{\"lat\":0,\"lng\":0},\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
+      "{\"isOptimized\":true,\"searchText\":\"Milano\",\"tripName\":\"My Awesome Milan Trip\",\"centerLng\":0,\"centerLat\":0,\"attractions\":[{\"name\":\"Milano Giuseppe\",\"photoUrl\":\"2234f23f23r133fqfqef\",\"routeIndex\":0,\"lat\":1,\"lng\":1}]}";
   private static final String BAD_TRIP_DATA = "{\"isOptimized\":true,\"searchText\":\"Milano\"}";
 
   private static final String EMAIL = "testEMAIL@gmail.com";
@@ -77,14 +76,14 @@ public class TripCrudTest {
   public void toEntity_returnsTripEntityFromJsonMatchingTripName() {
     Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
 
-    assertEquals("\"My Milan Trip\"", (String) tripEntityConverted.getProperty("tripName"));
+    assertEquals("My Milan Trip", (String) tripEntityConverted.getProperty("tripName"));
   }
 
   @Test
   public void toEntity_returnsTripEntityFromJsonMatchingSearchText() {
     Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
 
-    assertEquals("\"Milano\"", (String) tripEntityConverted.getProperty("searchText"));
+    assertEquals("Milano", (String) tripEntityConverted.getProperty("searchText"));
   }
 
   @Test
@@ -95,15 +94,17 @@ public class TripCrudTest {
   }
 
   @Test
-  public void toEntity_returnsTripEntityFromJsonMatchingCenterLocation() {
+  public void toEntity_returnsTripEntityFromJsonMatchingCenterLat() {
     Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
-    JsonObject centerLocation = new JsonObject();
-    centerLocation.addProperty("lat", 0);
-    centerLocation.addProperty("lng", 0);
-    JsonParser parser = new JsonParser();
-    JsonObject readLocation =
-        (JsonObject) parser.parse(tripEntityConverted.getProperty("centerLocation").toString());
-    assertEquals(centerLocation, readLocation);
+
+    assertEquals(0, tripEntityConverted.getProperty("centerLat"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingCenterLng() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+
+    assertEquals(0, tripEntityConverted.getProperty("centerLng"));
   }
 
   @Test
@@ -112,7 +113,7 @@ public class TripCrudTest {
     EmbeddedEntity readAttraction =
         (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
 
-    assertEquals("\"Milano Giuseppe\"", readAttraction.getProperty("name"));
+    assertEquals("Milano Giuseppe", readAttraction.getProperty("name"));
   }
 
   @Test
@@ -121,7 +122,7 @@ public class TripCrudTest {
     EmbeddedEntity readAttraction =
         (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
 
-    assertEquals("\"2234f23f23r133fqfqef\"", readAttraction.getProperty("photoUrl"));
+    assertEquals("2234f23f23r133fqfqef", readAttraction.getProperty("photoUrl"));
   }
 
   @Test
@@ -157,7 +158,7 @@ public class TripCrudTest {
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
 
-    assertEquals("\"Milano\"", tripDataJson.get("searchText").getAsString());
+    assertEquals("Milano", tripDataJson.get("searchText").getAsString());
   }
 
   @Test
@@ -166,7 +167,7 @@ public class TripCrudTest {
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
 
-    assertEquals("\"My Milan Trip\"", tripDataJson.get("tripName").getAsString());
+    assertEquals("My Milan Trip", tripDataJson.get("tripName").getAsString());
   }
 
   @Test
@@ -194,15 +195,13 @@ public class TripCrudTest {
     assertEquals(0, tripDataJson.get("centerLng").getAsInt());
   }
 
-  // AttractionName , AttractionPhotoUrl, AttractionRouteIndex, AttractionLat,AttractionLng
   @Test
   public void toJson_returnsTripJsonFromEntityMatchingAttractionName() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
     JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
-    assertEquals(
-        "\"\\\"Milano Giuseppe\\\"\"", ((JsonObject) attractions.get(0)).get("name").toString());
+    assertEquals("Milano Giuseppe", ((JsonObject) attractions.get(0)).get("name").getAsString());
   }
 
   @Test
@@ -212,8 +211,7 @@ public class TripCrudTest {
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
     JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
     assertEquals(
-        "\"\\\"2234f23f23r133fqfqef\\\"\"",
-        ((JsonObject) attractions.get(0)).get("photoUrl").toString());
+        "2234f23f23r133fqfqef", ((JsonObject) attractions.get(0)).get("photoUrl").getAsString());
   }
 
   @Test
@@ -250,7 +248,7 @@ public class TripCrudTest {
     TripCrud.updateTrip(tripEntity.getKey().getId(), TRIP_DATA_2);
     Entity tripFound = TripCrud.readTrip(tripEntity.getKey().getId());
 
-    assertEquals("\"My Awesome Milan Trip\"", (String) tripFound.getProperty("tripName"));
+    assertEquals("My Awesome Milan Trip", (String) tripFound.getProperty("tripName"));
   }
 
   @Test
