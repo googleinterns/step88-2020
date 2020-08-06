@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -115,8 +116,13 @@ public class TripCrud {
         "isOptimized", Boolean.parseBoolean(tripEntity.getProperty("isOptimized").toString()));
     jsonTrip.addProperty("searchText", tripEntity.getProperty("searchText").toString());
     jsonTrip.addProperty("tripName", tripEntity.getProperty("tripName").toString());
-    jsonTrip.addProperty("centerLocation", tripEntity.getProperty("centerLocation").toString());
-    ArrayList<JsonObject> attractions = new ArrayList<JsonObject>();
+    JsonParser parser = new JsonParser();
+    JsonObject centerLocation =
+        (JsonObject) parser.parse(tripEntity.getProperty("centerLocation").toString());
+
+    jsonTrip.addProperty("centerLng", centerLocation.get("lng").getAsInt());
+    jsonTrip.addProperty("centerLat", centerLocation.get("lat").getAsInt());
+    JsonArray attractions = new JsonArray();
     for (EmbeddedEntity attraction :
         (ArrayList<EmbeddedEntity>) tripEntity.getProperty("attractions")) {
       JsonObject attractionJson = new JsonObject();
@@ -128,7 +134,8 @@ public class TripCrud {
       attractionJson.addProperty("lng", attraction.getProperty("lng").toString());
       attractions.add(attractionJson);
     }
-    jsonTrip.addProperty("attractions", attractions.toString());
+    // String attractionsStr = attractions.toString();
+    jsonTrip.add("attractions", attractions);
     return jsonTrip;
   }
 

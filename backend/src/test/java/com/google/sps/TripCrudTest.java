@@ -16,11 +16,16 @@ package com.google.sps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
+import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,12 +81,166 @@ public class TripCrudTest {
   }
 
   @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingSearchText() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+
+    assertEquals("\"Milano\"", (String) tripEntityConverted.getProperty("searchText"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingIsOptimized() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+
+    assertTrue((Boolean) tripEntityConverted.getProperty("isOptimized"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingCenterLocation() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    JsonObject centerLocation = new JsonObject();
+    centerLocation.addProperty("lat", 0);
+    centerLocation.addProperty("lng", 0);
+    JsonParser parser = new JsonParser();
+    JsonObject readLocation =
+        (JsonObject) parser.parse(tripEntityConverted.getProperty("centerLocation").toString());
+    assertEquals(centerLocation, readLocation);
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingAttractionName() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    EmbeddedEntity readAttraction =
+        (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
+
+    assertEquals("\"Milano Giuseppe\"", readAttraction.getProperty("name"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingAttractionPhotoUrl() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    EmbeddedEntity readAttraction =
+        (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
+
+    assertEquals("\"2234f23f23r133fqfqef\"", readAttraction.getProperty("photoUrl"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingAttractionRouteIndex() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    EmbeddedEntity readAttraction =
+        (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
+
+    assertEquals(0, readAttraction.getProperty("routeIndex"));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingAttractionLat() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    EmbeddedEntity readAttraction =
+        (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
+
+    assertEquals(1, Integer.parseInt((String) readAttraction.getProperty("lat")));
+  }
+
+  @Test
+  public void toEntity_returnsTripEntityFromJsonMatchingAttractionLng() {
+    Entity tripEntityConverted = TripCrud.toEntity(TRIP_DATA, null, null);
+    EmbeddedEntity readAttraction =
+        (EmbeddedEntity) ((ArrayList) tripEntityConverted.getProperty("attractions")).get(0);
+
+    assertEquals(1, Integer.parseInt((String) readAttraction.getProperty("lng")));
+  }
+
+  @Test
   public void toJson_returnsTripJsonFromEntityMatchingSearchText() {
     Entity userEntity = UserCrud.createUser(EMAIL);
     Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
     JsonObject tripDataJson = TripCrud.toJson(tripEntity);
 
     assertEquals("\"Milano\"", tripDataJson.get("searchText").getAsString());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingTripName() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+
+    assertEquals("\"My Milan Trip\"", tripDataJson.get("tripName").getAsString());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingIsOptimized() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+
+    assertTrue(tripDataJson.get("isOptimized").getAsBoolean());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingCenterLat() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    assertEquals(0, tripDataJson.get("centerLat").getAsInt());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingCenterLng() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    assertEquals(0, tripDataJson.get("centerLng").getAsInt());
+  }
+
+  // AttractionName , AttractionPhotoUrl, AttractionRouteIndex, AttractionLat,AttractionLng
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingAttractionName() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
+    assertEquals(
+        "\"\\\"Milano Giuseppe\\\"\"", ((JsonObject) attractions.get(0)).get("name").toString());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingAttractionPhotoUrl() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
+    assertEquals(
+        "\"\\\"2234f23f23r133fqfqef\\\"\"",
+        ((JsonObject) attractions.get(0)).get("photoUrl").toString());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingAttractionRouteIndex() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
+    assertEquals(0, ((JsonObject) attractions.get(0)).get("routeIndex").getAsInt());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingAttractionLat() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
+    assertEquals(1, ((JsonObject) attractions.get(0)).get("lat").getAsInt());
+  }
+
+  @Test
+  public void toJson_returnsTripJsonFromEntityMatchingAttractionLng() {
+    Entity userEntity = UserCrud.createUser(EMAIL);
+    Entity tripEntity = TripCrud.createTrip(EMAIL, TRIP_DATA);
+    JsonObject tripDataJson = TripCrud.toJson(tripEntity);
+    JsonArray attractions = (JsonArray) tripDataJson.get("attractions");
+    assertEquals(1, ((JsonObject) attractions.get(0)).get("lng").getAsInt());
   }
 
   @Test
