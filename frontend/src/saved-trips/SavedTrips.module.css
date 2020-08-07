@@ -1,17 +1,20 @@
 .container {
+  height: 42vh;
   margin: auto;
   margin-top: 48px;
   width: 80%;
+  overflow-y: scroll;
 }
 
 .header {
   color: var(--gray);
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  text-align: left;
 }
 
 .headerIcon {
-  color: var(--blue);
-  margin-right: 16px;
+  color: var(--yellow);
+  margin: 0 16px;
   opacity: 0.8;
 }
 
@@ -37,10 +40,17 @@
 }
 
 .listItem {
+  align-items: center;
   display: flex;
+  font-weight: 500;
   justify-content: space-between;
+  height: 60px;
 }
 
 .tripContainer {
+  border-radius: 10px;
+  box-shadow: 0 1px 2px #c7c7c7;
+  margin-bottom: 16px;
   position: relative;
+  overflow: hidden;
 }
