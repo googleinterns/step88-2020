@@ -10,15 +10,7 @@ export const createTrip = async (email, tripData) => {
 export const getTrip = async (tripId) => {
   const url = `/api/v1/readTrip?tripId=${tripId}`;
   const json = await fetchJson(url);
-  return {
-    tripId: tripId,
-    attractions: json.attractions,
-    centerLat: JSON.parse(json.centerLat),
-    centerLng: JSON.parse(json.centerLng),
-    isOptimized: json.isOptimized,
-    searchText: json.searchText,
-    tripName: json.tripName,
-  };
+  return json;
 };
 
 export const updateTrip = async (tripId, tripData) => {
