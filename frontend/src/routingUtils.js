@@ -16,7 +16,7 @@ export const getQueryParameters = (query) => {
  * @param {object} attractions list of selected attractions
  */
 export const handleRouting = (history, page, tripObject, attractions) => {
-  tripObject.attractions = attractions;
-  const url = '?trip=' + encodeURIComponent(JSON.stringify(tripObject));
-  history.push(`/${page}${url}`);
+  const tripWithAttractions = { ...tripObject, attractions };
+  const encodedTrip = encodeURIComponent(JSON.stringify(tripWithAttractions));
+  history.push(`/${page}?trip=${encodedTrip}`);
 };

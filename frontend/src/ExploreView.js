@@ -28,7 +28,8 @@ function Explore() {
     'trip' in query
       ? JSON.parse(decodeURIComponent(query.trip))
       : {
-          centerLocation: {},
+          centerLat: 0,
+          centerLng: 0,
           attractions: [],
           searchText,
           tripId: null,
@@ -75,6 +76,10 @@ function Explore() {
     }
   }, [loadMore, getNextPage]);
 
+  useEffect(() => {
+    setTripObject({ ...tripObject, attractions: selectedAttractions });
+  }, [selectedAttractions]);
+
   /**
    * Get the photo url of each attraction object
    * @param {object[]} attractions array of objects from Places Request
@@ -88,16 +93,24 @@ function Explore() {
           const name = attraction.name;
           const photoUrl = attraction.photos[0].getUrl();
           const latLng = attraction.geometry.location;
-          const isSelected = selectedAttractions.some(
-            (newAttraction) => newAttraction.photoUrl === attraction.photos[0].getUrl()
-          );
+          let isSelected;
+          if (tripObject.tripId) {
+            isSelected = selectedAttractions.some(
+              (newAttraction) => newAttraction.name === attraction.name
+            );
+          } else {
+            isSelected = selectedAttractions.some(
+              (newAttraction) =>
+                newAttraction.photoUrl === attraction.photos[0].getUrl()
+            );
+          }
           const newAttraction = createAttraction(name, latLng, photoUrl, isSelected);
           newAllAttractions.push(newAttraction);
         }
       }
       return newAllAttractions;
     },
-    [selectedAttractions]
+    [selectedAttractions, tripObject]
   );
 
   const handleNearbySearch = useCallback(
@@ -125,10 +138,8 @@ function Explore() {
         const coordinates = textSearchResults.current[0].geometry.location;
         setTripObject({
           ...tripObject,
-          centerLocation: {
-            lat: coordinates.lat(),
-            lng: coordinates.lng(),
-          },
+          centerLat: coordinates.lat(),
+          centerLng: coordinates.lng(),
         });
         placesService.current.nearbySearch(
           {
@@ -261,7 +272,7 @@ function Explore() {
               onReady={onMapReady}
               attractions={selectedAttractions}
               mode="pins"
-              centerLocation={tripObject.centerLocation}
+              centerLocation={{ lat: tripObject.centerLat, lng: tripObject.centerLng }}
               key={selectedAttractions}
             />
           </div>
@@ -278,7 +289,7 @@ function Explore() {
    */
   function toggleSelection(targetAttraction) {
     const targetAttrIndexInSelected = selectedAttractions.findIndex(
-      (attraction) => attraction.photoUrl === targetAttraction.photoUrl
+      (attraction) => attraction.name === targetAttraction.name
     );
 
     targetAttraction.selected = !targetAttraction.selected;
@@ -304,7 +315,6 @@ function Explore() {
   function createAttraction(name, latLng, photoUrl, selected) {
     return {
       name,
-      description: 'Insert description here.',
       lat: latLng.lat(),
       lng: latLng.lng(),
       photoUrl,

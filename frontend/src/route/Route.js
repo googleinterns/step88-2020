@@ -37,7 +37,6 @@ function Route({ places, onManualPlaceChange }) {
             {places.map((place, index) => (
               <LocationCard
                 location={place.name}
-                description={place.description}
                 image={place.photoUrl}
                 index={index}
                 key={index}

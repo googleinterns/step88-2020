@@ -8,20 +8,21 @@ import styles from './TripName.module.css';
 
 /**
  * Returns the trip name component that the user can edit and save.
- * @param {string|undefined} tripName the name of the trip
+ * @param {object} tripObject json object with all trip data
+ * @param {function} setTripObject function to update tripObject
  */
-function TripName({ tripName }) {
+function TripName({ tripObject, setTripObject }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(tripName || '');
+  const [name, setName] = useState(tripObject.tripName);
 
   function handleSave(e) {
     e.preventDefault();
     setIsEditing(false);
-    // send to back end
+    setTripObject({ ...tripObject, tripName: name });
   }
 
   function handleChange(e) {
-    setName(e.value);
+    setName(e.target.value);
   }
 
   return (

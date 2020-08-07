@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
 import styles from './RouteView.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClone } from '@fortawesome/free-solid-svg-icons';
 import { getQueryParameters, handleRouting } from './routingUtils.js';
 import { createTrip, updateTrip } from './tripUtils.js';
 
@@ -17,6 +13,7 @@ import OptimizeButton from './route/OptimizeButton.js';
 import SaveShareButtons from './route/SaveShareButtons.js';
 import TripName from './trip-name/TripName.js';
 import BackButton from './navbar/BackButton.js';
+import ShareTripModal from './share-trip/ShareTripModal.js';
 
 /**
  * Render the route page with list of locations in order and directions on a map between the locations.
@@ -28,14 +25,12 @@ function RouteView({ loggedIn, userEmail }) {
   const [optimizedOrder, setOptimizedOrder] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
 
-  const textAreaRef = useRef(null);
-  const handleShareClose = () => setShowShareModal(false);
-  const handleShareShow = () => setShowShareModal(true);
-
   const urlParameters = useLocation();
   const query = getQueryParameters(urlParameters.search);
   const history = useHistory();
-  const tripObject = JSON.parse(decodeURIComponent(query.trip));
+  const [tripObject, setTripObject] = useState(
+    JSON.parse(decodeURIComponent(query.trip))
+  );
   const [attractions, setAttractions] = useState(tripObject.attractions);
 
   useEffect(() => {
@@ -56,18 +51,19 @@ function RouteView({ loggedIn, userEmail }) {
     }
     setIsOptimized(true);
     setIsOptimizing(false);
+    setIsSaved(false);
   }
 
   function save() {
-    setIsSaved(true);
-    // save to back end database
     tripObject.isOptimized = isOptimized;
-    console.log(tripObject);
-    if (!tripObject.id) {
-      createTrip(userEmail, tripObject).then((tripId) => console.log(tripId));
+    if (!tripObject.tripId) {
+      createTrip(userEmail, tripObject)
+        .then((res) => res.json())
+        .then((json) => setTripObject({ ...tripObject, tripId: json.tripId }));
     } else {
-      updateTrip(tripObject.id, tripObject);
+      updateTrip(tripObject.tripId, tripObject);
     }
+    setIsSaved(true);
   }
 
   function onManualPlaceChange(newAttractions) {
@@ -77,57 +73,31 @@ function RouteView({ loggedIn, userEmail }) {
     handleRouting(history, 'route', tripObject, newAttractions);
   }
 
-  function copyToClipboard(e) {
-    textAreaRef.current.select();
-    document.execCommand('copy');
-  }
-
   return (
     <>
-      <Modal show={showShareModal} onHide={handleShareClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Share Trip</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container>
-            <Row className={styles.copyContainer}>
-              <div className={styles.modalText}>Copy link to share trip.</div>
-              <input
-                ref={textAreaRef}
-                value={window.location.href}
-                className={styles.copyText}
-              />
-              <FontAwesomeIcon
-                icon={faClone}
-                onClick={copyToClipboard}
-                className={styles.copyBtn}
-              />
-            </Row>
-            <Row className={styles.modalBtnContainer}>
-              <Button
-                variant="primary"
-                onClick={handleShareClose}
-                className={styles.modalBtn}
-              >
-                Close
-              </Button>
-            </Row>
-          </Container>
-        </Modal.Body>
-      </Modal>
+      <ShareTripModal
+        showShareModal={showShareModal}
+        setShowShareModal={setShowShareModal}
+        tripName={tripObject.tripName}
+        url={window.location.href}
+      />
       <BackButton
         className={styles.editBtnContainer}
         onClick={() => handleRouting(history, 'explore', tripObject, attractions)}
         text="Edit Attractions"
       />
       {loggedIn && (
-        <SaveShareButtons isSaved={isSaved} save={save} share={handleShareShow} />
+        <SaveShareButtons
+          isSaved={isSaved}
+          save={save}
+          share={() => setShowShareModal(true)}
+        />
       )}
       <div className={styles.container}>
         <Row className={styles.row}>
           <Col sm={4}>
             <Row className={styles.row}>
-              <TripName />
+              <TripName tripObject={tripObject} setTripObject={setTripObject} />
             </Row>
             <Row className={styles.routeListContainer}>
               <Route places={attractions} onManualPlaceChange={onManualPlaceChange} />
@@ -150,7 +120,10 @@ function RouteView({ loggedIn, userEmail }) {
               <Map
                 mode="directions"
                 attractions={attractions}
-                centerLocation={tripObject.centerLocation}
+                centerLocation={{
+                  lat: tripObject.centerLat,
+                  lng: tripObject.centerLng,
+                }}
               />
             </div>
           </Col>
