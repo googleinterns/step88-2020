@@ -23,7 +23,7 @@
     "react-fontawesome": "^1.7.1",
     "react-google-maps": "^9.4.5",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-sortablejs": "^2.0.11",
     "serve": "^11.3.2",
     "stable": "^0.1.8"
