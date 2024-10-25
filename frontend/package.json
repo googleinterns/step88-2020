@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
     "google-maps-react": "^2.0.6",
-    "http-proxy-middleware": "^1.0.4",
+    "http-proxy-middleware": "^3.0.3",
     "load-google-maps-api": "^2.0.2",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
@@ -23,7 +23,7 @@
     "react-fontawesome": "^1.7.1",
     "react-google-maps": "^9.4.5",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-sortablejs": "^2.0.11",
     "serve": "^11.3.2",
     "stable": "^0.1.8"
